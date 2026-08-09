@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: rh-absenteisme
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/rh_absenteisme
+    username : rh_user
+    password : rh_password
+
+  jpa :
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
