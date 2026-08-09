@@ -14,7 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PositionController {
     private final PositionService positionService;
-    private final PositionRepository positionRepository;
 
     @GetMapping
     public List<PositionResponseDto> getAllPosition() {
