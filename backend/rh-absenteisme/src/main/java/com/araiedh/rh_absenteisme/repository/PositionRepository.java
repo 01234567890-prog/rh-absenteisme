@@ -4,4 +4,5 @@ import com.araiedh.rh_absenteisme.entity.Position;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PositionRepository extends JpaRepository<Position ,Long> {
+    Long id(Long id);
 }
