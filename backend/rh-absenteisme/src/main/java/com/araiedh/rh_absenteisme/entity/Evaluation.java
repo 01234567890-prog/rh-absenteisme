@@ -40,6 +40,9 @@ public class Evaluation {
     @Column(name = "comment")
     private String comment ;
 
+    @Column(name = "confirmed" , nullable = false)
+    private boolean confirmed = false ;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "evaluated_user_id" , nullable = false)
     private User evaluatedUser ;
