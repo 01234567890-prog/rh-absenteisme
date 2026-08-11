@@ -3,6 +3,7 @@ package com.araiedh.rh_absenteisme.controller;
 import com.araiedh.rh_absenteisme.dto.PredictionRequestDto;
 import com.araiedh.rh_absenteisme.dto.PredictionResponseDto;
 import com.araiedh.rh_absenteisme.service.PredictionService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,7 @@ public class PredictionController {
     }
 
     @PostMapping
-    public PredictionResponseDto createPrediction(@RequestBody PredictionRequestDto dto) {
+    public PredictionResponseDto createPrediction(@Valid @RequestBody PredictionRequestDto dto) {
         return predictionService.createPrediction(dto);
     }
 }

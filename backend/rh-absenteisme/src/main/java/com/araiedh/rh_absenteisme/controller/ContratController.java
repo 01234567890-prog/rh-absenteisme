@@ -4,6 +4,7 @@ import com.araiedh.rh_absenteisme.dto.ContratRequestDto;
 import com.araiedh.rh_absenteisme.dto.ContratResponseDto;
 import com.araiedh.rh_absenteisme.dto.ContratUpdateRequestDto;
 import com.araiedh.rh_absenteisme.service.ContratService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,12 +27,12 @@ public class ContratController {
     }
 
     @PostMapping
-    public ContratResponseDto createContrat(@RequestBody ContratRequestDto dto) {
+    public ContratResponseDto createContrat(@Valid @RequestBody ContratRequestDto dto) {
         return contratService.createContrat(dto);
     }
 
     @PatchMapping("/{id}")
-    public ContratResponseDto updateContrat(@PathVariable Long id, @RequestBody ContratUpdateRequestDto dto) {
+    public ContratResponseDto updateContrat(@Valid @PathVariable Long id, @RequestBody ContratUpdateRequestDto dto) {
         return contratService.updateContrat(id, dto);
     }
 

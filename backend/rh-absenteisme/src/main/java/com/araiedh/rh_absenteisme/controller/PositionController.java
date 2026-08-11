@@ -4,6 +4,7 @@ import com.araiedh.rh_absenteisme.dto.PositionRequestDto;
 import com.araiedh.rh_absenteisme.dto.PositionResponseDto;
 import com.araiedh.rh_absenteisme.repository.PositionRepository;
 import com.araiedh.rh_absenteisme.service.PositionService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class PositionController {
     }
 
     @PostMapping
-    public PositionResponseDto createPosition(@RequestBody PositionRequestDto dto) {
+    public PositionResponseDto createPosition(@Valid @RequestBody PositionRequestDto dto) {
         return positionService.createPosition(dto);
     }
 
@@ -37,7 +38,7 @@ public class PositionController {
 
 
     @PatchMapping("/{id}")
-    public PositionResponseDto updatePosition(@PathVariable Long id, @RequestBody PositionRequestDto dto) {
+    public PositionResponseDto updatePosition(@Valid @PathVariable Long id, @RequestBody PositionRequestDto dto) {
         return positionService.updatePosition(id , dto) ;
     }
 

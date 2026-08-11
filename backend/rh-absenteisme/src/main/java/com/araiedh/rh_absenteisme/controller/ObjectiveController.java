@@ -4,6 +4,7 @@ import com.araiedh.rh_absenteisme.dto.ObjectiveRequestDto;
 import com.araiedh.rh_absenteisme.dto.ObjectiveResponseDto;
 import com.araiedh.rh_absenteisme.dto.ObjectiveUpdateRequestDto;
 import com.araiedh.rh_absenteisme.service.ObjectiveService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,12 +33,12 @@ public class ObjectiveController {
     }
 
     @PostMapping
-    public ObjectiveResponseDto createObjective(@RequestBody ObjectiveRequestDto dto) {
+    public ObjectiveResponseDto createObjective(@Valid @RequestBody ObjectiveRequestDto dto) {
         return objectiveService.createObjective(dto);
     }
 
     @PatchMapping("/{id}")
-    public ObjectiveResponseDto updateObjective(@PathVariable Long id, @RequestBody ObjectiveUpdateRequestDto dto) {
+    public ObjectiveResponseDto updateObjective(@Valid @PathVariable Long id, @RequestBody ObjectiveUpdateRequestDto dto) {
         return objectiveService.updateObjective(id, dto);
     }
 }

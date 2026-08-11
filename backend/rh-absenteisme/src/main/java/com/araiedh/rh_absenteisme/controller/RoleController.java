@@ -3,6 +3,7 @@ package com.araiedh.rh_absenteisme.controller;
 import com.araiedh.rh_absenteisme.dto.RoleRequestDto;
 import com.araiedh.rh_absenteisme.dto.RoleResponseDto;
 import com.araiedh.rh_absenteisme.service.RoleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class RoleController {
     }
 
     @PostMapping
-    public RoleResponseDto createRole (@RequestBody RoleRequestDto dto) {
+    public RoleResponseDto createRole (@Valid  @RequestBody RoleRequestDto dto) {
         return roleService.createRole(dto) ;
     }
 
@@ -35,7 +36,7 @@ public class RoleController {
     }
 
     @PatchMapping("/{id}")
-    public RoleResponseDto updateRole(@PathVariable Long id , @RequestBody RoleRequestDto dto) {
+    public RoleResponseDto updateRole(@Valid @PathVariable Long id , @RequestBody RoleRequestDto dto) {
         return  roleService.updateRole(id , dto) ;
     }
 

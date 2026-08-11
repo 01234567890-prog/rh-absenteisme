@@ -37,7 +37,7 @@ public class DepartementController {
     }
 
     @PatchMapping("/{id}")
-    public DepartementResponseDto updateDepartement(@PathVariable Long id , @RequestBody DepartementRequestDto
+    public DepartementResponseDto updateDepartement(@Valid @PathVariable Long id , @RequestBody DepartementRequestDto
                                                     dto) {
         return departementService.updateDepartement(id , dto) ;
     }

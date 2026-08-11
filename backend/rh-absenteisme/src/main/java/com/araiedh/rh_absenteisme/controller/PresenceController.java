@@ -2,6 +2,7 @@ package com.araiedh.rh_absenteisme.controller;
 
 import com.araiedh.rh_absenteisme.dto.PresenceResponseDto;
 import com.araiedh.rh_absenteisme.service.PresenceService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,12 +26,12 @@ public class PresenceController {
     }
 
     @PostMapping("/checkin/{userId}")
-    public PresenceResponseDto checkIn(@PathVariable Long userId) {
+    public PresenceResponseDto checkIn(@Valid @PathVariable Long userId) {
         return presenceService.checkIn(userId);
     }
 
     @PostMapping("/checkout/{userId}")
-    public PresenceResponseDto checkOut(@PathVariable Long userId) {
+    public PresenceResponseDto checkOut(@Valid @PathVariable Long userId) {
         return presenceService.checkOut(userId);
     }
 }

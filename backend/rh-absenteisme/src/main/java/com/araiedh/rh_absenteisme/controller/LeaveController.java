@@ -4,6 +4,7 @@ import com.araiedh.rh_absenteisme.dto.LeaveRequestDto;
 import com.araiedh.rh_absenteisme.dto.LeaveResponseDto;
 import com.araiedh.rh_absenteisme.dto.LeaveUpdateRequestDto;
 import com.araiedh.rh_absenteisme.service.LeaveService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,12 +27,12 @@ public class LeaveController {
     }
 
     @PostMapping
-    public LeaveResponseDto createLeave(@RequestBody LeaveRequestDto dto) {
+    public LeaveResponseDto createLeave(@Valid @RequestBody LeaveRequestDto dto) {
         return leaveService.createLeave(dto) ;
     }
 
     @PatchMapping("/{id}")
-    public LeaveResponseDto responseLeaveRequest(@PathVariable Long id , @RequestBody LeaveUpdateRequestDto dto) {
+    public LeaveResponseDto responseLeaveRequest(@Valid @PathVariable Long id , @RequestBody LeaveUpdateRequestDto dto) {
         return leaveService.responseLeaveRequest(id , dto) ;
     }
 }

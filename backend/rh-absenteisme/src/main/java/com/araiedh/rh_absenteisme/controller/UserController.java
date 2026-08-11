@@ -6,6 +6,7 @@ import com.araiedh.rh_absenteisme.dto.UserResponseDto;
 import com.araiedh.rh_absenteisme.dto.UserUpdateRequestDto;
 import com.araiedh.rh_absenteisme.entity.User;
 import com.araiedh.rh_absenteisme.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class UserController {
 
 
     @PostMapping
-    public UserResponseDto createUser(@RequestBody UserRequestDto dto) {
+    public UserResponseDto createUser(@Valid @RequestBody UserRequestDto dto) {
         return userService.createUser(dto) ;
     }
 
@@ -41,7 +42,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public UserResponseDto updateUser (@PathVariable Long id , @RequestBody UserUpdateRequestDto dto) {
+    public UserResponseDto updateUser (@Valid @PathVariable Long id , @RequestBody UserUpdateRequestDto dto) {
         return userService.updateUser(id , dto) ;
     }
 }
