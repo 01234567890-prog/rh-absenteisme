@@ -3,6 +3,7 @@ package com.araiedh.rh_absenteisme.controller;
 import com.araiedh.rh_absenteisme.dto.DepartementRequestDto;
 import com.araiedh.rh_absenteisme.dto.DepartementResponseDto;
 import com.araiedh.rh_absenteisme.service.DepartementService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class DepartementController {
     }
 
     @PostMapping
-    public DepartementResponseDto createDepartement(@RequestBody DepartementRequestDto dto) {
+    public DepartementResponseDto createDepartement(@Valid @RequestBody DepartementRequestDto dto) {
         return departementService.createDepartement(dto) ;
 
     }
