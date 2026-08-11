@@ -8,6 +8,7 @@ import com.araiedh.rh_absenteisme.entity.Departement;
 import com.araiedh.rh_absenteisme.entity.Position;
 import com.araiedh.rh_absenteisme.entity.Role;
 import com.araiedh.rh_absenteisme.entity.User;
+import com.araiedh.rh_absenteisme.exception.OperationNotAllowedException;
 import com.araiedh.rh_absenteisme.exception.ResourceNotFoundException;
 import com.araiedh.rh_absenteisme.mapper.UserMapper;
 import com.araiedh.rh_absenteisme.repository.DepartementRepository;
@@ -47,6 +48,12 @@ public class UserService {
 
     @Transactional
     public UserResponseDto createUser (UserRequestDto dto ) {
+        if (userRepository.existsByEmail(dto.email())) {
+            throw new OperationNotAllowedException("Email already in use: " + dto.email());
+        }
+        if (userRepository.existsByPhoneNumber(dto.phoneNumber())) {
+            throw new OperationNotAllowedException("Phone number already in use: " + dto.phoneNumber());
+        }
 
         Departement departement = departementRepository.findById(dto.departementId())
                 .orElseThrow(() -> new ResourceNotFoundException("departement not found with id : " + dto.departementId())) ;
