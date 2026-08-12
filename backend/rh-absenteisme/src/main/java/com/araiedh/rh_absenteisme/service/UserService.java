@@ -17,6 +17,7 @@ import com.araiedh.rh_absenteisme.repository.RoleRepository;
 import com.araiedh.rh_absenteisme.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class UserService {
     private final RoleRepository roleRepository ;
     private final PositionRepository positionRepository ;
     private final UserMapper userMapper ;
-
+    private final PasswordEncoder passwordEncoder;
 
 
     public List<UserResponseDto> getAllUser() {
@@ -64,6 +65,7 @@ public class UserService {
 
 
         User user = userMapper.toEntity(dto , departement , role , position) ;
+        user.setPassword(passwordEncoder.encode(dto.password()));
         User savedUser = userRepository.save(user) ;
         return userMapper.toDto(savedUser) ;
 
