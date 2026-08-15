@@ -38,7 +38,7 @@ public class UserMapper {
                 user.getStatus() ,
                 user.getDepartement() != null ? user.getDepartement().getId() : null ,
                 user.getRole().getId() ,
-                user.getPosition() != null ? user.getPosition().getId() : null 
+                user.getPosition() != null ? user.getPosition().getId() : null
 
         ) ;
     }
