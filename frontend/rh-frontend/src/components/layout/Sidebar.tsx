@@ -32,7 +32,7 @@ export default function Sidebar() {
 
   return (
     <aside className="w-64 h-screen bg-white border-r border-gray-200 flex flex-col">
-      <div className="px-6 py-5 border-b border-gray-200">
+      <div className="px-6 py-4.5 border-b border-gray-200">
         <span className="text-xl font-bold text-blue-600">RH System</span>
       </div>
 
