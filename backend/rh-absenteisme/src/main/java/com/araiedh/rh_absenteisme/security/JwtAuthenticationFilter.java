@@ -33,9 +33,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         System.out.println("FILTER HIT : " + request.getRequestURL());
 
         final String authHeader = request.getHeader("Authorization");
+        System.out.println("AUTH HEADER: [" + authHeader + "]");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
+
             return;
         }
 
@@ -51,6 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+                System.out.println("AUTHORITIES: " + userDetails.getAuthorities());
             }
         }
 

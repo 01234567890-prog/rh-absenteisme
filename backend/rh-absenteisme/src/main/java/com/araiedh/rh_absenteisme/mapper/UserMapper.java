@@ -36,9 +36,9 @@ public class UserMapper {
                 user.getCreatedDate() ,
                 user.getHireDate() ,
                 user.getStatus() ,
-                user.getDepartement().getId() ,
+                user.getDepartement() != null ? user.getDepartement().getId() : null ,
                 user.getRole().getId() ,
-                user.getPosition().getId()
+                user.getPosition() != null ? user.getPosition().getId() : null 
 
         ) ;
     }
