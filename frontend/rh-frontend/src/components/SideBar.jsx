@@ -14,7 +14,7 @@ import {
 import "./SideBar.css";
 
 const navItems = [
-  { label: "Dashboard", href: "/", icon: LayoutDashboard },
+  { label: "Dashboard", href: "/dashbord", icon: LayoutDashboard },
   { label: "Users", href: "/users", icon: Users },
   { label: "Departments", href: "/departements", icon: Building2 },
   { label: "Positions", href: "/positions", icon: Briefcase },

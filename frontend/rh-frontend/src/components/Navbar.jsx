@@ -1,9 +1,26 @@
-import { Search, Bell } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Search, Bell, Sun, Moon } from "lucide-react";
+import { useTheme } from "../context/ThemeContext";
 import "./Navbar.css";
 
 export default function Navbar() {
   const email = localStorage.getItem("email") || "";
   const initial = email.charAt(0).toUpperCase() || "U";
+  const { darkMode, setDarkMode } = useTheme();
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => setNow(new Date()), 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const dateTimeStr = now.toLocaleString("en-GB", {
+    weekday: "short",
+    day: "2-digit",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   return (
     <header className="navbar">
@@ -13,6 +30,15 @@ export default function Navbar() {
       </div>
 
       <div className="navbar-actions">
+        <span className="navbar-datetime">{dateTimeStr}</span>
+
+        <button
+          className="navbar-theme-toggle"
+          onClick={() => setDarkMode(!darkMode)}
+        >
+          {darkMode ? <Sun size={16} /> : <Moon size={16} />}
+        </button>
+
         <button className="navbar-bell">
           <Bell size={18} color="#4b4f5f" />
           <span className="navbar-bell-dot" />

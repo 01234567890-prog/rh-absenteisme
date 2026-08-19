@@ -49,7 +49,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px; /* تم التقليل من 16 إلى 10 */
-  margin-bottom: 12px; /* تم التقليل */
+  margin-bottom: 5px; /* تم التقليل */
 }
 
 .stats-grid > * {
@@ -59,11 +59,18 @@
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px; /* تم التقليل من 16 إلى 10 */
+  grid-template-columns: 2fr 1fr;
+  gap: 10px;
 }
 
-.dashboard-grid > * {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  border-radius: 12px;
+.dashboard-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 10px;
+  margin-bottom: 5px;
+  align-items: stretch;
+}
+
+.dashboard-row > * {
+  height: 100%;
 }
