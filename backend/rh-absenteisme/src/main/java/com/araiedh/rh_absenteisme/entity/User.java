@@ -81,6 +81,13 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "evaluator" , fetch = FetchType.LAZY)
     private List<Evaluation> evaluationGiven = new ArrayList<>() ;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id")
+    private User manager ;
+
+    @OneToMany(mappedBy = "manager" ,fetch = FetchType.LAZY)
+    private List<User> taemMembers = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "user" , fetch = FetchType.LAZY)
     private  List<AbsenteeismPrediction> predictions = new ArrayList<>() ;

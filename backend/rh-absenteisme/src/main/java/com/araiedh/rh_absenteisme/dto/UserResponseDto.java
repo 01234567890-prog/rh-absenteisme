@@ -16,6 +16,7 @@ public record UserResponseDto(
         UserStatus status ,
         Long departementId ,
         Long roleId ,
-        Long positionId
+        Long positionId ,
+        Long mangerId
 ) {
 }

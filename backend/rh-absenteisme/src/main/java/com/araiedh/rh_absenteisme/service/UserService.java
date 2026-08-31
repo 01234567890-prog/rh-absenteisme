@@ -101,6 +101,11 @@ public class UserService {
                     .orElseThrow(() -> new ResourceNotFoundException("position not found with id : " + dto.positionId())) ;
             user.setPosition(position);
         }
+        if (dto.managerId() != null) {
+            User manager = userRepository.findById(dto.managerId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Manager not found with id " + dto.managerId()));
+        }
+
         User savedUser = userRepository.save(user) ;
         return userMapper.toDto(savedUser) ;
     }

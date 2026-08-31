@@ -21,6 +21,8 @@ public record UserUpdateRequestDto(
 
         Long roleId,
 
-        Long positionId
+        Long positionId ,
+
+        Long managerId
 ) {
 }
