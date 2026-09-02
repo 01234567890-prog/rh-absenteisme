@@ -22,12 +22,13 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class PresenceService {
+
     private final PresenceRepository presenceRepository ;
     private final UserRepository userRepository ;
     private final PresenceMapper presenceMapper ;
 
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER','EMPLOYEE')")
     @Transactional
     public PresenceResponseDto checkIn(Long userID) {
         User user = userRepository.findById(userID)
@@ -45,6 +46,7 @@ public class PresenceService {
         presence.setDate(toDay);
         presence.setCheckInTime(LocalTime.now());
 
+
         // Auto change status with time checked in
         LocalTime officeStart = LocalTime.of(8 ,00) ;
         if (presence.getCheckInTime().isAfter(officeStart)) {
@@ -53,13 +55,15 @@ public class PresenceService {
             presence.setStatus(PresenceStatus.PRESENT);
         }
 
+
         // Save presence Object
         Presence saved = presenceRepository.save(presence) ;
         return presenceMapper.toDto(saved) ;
 
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
+
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER','EMPLOYEE')")
     @Transactional
     public PresenceResponseDto checkOut(Long userId) {
         User user = userRepository.findById(userId)
@@ -77,7 +81,7 @@ public class PresenceService {
         return presenceMapper.toDto(saved) ;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER','AI_SERVICE')")
     public List<PresenceResponseDto> getAllPresence() {
         List<Presence> allPresence = presenceRepository.findAll() ;
         return allPresence.stream()
@@ -85,7 +89,7 @@ public class PresenceService {
                 .collect(Collectors.toList()) ;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER','EMPLOYEE')")
     public PresenceResponseDto getPresenceById(Long id) {
         Presence presence = presenceRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("presence not found with id " + id)) ;

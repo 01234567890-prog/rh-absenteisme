@@ -20,3 +20,5 @@ jwt:
   secret: your-very-long-random-secret-key-at-least-256-bits-long-change-this
   expiration: 86400000
 
+ai :
+  api-key : pulsehr-ai-secret-key-2026

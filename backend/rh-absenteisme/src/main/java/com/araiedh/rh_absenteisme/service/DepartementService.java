@@ -21,7 +21,7 @@ public class DepartementService {
     private final DepartementMapper departementMapper ;
 
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER','EMPLOYEE')")
     public List<DepartementResponseDto> getAllDepartement() {
         List<Departement> allDepartement = departementRepository.findAll();
         return allDepartement.stream()
@@ -30,14 +30,14 @@ public class DepartementService {
 
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER','EMPLOYEE')")
     public DepartementResponseDto getDepartementByID(Long id) {
         Departement depart =  departementRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("not found with id : "+id));
         return departementMapper.toDto(depart);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER','EMPLOYEE')")
     @Transactional
     public DepartementResponseDto createDepartement(DepartementRequestDto dto) {
         Departement departement = departementMapper.toEntity(dto) ;

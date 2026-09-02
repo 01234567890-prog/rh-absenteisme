@@ -35,7 +35,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER')")
     public List<UserResponseDto> getAllUser() {
         List<User> allUsers = userRepository.findAll() ;
         return allUsers.stream()
@@ -43,7 +43,7 @@ public class UserService {
                 .collect(Collectors.toList()) ;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER')")
     public UserResponseDto getUserById (Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id : " + id)) ;
@@ -83,7 +83,7 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER')")
     @Transactional
     public UserResponseDto updateUser(Long id , UserUpdateRequestDto dto) {
         User user = userRepository.findById(id)

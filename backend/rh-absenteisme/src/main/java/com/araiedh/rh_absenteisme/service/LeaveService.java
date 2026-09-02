@@ -28,7 +28,7 @@ public class LeaveService {
 
 
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','AI_SERVICE')")
     public List<LeaveResponseDto> getAllLeave() {
         List<Leave> leaves = leaveRepository.findAll() ;
         return leaves.stream()
@@ -37,14 +37,14 @@ public class LeaveService {
 
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER','EMPLOYEE')")
     public LeaveResponseDto getLeaveById (Long id) {
         Leave leave = leaveRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("leave not found with id : " + id)) ;
         return leaveMapper.toDto(leave) ;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER','EMPLOYEE')")
     @Transactional
     public LeaveResponseDto createLeave (LeaveRequestDto dto) {
         User user = userRepository.findById(dto.userId())
@@ -55,7 +55,7 @@ public class LeaveService {
 
     }
 
-    @PreAuthorize("hasAnyRole('RH_MANAGER')")
+    @PreAuthorize("hasAnyRole('HR_MANAGER')")
     @Transactional
     public LeaveResponseDto responseLeaveRequest(Long id , LeaveUpdateRequestDto dto) {
         Leave leave = leaveRepository.findById(id)

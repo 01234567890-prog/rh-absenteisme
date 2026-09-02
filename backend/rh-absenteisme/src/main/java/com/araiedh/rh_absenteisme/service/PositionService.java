@@ -21,7 +21,7 @@ public class PositionService {
     private final PositionMapper positionMapper ;
 
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER','EMPLOYEE')")
     public List<PositionResponseDto> getAllPosition () {
         List<Position> positions = positionRepository.findAll() ;
         return positions.stream()
@@ -29,7 +29,7 @@ public class PositionService {
                 .collect(Collectors.toList()) ;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER','EMPLOYEE')")
     public PositionResponseDto getPositionById(Long id) {
         Position position = positionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("not found position with id : " + id)) ;

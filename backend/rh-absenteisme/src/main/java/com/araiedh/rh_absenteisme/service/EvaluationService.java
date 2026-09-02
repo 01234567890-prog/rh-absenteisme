@@ -25,21 +25,21 @@ public class EvaluationService {
     private final UserRepository userRepository;
     private final EvaluationMapper evaluationMapper;
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER','AI_SERVICE')")
     public List<EvaluationResponseDto> getAllEvaluations() {
         return evaluationRepository.findAll().stream()
                 .map(evaluationMapper::toDto)
                 .collect(Collectors.toList());
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER','EMPLOYEE')")
     public EvaluationResponseDto getEvaluationById(Long id) {
         Evaluation evaluation = evaluationRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("evaluation not found with id: " + id));
         return evaluationMapper.toDto(evaluation);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER')")
     @Transactional
     public EvaluationResponseDto createEvaluation(EvaluationRequestDto dto) {
         User evaluatedUser = userRepository.findById(dto.evaluatedUserId())
@@ -52,7 +52,7 @@ public class EvaluationService {
         return evaluationMapper.toDto(saved);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER')")
     @Transactional
     public EvaluationResponseDto updateEvaluation(Long id, EvaluationUpdateRequestDto dto) {
         Evaluation evaluation = evaluationRepository.findById(id)
@@ -71,7 +71,7 @@ public class EvaluationService {
         return evaluationMapper.toDto(updated);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER')")
     @Transactional
     public EvaluationResponseDto confirmEvaluation(Long id) {
         Evaluation evaluation = evaluationRepository.findById(id)
