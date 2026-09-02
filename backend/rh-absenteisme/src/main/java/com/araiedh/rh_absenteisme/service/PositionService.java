@@ -8,6 +8,7 @@ import com.araiedh.rh_absenteisme.mapper.PositionMapper;
 import com.araiedh.rh_absenteisme.repository.PositionRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class PositionService {
     private final PositionMapper positionMapper ;
 
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     public List<PositionResponseDto> getAllPosition () {
         List<Position> positions = positionRepository.findAll() ;
         return positions.stream()
@@ -27,6 +29,7 @@ public class PositionService {
                 .collect(Collectors.toList()) ;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     public PositionResponseDto getPositionById(Long id) {
         Position position = positionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("not found position with id : " + id)) ;
@@ -34,6 +37,7 @@ public class PositionService {
     }
 
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @Transactional
     public PositionResponseDto createPosition(PositionRequestDto dto) {
         Position position = positionMapper.toEntity(dto) ;
@@ -41,6 +45,7 @@ public class PositionService {
         return positionMapper.toDto(saved) ;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @Transactional
     public void deletePosition(Long id) {
         Position position = positionRepository.findById(id)
@@ -50,6 +55,7 @@ public class PositionService {
     }
 
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @Transactional
     public PositionResponseDto updatePosition(Long id , PositionRequestDto dto) {
         Position position = positionRepository.findById(id)

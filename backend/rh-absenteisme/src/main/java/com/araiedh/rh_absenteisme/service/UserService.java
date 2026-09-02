@@ -17,6 +17,7 @@ import com.araiedh.rh_absenteisme.repository.RoleRepository;
 import com.araiedh.rh_absenteisme.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER')")
     public List<UserResponseDto> getAllUser() {
         List<User> allUsers = userRepository.findAll() ;
         return allUsers.stream()
@@ -41,12 +43,14 @@ public class UserService {
                 .collect(Collectors.toList()) ;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER')")
     public UserResponseDto getUserById (Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id : " + id)) ;
         return userMapper.toDto(user) ;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @Transactional
     public UserResponseDto createUser (UserRequestDto dto ) {
         if (userRepository.existsByEmail(dto.email())) {
@@ -71,6 +75,7 @@ public class UserService {
 
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @Transactional
     public void deleteUser(Long id) {
         User user = userRepository.findById(id)
@@ -78,6 +83,7 @@ public class UserService {
         userRepository.delete(user);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER')")
     @Transactional
     public UserResponseDto updateUser(Long id , UserUpdateRequestDto dto) {
         User user = userRepository.findById(id)

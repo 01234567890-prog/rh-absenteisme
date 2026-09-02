@@ -8,6 +8,7 @@ import com.araiedh.rh_absenteisme.mapper.RoleMapper;
 import com.araiedh.rh_absenteisme.repository.RoleRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,8 @@ public class RoleService {
     private final RoleMapper roleMapper ;
 
 
+
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     public List<RoleResponseDto> getAllRoles () {
         List<Role> roles = roleRepository.findAll();
         return roles.stream()
@@ -27,12 +30,17 @@ public class RoleService {
                 .collect(Collectors.toList()) ;
     }
 
+
+
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     public RoleResponseDto getRoleById(Long id) {
         Role role = roleRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("role Not Found With id : "+ id)) ;
         return roleMapper.toDto(role) ;
     }
 
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @Transactional
     public RoleResponseDto createRole (RoleRequestDto dto) {
         Role role = roleMapper.toEntity(dto) ;
@@ -41,6 +49,7 @@ public class RoleService {
 
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @Transactional
     public void deleteRoleById(Long id) {
         Role role = roleRepository.findById(id)
@@ -48,6 +57,7 @@ public class RoleService {
         roleRepository.delete(role);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @Transactional
     public RoleResponseDto updateRole(Long id , RoleRequestDto dto) {
         Role role = roleRepository.findById(id)

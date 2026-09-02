@@ -10,6 +10,7 @@ import com.araiedh.rh_absenteisme.repository.PresenceRepository;
 import com.araiedh.rh_absenteisme.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.stylesheets.LinkStyle;
 
@@ -26,6 +27,7 @@ public class PresenceService {
     private final PresenceMapper presenceMapper ;
 
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     @Transactional
     public PresenceResponseDto checkIn(Long userID) {
         User user = userRepository.findById(userID)
@@ -57,6 +59,7 @@ public class PresenceService {
 
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     @Transactional
     public PresenceResponseDto checkOut(Long userId) {
         User user = userRepository.findById(userId)
@@ -74,6 +77,7 @@ public class PresenceService {
         return presenceMapper.toDto(saved) ;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER')")
     public List<PresenceResponseDto> getAllPresence() {
         List<Presence> allPresence = presenceRepository.findAll() ;
         return allPresence.stream()
@@ -81,6 +85,7 @@ public class PresenceService {
                 .collect(Collectors.toList()) ;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     public PresenceResponseDto getPresenceById(Long id) {
         Presence presence = presenceRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("presence not found with id " + id)) ;

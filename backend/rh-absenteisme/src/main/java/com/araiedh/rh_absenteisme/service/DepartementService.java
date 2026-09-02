@@ -8,6 +8,7 @@ import com.araiedh.rh_absenteisme.mapper.DepartementMapper;
 import com.araiedh.rh_absenteisme.repository.DepartementRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class DepartementService {
     private final DepartementMapper departementMapper ;
 
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     public List<DepartementResponseDto> getAllDepartement() {
         List<Departement> allDepartement = departementRepository.findAll();
         return allDepartement.stream()
@@ -28,12 +30,14 @@ public class DepartementService {
 
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     public DepartementResponseDto getDepartementByID(Long id) {
         Departement depart =  departementRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("not found with id : "+id));
         return departementMapper.toDto(depart);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     @Transactional
     public DepartementResponseDto createDepartement(DepartementRequestDto dto) {
         Departement departement = departementMapper.toEntity(dto) ;
@@ -41,6 +45,7 @@ public class DepartementService {
         return departementMapper.toDto(saved) ;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @Transactional
     public void deleteDepartementById(Long id) {
         Departement departement = departementRepository.findById(id)
@@ -49,6 +54,7 @@ public class DepartementService {
     }
 
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @Transactional
     public DepartementResponseDto updateDepartement (Long id ,DepartementRequestDto dto) {
         Departement departement = departementRepository.findById(id)

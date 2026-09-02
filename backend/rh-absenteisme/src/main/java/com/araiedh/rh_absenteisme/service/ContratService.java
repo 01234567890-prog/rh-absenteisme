@@ -11,6 +11,7 @@ import com.araiedh.rh_absenteisme.repository.ContratRepository;
 import com.araiedh.rh_absenteisme.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class ContratService {
     private final ContratMapper contratMapper ;
     private final UserRepository userRepository ;
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER')")
     public List<ContratResponseDto> getAllContrat() {
         List<Contrat> allContrat = contratRepository.findAll() ;
         return allContrat.stream()
@@ -30,12 +32,14 @@ public class ContratService {
                 .collect(Collectors.toList()) ;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     public ContratResponseDto getContratById(Long id) {
         Contrat contrat = contratRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Contrat not found with id : " + id)) ;
         return contratMapper.toDto(contrat) ;
     }
 
+    @PreAuthorize("hasAnyRole('RH_MANAGER')")
     @Transactional
     public ContratResponseDto createContrat (ContratRequestDto dto ) {
         User user = userRepository.findById(dto.userId())
@@ -45,6 +49,7 @@ public class ContratService {
         return contratMapper.toDto(savedContrat) ;
     }
 
+    @PreAuthorize("hasAnyRole('RH_MANAGER')")
     @Transactional
     public ContratResponseDto updateContrat(Long id , ContratUpdateRequestDto dto) {
         Contrat contrat = contratRepository.findById(id)

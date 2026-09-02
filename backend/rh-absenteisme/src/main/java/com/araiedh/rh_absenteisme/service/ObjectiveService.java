@@ -11,6 +11,7 @@ import com.araiedh.rh_absenteisme.repository.EvaluationRepository;
 import com.araiedh.rh_absenteisme.repository.ObjectiveRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,24 +24,28 @@ public class ObjectiveService {
     private final EvaluationRepository evaluationRepository;
     private final ObjectiveMapper objectiveMapper;
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER')")
     public List<ObjectiveResponseDto> getAllObjectives() {
         return objectiveRepository.findAll().stream()
                 .map(objectiveMapper::toDto)
                 .collect(Collectors.toList());
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     public ObjectiveResponseDto getObjectiveById(Long id) {
         Objective objective = objectiveRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("objective not found with id: " + id));
         return objectiveMapper.toDto(objective);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     public List<ObjectiveResponseDto> getObjectivesByEvaluationId(Long evaluationId) {
         return objectiveRepository.findByEvaluationId(evaluationId).stream()
                 .map(objectiveMapper::toDto)
                 .collect(Collectors.toList());
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER')")
     @Transactional
     public ObjectiveResponseDto createObjective(ObjectiveRequestDto dto) {
         Evaluation evaluation = evaluationRepository.findById(dto.evaluationId())
@@ -50,6 +55,7 @@ public class ObjectiveService {
         return objectiveMapper.toDto(saved);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER')")
     @Transactional
     public ObjectiveResponseDto updateObjective(Long id, ObjectiveUpdateRequestDto dto) {
         Objective objective = objectiveRepository.findById(id)

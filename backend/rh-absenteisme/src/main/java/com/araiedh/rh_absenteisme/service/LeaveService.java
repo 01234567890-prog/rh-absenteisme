@@ -13,6 +13,7 @@ import com.araiedh.rh_absenteisme.repository.LeaveRepository;
 import com.araiedh.rh_absenteisme.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,8 @@ public class LeaveService {
     private final LeaveMapper leaveMapper ;
 
 
+
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER')")
     public List<LeaveResponseDto> getAllLeave() {
         List<Leave> leaves = leaveRepository.findAll() ;
         return leaves.stream()
@@ -34,12 +37,14 @@ public class LeaveService {
 
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     public LeaveResponseDto getLeaveById (Long id) {
         Leave leave = leaveRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("leave not found with id : " + id)) ;
         return leaveMapper.toDto(leave) ;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     @Transactional
     public LeaveResponseDto createLeave (LeaveRequestDto dto) {
         User user = userRepository.findById(dto.userId())
@@ -50,6 +55,7 @@ public class LeaveService {
 
     }
 
+    @PreAuthorize("hasAnyRole('RH_MANAGER')")
     @Transactional
     public LeaveResponseDto responseLeaveRequest(Long id , LeaveUpdateRequestDto dto) {
         Leave leave = leaveRepository.findById(id)
