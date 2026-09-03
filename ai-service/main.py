@@ -6,7 +6,7 @@ from spring_client import (
     get_leaves_by_user,
     send_prediction,
 )
-from model import calculate_risk_score, score_to_level
+from model import predict_risk
 
 app = FastAPI(title="PulseHR AI Service")
 
@@ -25,8 +25,10 @@ async def predict_for_user(user_id: int):
     leave_count = len(leaves)
     total_days = max(len(presences), 1)
 
-    score = calculate_risk_score(late_count, leave_count, total_days)
-    level = score_to_level(score)
+    late_ratio = late_count / total_days
+    leave_ratio = leave_count / total_days
+
+    score, level = predict_risk(late_ratio, leave_ratio)
 
     prediction_data = {
         "score": score,

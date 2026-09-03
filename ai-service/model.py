@@ -1,15 +1,18 @@
 from datetime import date
+import joblib
+import pandas as pd
+
+model = joblib.load("trained_model.pkl")
 
 
-def calculate_risk_score(late_count: int, leave_count: int, total_days: int) -> float:
-    if total_days == 0:
-        return 0.0
+def predict_risk(late_ratio: float, leave_ratio: float) -> tuple[float, str]:
+    X = pd.DataFrame([[late_ratio, leave_ratio]], columns=["late_ratio", "leave_ratio"])
 
-    late_ratio = late_count / total_days
-    leave_ratio = leave_count / total_days
+    probability = model.predict_proba(X)[0][1]
+    score = round(float(probability), 2)
+    level = score_to_level(score)
 
-    score = min((late_ratio * 0.5) + (leave_ratio * 0.5), 1.0)
-    return round(score, 2)
+    return score, level
 
 
 def score_to_level(score: float) -> str:
