@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/prediction")
+@RequestMapping("/api/predictions")
 @RequiredArgsConstructor
 public class PredictionController {
     private final PredictionService predictionService;

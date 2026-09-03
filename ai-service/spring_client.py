@@ -32,3 +32,13 @@ async def send_prediction(prediction_data: dict):
         )
         response.raise_for_status()
         return response.json()
+
+
+async def get_presences_by_user(user_id: int):
+    presences = await get_all_presences()
+    return [p for p in presences if p["userId"] == user_id]
+
+
+async def get_leaves_by_user(user_id: int):
+    leaves = await get_all_leaves()
+    return [l for l in leaves if l["userId"] == user_id and l["status"] == "APPROVED"]

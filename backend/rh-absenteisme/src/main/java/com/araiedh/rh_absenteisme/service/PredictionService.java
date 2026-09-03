@@ -45,6 +45,7 @@ public class PredictionService {
                     .collect(Collectors.toList());
         }
 
+        @PreAuthorize("hasAnyRole('AI_SERVICE')")
         @Transactional
         public PredictionResponseDto createPrediction(PredictionRequestDto dto) {
             User user = userRepository.findById(dto.userId())
