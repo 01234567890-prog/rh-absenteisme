@@ -1,0 +1,7 @@
+.predictions-page { display: flex; flex-direction: column; gap: 20px; }
+.predictions-page-header { align-items: flex-end; display: flex; justify-content: space-between; gap: 20px; }
+.predictions-page-header h1 { color: #172033; font-size: 28px; letter-spacing: -.03em; margin-top: 5px; }
+.predictions-page-header p:last-child { color: #7a8698; font-size: 13px; margin-top: 7px; }
+.predictions-page-header button { background: #172033; border-radius: 8px; color: #fff; font-size: 12px; font-weight: 700; min-height: 38px; padding: 0 16px; }
+.predictions-page-header button:disabled { cursor: wait; opacity: .6; }
+@media (max-width: 560px) { .predictions-page-header { align-items: flex-start; flex-direction: column; } .predictions-page-header button { width: 100%; } }

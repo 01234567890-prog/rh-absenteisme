@@ -1,0 +1,36 @@
+.prediction-panel { border-left: 3px solid #4f6bfe !important; }
+.prediction-panel .MuiCardContent-root { padding: 20px !important; }
+.prediction-heading { align-items: flex-start; display: flex; gap: 16px; justify-content: space-between; }
+.prediction-heading .section-title { font-size: 19px !important; }
+.prediction-description { color: #8994a6 !important; font-size: 12px !important; margin-top: 7px !important; }
+.prediction-actions { align-items: center; display: flex; gap: 8px; }
+.prediction-total { background: #eef2ff !important; color: #4f6bfe !important; font-size: 10px !important; }
+.prediction-summary { display: grid; gap: 10px; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 20px 0; }
+.risk-summary { border-left: 3px solid; border-radius: 7px; display: flex; flex-direction: column; gap: 11px; padding: 12px 14px; }
+.risk-summary-label { align-items: center; display: flex; justify-content: space-between; }
+.risk-summary-label span { font-size: 11px; font-weight: 700; }
+.risk-summary-label strong { font-size: 23px; line-height: 1; }
+.risk-summary .MuiLinearProgress-root { background: rgba(255,255,255,.75); height: 4px; }
+.risk-summary .MuiLinearProgress-bar { background: currentColor; }
+.risk-high { background: #fff1f3; border-color: #df5b6b; color: #a9253b; }
+.risk-medium { background: #fff8e7; border-color: #dda52f; color: #986c0c; }
+.risk-low { background: #edf9f1; border-color: #45a86c; color: #277847; }
+.prediction-list { border-top: 1px solid #edf0f4; }
+.prediction-list-header, .prediction-row { align-items: center; display: grid; gap: 14px; grid-template-columns: minmax(180px, 1.6fr) minmax(80px, .6fr) minmax(80px, .6fr) minmax(110px, .8fr); }
+.prediction-list-header { color: #8a95a6; font-size: 9px; font-weight: 800; letter-spacing: .07em; padding: 13px 0 9px; text-transform: uppercase; }
+.prediction-row { border-top: 1px solid #edf0f4; padding: 11px 0; }
+.prediction-employee { display: flex; flex-direction: column; min-width: 0; }
+.prediction-employee strong { color: #263248; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prediction-employee span { color: #8a95a6; font-size: 10px; margin-top: 3px; }
+.prediction-score { color: #263248; font-size: 13px; }
+.prediction-level { font-size: 9px !important; font-weight: 800 !important; justify-self: start; }
+.level-high { background: #fff1f3 !important; color: #a9253b !important; }
+.level-medium { background: #fff8e7 !important; color: #986c0c !important; }
+.level-low { background: #edf9f1 !important; color: #277847 !important; }
+.prediction-date { align-items: center; color: #8a95a6; display: flex; font-size: 10px; gap: 5px; }
+.prediction-date small { color: #a3adba; display: block; font-size: 9px; margin-left: 18px; }
+.prediction-state { color: #8994a6; font-size: 12px; padding: 28px 8px; text-align: center; }
+.prediction-error { align-items: center; background: #fff5f5; border: 1px solid #fecaca; border-radius: 8px; color: #b42318; display: flex; justify-content: space-between; padding: 12px 14px; text-align: left; gap: 16px; }
+.prediction-error .MuiButton-root { color: #b42318; font-size: 11px; text-transform: none; }
+.prediction-footnote { color: #8994a6; font-size: 11px; margin-top: 12px; }
+@media (max-width: 680px) { .prediction-summary { grid-template-columns: 1fr; } .prediction-list-header { display: none; } .prediction-row { align-items: start; grid-template-columns: minmax(0, 1fr) auto; row-gap: 8px; } .prediction-employee { grid-column: 1 / -1; } .prediction-date { justify-self: end; } .prediction-actions { align-items: flex-end; flex-direction: column; } }

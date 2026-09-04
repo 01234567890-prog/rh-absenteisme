@@ -32,14 +32,14 @@ public class ContratService {
                 .collect(Collectors.toList()) ;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER','EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     public ContratResponseDto getContratById(Long id) {
         Contrat contrat = contratRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Contrat not found with id : " + id)) ;
         return contratMapper.toDto(contrat) ;
     }
 
-    @PreAuthorize("hasAnyRole('HR_MANAGER')")
+    @PreAuthorize("hasAnyRole('RH_MANAGER')")
     @Transactional
     public ContratResponseDto createContrat (ContratRequestDto dto ) {
         User user = userRepository.findById(dto.userId())
@@ -49,7 +49,7 @@ public class ContratService {
         return contratMapper.toDto(savedContrat) ;
     }
 
-    @PreAuthorize("hasAnyRole('HR_MANAGER')")
+    @PreAuthorize("hasAnyRole('RH_MANAGER')")
     @Transactional
     public ContratResponseDto updateContrat(Long id , ContratUpdateRequestDto dto) {
         Contrat contrat = contratRepository.findById(id)

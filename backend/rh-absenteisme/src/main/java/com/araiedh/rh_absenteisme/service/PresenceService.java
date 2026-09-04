@@ -28,7 +28,7 @@ public class PresenceService {
     private final PresenceMapper presenceMapper ;
 
 
-    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER','EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     @Transactional
     public PresenceResponseDto checkIn(Long userID) {
         User user = userRepository.findById(userID)
@@ -63,7 +63,7 @@ public class PresenceService {
     }
 
 
-    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER','EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     @Transactional
     public PresenceResponseDto checkOut(Long userId) {
         User user = userRepository.findById(userId)
@@ -81,7 +81,7 @@ public class PresenceService {
         return presenceMapper.toDto(saved) ;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER','AI_SERVICE')")
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','AI_SERVICE')")
     public List<PresenceResponseDto> getAllPresence() {
         List<Presence> allPresence = presenceRepository.findAll() ;
         return allPresence.stream()
@@ -89,7 +89,7 @@ public class PresenceService {
                 .collect(Collectors.toList()) ;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','HR_MANAGER','MANAGER','EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     public PresenceResponseDto getPresenceById(Long id) {
         Presence presence = presenceRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("presence not found with id " + id)) ;
