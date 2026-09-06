@@ -1,0 +1,5312 @@
+=== src/App.css ===
+.counter {
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 2px solid transparent;
+  transition: border-color 0.3s;
+  margin-bottom: 24px;
+
+  &:hover {
+    border-color: var(--accent-border);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+.hero {
+  position: relative;
+
+  .base,
+  .framework,
+  .vite {
+    inset-inline: 0;
+    margin: 0 auto;
+  }
+
+  .base {
+    width: 170px;
+    position: relative;
+    z-index: 0;
+  }
+
+  .framework,
+  .vite {
+    position: absolute;
+  }
+
+  .framework {
+    z-index: 1;
+    top: 34px;
+    height: 28px;
+    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
+      scale(1.4);
+  }
+
+  .vite {
+    z-index: 0;
+    top: 107px;
+    height: 26px;
+    width: auto;
+    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
+      scale(0.8);
+  }
+}
+
+#center {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  place-content: center;
+  place-items: center;
+  flex-grow: 1;
+
+  @media (max-width: 1024px) {
+    padding: 32px 20px 24px;
+    gap: 18px;
+  }
+}
+
+#next-steps {
+  display: flex;
+  border-top: 1px solid var(--border);
+  text-align: left;
+
+  & > div {
+    flex: 1 1 0;
+    padding: 32px;
+    @media (max-width: 1024px) {
+      padding: 24px 20px;
+    }
+  }
+
+  .icon {
+    margin-bottom: 16px;
+    width: 22px;
+    height: 22px;
+  }
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+#docs {
+  border-right: 1px solid var(--border);
+
+  @media (max-width: 1024px) {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+#next-steps ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 8px;
+  margin: 32px 0 0;
+
+  .logo {
+    height: 18px;
+  }
+
+  a {
+    color: var(--text-h);
+    font-size: 16px;
+    border-radius: 6px;
+    background: var(--social-bg);
+    display: flex;
+    padding: 6px 12px;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: box-shadow 0.3s;
+
+    &:hover {
+      box-shadow: var(--shadow);
+    }
+    .button-icon {
+      height: 18px;
+      width: 18px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    li {
+      flex: 1 1 calc(50% - 8px);
+    }
+
+    a {
+      width: 100%;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+  }
+}
+
+#spacer {
+  height: 88px;
+  border-top: 1px solid var(--border);
+  @media (max-width: 1024px) {
+    height: 48px;
+  }
+}
+
+.ticks {
+  position: relative;
+  width: 100%;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: -4.5px;
+    border: 5px solid transparent;
+  }
+
+  &::before {
+    left: 0;
+    border-left-color: var(--border);
+  }
+  &::after {
+    right: 0;
+    border-right-color: var(--border);
+  }
+}
+=== src/index.css ===
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --primary-blue: #4F6BFE;
+  --primary-blue-hover: #3B56E2;
+  --dark-navy: #181A2A;
+  --text-dark: #111827;
+  --text-muted: #6B7280;
+  --text-muted-dark: #8E96AD;
+  --bg-light-blue: #F0F4FF;
+  --border-color: #E5E7EB;
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: var(--font-family);
+  background-color: #FFFFFF;
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+input {
+  font-family: inherit;
+  outline: none;
+}
+=== src/main.tsx ===
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.tsx'
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+=== src/components/Logo.tsx ===
+import React from 'react';
+
+interface LogoProps {
+  textColor?: 'dark' | 'white' | 'blue';
+  iconSize?: number;
+  textSize?: string;
+  onClick?: () => void;
+}
+
+export const Logo: React.FC<LogoProps> = ({
+  textColor = 'dark',
+  iconSize = 34,
+  textSize = '20px',
+  onClick,
+}) => {
+  const getTextColor = () => {
+    switch (textColor) {
+      case 'white':
+        return '#FFFFFF';
+      case 'blue':
+        return '#4F6BFE';
+      case 'dark':
+      default:
+        return '#111827';
+    }
+  };
+
+  return (
+    <div
+      onClick={onClick}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '10px',
+        cursor: onClick ? 'pointer' : 'default',
+        userSelect: 'none',
+      }}
+    >
+      <div
+        style={{
+          width: `${iconSize}px`,
+          height: `${iconSize}px`,
+          backgroundColor: '#4F6BFE',
+          borderRadius: '10px',
+          flexShrink: 0,
+        }}
+      />
+      <span
+        style={{
+          color: getTextColor(),
+          fontSize: textSize,
+          fontWeight: 700,
+          fontFamily:
+            'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          letterSpacing: '-0.02em',
+        }}
+      >
+        PulseHR
+      </span>
+    </div>
+  );
+};
+=== src/components/admin/AdminLayout.css ===
+.admin-container {
+  display: flex;
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+  background-color: #F8FAFC;
+  color: #1E293B;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Sidebar */
+.admin-sidebar {
+  width: 240px;
+  background-color: #FFFFFF;
+  border-right: 1px solid #E2E8F0;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  flex-shrink: 0;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.sidebar-logo {
+  padding-left: 8px;
+  margin-bottom: 32px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: #64748B;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sidebar-link:hover {
+  background-color: #F1F5F9;
+  color: #1E293B;
+}
+
+.sidebar-link.active {
+  background-color: #EEF2FF;
+  color: #4F6BFE;
+  font-weight: 600;
+}
+
+.sidebar-link svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Main Wrapper */
+.admin-main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Top Navbar */
+.admin-header {
+  height: 70px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  flex: 0 0 70px;
+}
+
+.header-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #F1F5F9;
+  padding: 8px 16px;
+  border-radius: 10px;
+  width: 320px;
+}
+
+.header-search svg {
+  width: 18px;
+  height: 18px;
+  color: #94A3B8;
+}
+
+.header-search input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  font-size: 14px;
+  color: #1E293B;
+  outline: none;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-date-badge {
+  background-color: #F1F5F9;
+  color: #64748B;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 8px;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #64748B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 8px;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.icon-btn:hover {
+  background-color: #F1F5F9;
+  color: #1E293B;
+}
+
+.icon-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.notification-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  background-color: #EF4444;
+  border-radius: 50%;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  background-color: #4F6BFE;
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.logout-btn {
+  background-color: #FEF2F2;
+  color: #EF4444;
+  border: 1px solid #FCA5A5;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  background-color: #EF4444;
+  color: #FFFFFF;
+}
+
+.navbar-refresh-btn {
+  border-color: #D9DFF0 !important;
+  color: #4F6BFE !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  min-height: 34px;
+  text-transform: none !important;
+  white-space: nowrap;
+}
+
+.navbar-refresh-btn:hover {
+  background-color: #F5F7FF !important;
+  border-color: #4F6BFE !important;
+}
+
+/* Page Body */
+.admin-content {
+  flex: 1;
+  min-height: 0;
+  padding: 32px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+@media (max-width: 800px) {
+  .admin-sidebar { width: 76px; padding: 20px 10px; }
+  .sidebar-logo { padding-left: 0; }
+  .sidebar-link { justify-content: center; padding: 11px 8px; }
+  .sidebar-link span { display: none; }
+  .admin-header { padding: 0 20px; }
+  .header-search { width: min(280px, 42vw); }
+  .header-date-badge, .icon-btn { display: none; }
+  .navbar-refresh-btn { display: none !important; }
+  .admin-content { padding: 24px 20px; }
+}
+
+@media (max-width: 560px) {
+  .admin-sidebar { width: 58px; padding-inline: 6px; }
+  .sidebar-logo { transform: scale(0.82); transform-origin: top center; }
+  .admin-header { flex-basis: 62px; height: 62px; padding: 0 14px; }
+  .header-search { width: 100%; }
+  .user-avatar { display: none; }
+  .navbar-refresh-btn { display: inline-flex !important; font-size: 0 !important; min-width: 34px; padding: 0 8px !important; }
+  .logout-btn { padding: 7px 10px; }
+  .admin-content { padding: 20px 14px; }
+}
+=== src/components/admin/AbsenteeismPredictionPanel.tsx ===
+import React from 'react';
+import { Box, Button, Card, CardContent, Chip, LinearProgress, Skeleton, Typography } from '@mui/material';
+import { ArrowUpRight, Brain, CalendarDays } from 'lucide-react';
+import type {
+  DepartementResponseDto,
+  PredictionResponseDto,
+  UserResponseDto,
+} from '../../types/api';
+import './AbsenteeismPredictionPanel.css';
+
+interface AbsenteeismPredictionPanelProps {
+  predictions: PredictionResponseDto[];
+  users: UserResponseDto[];
+  departements: DepartementResponseDto[];
+  loading: boolean;
+  error?: string;
+  onRetry: () => void;
+  onViewAll?: () => void;
+}
+
+const formatScore = (score: number) => {
+  if (!Number.isFinite(score)) return 'Unavailable';
+  const percentage = score <= 1 ? score * 100 : score;
+  return `${Math.round(percentage)}%`;
+};
+
+const formatDate = (value: string) => {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString();
+};
+
+export const AbsenteeismPredictionPanel: React.FC<AbsenteeismPredictionPanelProps> = ({
+  predictions,
+  users,
+  departements,
+  loading,
+  error,
+  onRetry,
+  onViewAll,
+}) => {
+  const userMap = new Map(users.map((user) => [user.id, user]));
+  const departmentMap = new Map(departements.map((department) => [department.id, department.name]));
+  const sortedPredictions = [...predictions].sort(
+    (first, second) => (Number(second.score) || 0) - (Number(first.score) || 0)
+  );
+  const counts = predictions.reduce(
+    (summary, prediction) => {
+      summary[prediction.level] += 1;
+      return summary;
+    },
+    { HIGH: 0, MEDIUM: 0, LOW: 0 } as Record<'HIGH' | 'MEDIUM' | 'LOW', number>
+  );
+  const totalPredictions = predictions.length;
+  const riskWidth = (count: number) => `${totalPredictions ? (count / totalPredictions) * 100 : 0}%`;
+
+  return (
+    <Card className="prediction-panel" component="section" aria-labelledby="prediction-title">
+      <CardContent>
+      <Box className="prediction-heading">
+        <div>
+          <Typography className="dashboard-eyebrow"><Brain size={13} /> AI-assisted workforce insight</Typography>
+          <Typography className="section-title" component="h2" id="prediction-title">Absenteeism Prediction</Typography>
+          <Typography className="prediction-description">
+            Risk levels generated from the prediction records currently available.
+          </Typography>
+        </div>
+        <Box className="prediction-actions">
+          {!loading && !error && <Chip className="prediction-total" label={`${predictions.length} records`} size="small" />}
+          {onViewAll && <Button className="view-all-button" size="small" endIcon={<ArrowUpRight size={15} />} onClick={onViewAll}>View all</Button>}
+        </Box>
+      </Box>
+
+      {error ? (
+        <Box className="prediction-state prediction-error" role="alert"><span>{error}</span><Button onClick={onRetry}>Try again</Button></Box>
+      ) : loading ? (
+        <Box className="prediction-state"><Skeleton /><Skeleton /><Skeleton /></Box>
+      ) : predictions.length === 0 ? (
+        <Box className="prediction-state">
+          No absenteeism predictions are available yet.
+        </Box>
+      ) : (
+        <>
+          <Box className="prediction-summary" aria-label="Prediction risk summary">
+            <Box className="risk-summary risk-high"><Box className="risk-summary-label"><span>High risk</span><strong>{counts.HIGH}</strong></Box><LinearProgress variant="determinate" value={Number.parseFloat(riskWidth(counts.HIGH))} /></Box>
+            <Box className="risk-summary risk-medium"><Box className="risk-summary-label"><span>Medium risk</span><strong>{counts.MEDIUM}</strong></Box><LinearProgress variant="determinate" value={Number.parseFloat(riskWidth(counts.MEDIUM))} /></Box>
+            <Box className="risk-summary risk-low"><Box className="risk-summary-label"><span>Low risk</span><strong>{counts.LOW}</strong></Box><LinearProgress variant="determinate" value={Number.parseFloat(riskWidth(counts.LOW))} /></Box>
+          </Box>
+
+          <Box className="prediction-list">
+            <div className="prediction-list-header">
+              <span>Employee</span>
+              <span>Risk score</span>
+              <span>Level</span>
+              <span>Prediction date</span>
+            </div>
+            {sortedPredictions.slice(0, 5).map((prediction) => {
+              const user = userMap.get(prediction.userId);
+              const department = user?.departementId
+                ? departmentMap.get(user.departementId)
+                : undefined;
+              const employeeName = user
+                ? `${user.firstName} ${user.lastName}`.trim()
+                : `User #${prediction.userId}`;
+
+              return (
+                <Box className="prediction-row" key={prediction.id}>
+                  <div className="prediction-employee">
+                    <strong>{employeeName}</strong>
+                    <span>{department || 'Department unavailable'}</span>
+                  </div>
+                  <strong className="prediction-score">{formatScore(prediction.score)}</strong>
+                  <Chip className={`prediction-level level-${prediction.level.toLowerCase()}`} label={prediction.level} size="small" />
+                  <span className="prediction-date">
+                    <CalendarDays size={13} />
+                    {formatDate(prediction.predictionDate)}
+                    <small>{prediction.analysisPeriod}</small>
+                  </span>
+                </Box>
+              );
+            })}
+          </Box>
+          {predictions.length > 5 && (
+            <p className="prediction-footnote">Showing the five highest risk records.</p>
+          )}
+        </>
+      )}
+      </CardContent>
+    </Card>
+  );
+};=== src/components/admin/AdminResourcePage.tsx ===
+import React, { useCallback, useEffect, useState } from 'react';
+import { RefreshCw } from 'lucide-react';
+import { api } from '../../services/api';
+import type {
+  ContratResponseDto,
+  EvaluationResponseDto,
+  LeaveResponseDto,
+  PresenceResponseDto,
+  UserResponseDto,
+} from '../../types/api';
+import './AdminResourcePage.css';
+
+type ResourceName = 'contracts' | 'leaves' | 'presences' | 'evaluations';
+type ResourceRow = ContratResponseDto | LeaveResponseDto | PresenceResponseDto | EvaluationResponseDto;
+
+interface AdminResourcePageProps {
+  resource: ResourceName;
+  title: string;
+  subtitle: string;
+}
+
+const formatDate = (value?: string) => value ? new Date(value).toLocaleDateString() : '-';
+const displayValue = (value?: string | number | boolean) => value === undefined || value === null ? '-' : String(value);
+
+export const AdminResourcePage: React.FC<AdminResourcePageProps> = ({ resource, title, subtitle }) => {
+  const [rows, setRows] = useState<ResourceRow[]>([]);
+  const [users, setUsers] = useState<UserResponseDto[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const loadData = useCallback(async () => {
+    setLoading(true);
+    setErrorMsg('');
+    try {
+      const [resourceResult, usersResult] = await Promise.allSettled([
+        resource === 'contracts'
+          ? api.getContrats()
+          : resource === 'leaves'
+            ? api.getLeaves()
+            : resource === 'presences'
+              ? api.getPresences()
+              : api.getEvaluations(),
+        api.getUsers(),
+      ]);
+      if (resourceResult.status === 'rejected') throw resourceResult.reason;
+      setRows(resourceResult.value as ResourceRow[]);
+      if (usersResult.status === 'fulfilled') setUsers(usersResult.value);
+      else console.error('User lookup data unavailable:', usersResult.reason);
+    } catch (error: any) {
+      console.error(`Error loading ${resource}:`, error);
+      const status = error.response?.status;
+      setErrorMsg(status === 401 || status === 403
+        ? `Access denied (${status}). This area is read-only and requires permission from the backend.`
+        : error.message || `Unable to load ${title.toLowerCase()}.`);
+    } finally {
+      setLoading(false);
+    }
+  }, [resource, title]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  const userName = (userId: number) => {
+    const user = users.find((item) => item.id === userId);
+    return user ? `${user.firstName} ${user.lastName}`.trim() : `User #${userId}`;
+  };
+
+  const renderRows = () => {
+    if (resource === 'contracts') {
+      return (rows as ContratResponseDto[]).map((contract) => (
+        <tr key={contract.id}>
+          <td>{userName(contract.userId)}</td>
+          <td>{contract.type}</td>
+          <td>{formatDate(contract.startDate)}</td>
+          <td>{formatDate(contract.endDate)}</td>
+          <td><span className="resource-status">{contract.status}</span></td>
+        </tr>
+      ));
+    }
+    if (resource === 'leaves') {
+      return (rows as LeaveResponseDto[]).map((leave) => (
+        <tr key={leave.id}>
+          <td>{userName(leave.userId)}</td>
+          <td>{leave.type}</td>
+          <td>{formatDate(leave.startDate)}</td>
+          <td>{formatDate(leave.endDate)}</td>
+          <td><span className="resource-status">{leave.status}</span></td>
+        </tr>
+      ));
+    }
+    if (resource === 'presences') {
+      return (rows as PresenceResponseDto[]).map((presence) => (
+        <tr key={presence.id}>
+          <td>{userName(presence.userId)}</td>
+          <td>{formatDate(presence.date)}</td>
+          <td>{displayValue(presence.checkInTime)}</td>
+          <td>{displayValue(presence.checkOutTime)}</td>
+          <td><span className="resource-status">{presence.status}</span></td>
+        </tr>
+      ));
+    }
+    return (rows as EvaluationResponseDto[]).map((evaluation) => {
+      const scores = [evaluation.performanceScore, evaluation.competencyScore, evaluation.behaviorScore];
+      const average = scores.every((score) => typeof score === 'number')
+        ? (scores.reduce((total, score) => total + score, 0) / scores.length).toFixed(1)
+        : '-';
+      return (
+        <tr key={evaluation.id}>
+          <td>{userName(evaluation.evaluatedUserId)}</td>
+          <td>{evaluation.period}</td>
+          <td>{average}</td>
+          <td>{formatDate(evaluation.evaluationDate)}</td>
+          <td><span className="resource-status">{evaluation.confirmed ? 'CONFIRMED' : 'DRAFT'}</span></td>
+        </tr>
+      );
+    });
+  };
+
+  const headers = {
+    contracts: ['Employee', 'Type', 'Start date', 'End date', 'Status'],
+    leaves: ['Employee', 'Type', 'Start date', 'End date', 'Status'],
+    presences: ['Employee', 'Date', 'Check in', 'Check out', 'Status'],
+    evaluations: ['Employee', 'Period', 'Average score', 'Evaluation date', 'State'],
+  }[resource];
+
+  return (
+    <section className="resource-page">
+      <div className="resource-page-header">
+        <div>
+          <p className="eyebrow">Read-only overview</p>
+          <h1>{title}</h1>
+          <p>{subtitle}</p>
+        </div>
+        <button className="resource-refresh" onClick={loadData} disabled={loading}>
+          <RefreshCw size={15} style={{ marginRight: 6 }} />
+          {loading ? 'Refreshing...' : 'Refresh'}
+        </button>
+      </div>
+      {errorMsg && (
+        <div className="resource-error" role="alert">
+          <span>{errorMsg}</span>
+          <button onClick={loadData}>Try again</button>
+        </div>
+      )}
+      <div className="resource-card">
+        <div className="resource-card-meta">
+          <strong>{loading ? '...' : rows.length}</strong>
+          <span>records available</span>
+        </div>
+        <div className="resource-table-wrap">
+          <table className="resource-table">
+            <thead>
+              <tr>
+                {headers.map((header) => (
+                  <th key={header}>{header}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan={headers.length} className="resource-state">
+                    Loading {title.toLowerCase()}...
+                  </td>
+                </tr>
+              ) : rows.length === 0 ? (
+                <tr>
+                  <td colSpan={headers.length} className="resource-state">
+                    No {title.toLowerCase()} records found.
+                  </td>
+                </tr>
+              ) : (
+                renderRows()
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  );
+};
+=== src/components/admin/AdminResourcePage.css ===
+.resource-page { display: flex; flex-direction: column; gap: 20px; }
+.resource-page-header { align-items: flex-end; display: flex; justify-content: space-between; gap: 20px; }
+.resource-page-header h1 { color: #172033; font-size: 28px; letter-spacing: -0.03em; margin-top: 5px; }
+.resource-page-header p:last-child { color: #7a8698; font-size: 13px; margin-top: 7px; }
+.resource-refresh { background: #172033; border-radius: 8px; color: #fff; font-size: 12px; font-weight: 700; min-height: 38px; padding: 0 16px; }
+.resource-refresh:disabled { cursor: wait; opacity: .6; }
+.resource-error { align-items: center; background: #fff6f6; border: 1px solid #ffd6d6; border-radius: 8px; color: #b42318; display: flex; font-size: 12px; justify-content: space-between; padding: 12px 14px; gap: 16px; }
+.resource-error button { background: transparent; color: #b42318; font-size: 12px; font-weight: 700; text-decoration: underline; }
+.resource-card { background: #fff; border: 1px solid #e8ebf0; border-radius: 11px; box-shadow: 0 7px 22px rgba(31,43,68,.04); padding: 18px; }
+.resource-card-meta { align-items: baseline; display: flex; gap: 8px; margin-bottom: 14px; }
+.resource-card-meta strong { color: #172033; font-size: 26px; }
+.resource-card-meta span { color: #8994a6; font-size: 12px; }
+.resource-table-wrap { overflow-x: auto; }
+.resource-table { border-collapse: collapse; min-width: 680px; text-align: left; width: 100%; }
+.resource-table th { background: #f8fafc; border-bottom: 1px solid #e8ebf0; color: #8994a6; font-size: 10px; font-weight: 800; letter-spacing: .08em; padding: 12px 14px; text-transform: uppercase; }
+.resource-table td { border-bottom: 1px solid #f0f2f5; color: #39465b; font-size: 13px; padding: 14px; }
+.resource-table tr:last-child td { border-bottom: 0; }
+.resource-status { background: #eef2ff; border-radius: 5px; color: #4f6bfe; font-size: 10px; font-weight: 800; padding: 5px 8px; }
+.resource-state { color: #8994a6 !important; padding: 36px !important; text-align: center; }
+@media (max-width: 560px) { .resource-page-header { align-items: flex-start; flex-direction: column; } .resource-refresh { width: 100%; } .resource-card { padding: 14px; } }
+=== src/components/admin/AbsenteeismPredictionPanel.css ===
+.prediction-panel { border-left: 3px solid #4f6bfe !important; }
+.prediction-panel .MuiCardContent-root { padding: 20px !important; }
+.prediction-heading { align-items: flex-start; display: flex; gap: 16px; justify-content: space-between; }
+.prediction-heading .section-title { font-size: 19px !important; }
+.prediction-description { color: #8994a6 !important; font-size: 12px !important; margin-top: 7px !important; }
+.prediction-actions { align-items: center; display: flex; gap: 8px; }
+.prediction-total { background: #eef2ff !important; color: #4f6bfe !important; font-size: 10px !important; }
+.prediction-summary { display: grid; gap: 10px; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 20px 0; }
+.risk-summary { border-left: 3px solid; border-radius: 7px; display: flex; flex-direction: column; gap: 11px; padding: 12px 14px; }
+.risk-summary-label { align-items: center; display: flex; justify-content: space-between; }
+.risk-summary-label span { font-size: 11px; font-weight: 700; }
+.risk-summary-label strong { font-size: 23px; line-height: 1; }
+.risk-summary .MuiLinearProgress-root { background: rgba(255,255,255,.75); height: 4px; }
+.risk-summary .MuiLinearProgress-bar { background: currentColor; }
+.risk-high { background: #fff1f3; border-color: #df5b6b; color: #a9253b; }
+.risk-medium { background: #fff8e7; border-color: #dda52f; color: #986c0c; }
+.risk-low { background: #edf9f1; border-color: #45a86c; color: #277847; }
+.prediction-list { border-top: 1px solid #edf0f4; }
+.prediction-list-header, .prediction-row { align-items: center; display: grid; gap: 14px; grid-template-columns: minmax(180px, 1.6fr) minmax(80px, .6fr) minmax(80px, .6fr) minmax(110px, .8fr); }
+.prediction-list-header { color: #8a95a6; font-size: 9px; font-weight: 800; letter-spacing: .07em; padding: 13px 0 9px; text-transform: uppercase; }
+.prediction-row { border-top: 1px solid #edf0f4; padding: 11px 0; }
+.prediction-employee { display: flex; flex-direction: column; min-width: 0; }
+.prediction-employee strong { color: #263248; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prediction-employee span { color: #8a95a6; font-size: 10px; margin-top: 3px; }
+.prediction-score { color: #263248; font-size: 13px; }
+.prediction-level { font-size: 9px !important; font-weight: 800 !important; justify-self: start; }
+.level-high { background: #fff1f3 !important; color: #a9253b !important; }
+.level-medium { background: #fff8e7 !important; color: #986c0c !important; }
+.level-low { background: #edf9f1 !important; color: #277847 !important; }
+.prediction-date { align-items: center; color: #8a95a6; display: flex; font-size: 10px; gap: 5px; }
+.prediction-date small { color: #a3adba; display: block; font-size: 9px; margin-left: 18px; }
+.prediction-state { color: #8994a6; font-size: 12px; padding: 28px 8px; text-align: center; }
+.prediction-error { align-items: center; background: #fff5f5; border: 1px solid #fecaca; border-radius: 8px; color: #b42318; display: flex; justify-content: space-between; padding: 12px 14px; text-align: left; gap: 16px; }
+.prediction-error .MuiButton-root { color: #b42318; font-size: 11px; text-transform: none; }
+.prediction-footnote { color: #8994a6; font-size: 11px; margin-top: 12px; }
+@media (max-width: 680px) { .prediction-summary { grid-template-columns: 1fr; } .prediction-list-header { display: none; } .prediction-row { align-items: start; grid-template-columns: minmax(0, 1fr) auto; row-gap: 8px; } .prediction-employee { grid-column: 1 / -1; } .prediction-date { justify-self: end; } .prediction-actions { align-items: flex-end; flex-direction: column; } }
+=== src/components/admin/AdminRefreshContext.tsx ===
+import { createContext, useContext } from 'react';
+
+export interface AdminRefreshContextValue {
+  loading: boolean;
+  refresh: () => void;
+  register: (refresh: () => void, loading: boolean) => () => void;
+}
+
+export const AdminRefreshContext = createContext<AdminRefreshContextValue | null>(null);
+
+export const useAdminRefresh = () => {
+  const context = useContext(AdminRefreshContext);
+  if (!context) {
+    throw new Error('useAdminRefresh must be used inside AdminRefreshContext.Provider');
+  }
+  return context;
+};
+=== src/components/admin/AdminLayout.tsx ===
+import React, { useCallback, useMemo, useState } from 'react';
+import { Button, Tooltip } from '@mui/material';
+import {
+  Award,
+  Bell,
+  Briefcase,
+  Building2,
+  CalendarOff,
+  Clock,
+  FileText,
+  LayoutDashboard,
+  LogOut,
+  Moon,
+  RefreshCw,
+  Search,
+  Shield,
+  TrendingUp,
+  Users,
+} from 'lucide-react';
+import { Logo } from '../Logo';
+import { authService } from '../../services/authService';
+import { AdminRefreshContext } from './AdminRefreshContext';
+import './AdminLayout.css';
+
+interface AdminLayoutProps {
+  currentPath: string;
+  onNavigate: (path: string) => void;
+  children: React.ReactNode;
+}
+
+export const AdminLayout: React.FC<AdminLayoutProps> = ({
+  currentPath,
+  onNavigate,
+  children,
+}) => {
+  const [refreshState, setRefreshState] = useState<{ refresh: () => void; loading: boolean } | null>(null);
+
+  const registerRefresh = useCallback((refresh: () => void, loading: boolean) => {
+    setRefreshState({ refresh, loading });
+    return () => setRefreshState((current) => current?.refresh === refresh ? null : current);
+  }, []);
+
+  const refreshContextValue = useMemo(() => ({
+    loading: refreshState?.loading ?? false,
+    refresh: refreshState?.refresh ?? (() => undefined),
+    register: registerRefresh,
+  }), [refreshState, registerRefresh]);
+
+  const handleLogout = () => {
+    authService.logout();
+    onNavigate('/login');
+  };
+
+  const navItems = [
+    { label: 'Dashboard', path: '/admin/dashboard', icon: <LayoutDashboard size={18} /> },
+    { label: 'Users', path: '/admin/users', icon: <Users size={18} /> },
+    { label: 'Roles', path: '/admin/roles', icon: <Shield size={18} /> },
+    { label: 'Departments', path: '/admin/departments', icon: <Building2 size={18} /> },
+    { label: 'Positions', path: '/admin/positions', icon: <Briefcase size={18} /> },
+    { label: 'Contracts', path: '/admin/contracts', icon: <FileText size={18} /> },
+    { label: 'Leaves', path: '/admin/leaves', icon: <CalendarOff size={18} /> },
+    { label: 'Présences', path: '/admin/presences', icon: <Clock size={18} /> },
+    { label: 'Évaluations', path: '/admin/evaluations', icon: <Award size={18} /> },
+    { label: 'Prédictions', path: '/admin/predictions', icon: <TrendingUp size={18} /> },
+  ];
+
+  const userEmail = localStorage.getItem('email') || 'Authenticated user';
+  const initial = userEmail.charAt(0).toUpperCase();
+
+  return (
+    <div className="admin-container">
+      {/* Sidebar */}
+      <aside className="admin-sidebar">
+        <div className="sidebar-logo">
+          <Logo onClick={() => onNavigate('/admin/dashboard')} />
+        </div>
+        <nav className="sidebar-nav">
+          {navItems.map((item) => {
+            const isActive = currentPath === item.path;
+            return (
+              <div
+                key={item.path}
+                className={`sidebar-link ${isActive ? 'active' : ''}`}
+                onClick={() => onNavigate(item.path)}
+              >
+                {item.icon}
+                <span>{item.label}</span>
+              </div>
+            );
+          })}
+        </nav>
+      </aside>
+
+      {/* Main Container */}
+      <div className="admin-main-wrapper">
+        {/* Top Navbar */}
+        <header className="admin-header">
+          <div className="header-search">
+            <Search size={18} style={{ color: '#94A3B8' }} />
+            <input type="text" placeholder="Search anything..." />
+          </div>
+
+          <div className="header-right">
+            <div className="header-date-badge">Wed 19 Aug, 18:17</div>
+
+            <Tooltip title="Toggle theme">
+              <button className="icon-btn" aria-label="Toggle theme">
+                <Moon size={18} />
+              </button>
+            </Tooltip>
+
+            <Tooltip title="Notifications">
+              <button className="icon-btn" aria-label="Notifications">
+                <span className="notification-dot" />
+                <Bell size={18} />
+              </button>
+            </Tooltip>
+
+            <Button
+              className="navbar-refresh-btn"
+              variant="outlined"
+              size="small"
+              startIcon={<RefreshCw size={15} />}
+              onClick={refreshContextValue.refresh}
+              disabled={!refreshState || refreshContextValue.loading}
+            >
+              {refreshContextValue.loading ? 'Refreshing...' : 'Refresh data'}
+            </Button>
+
+            <div className="user-avatar" title={userEmail}>
+              {initial}
+            </div>
+
+            <Tooltip title="Sign out">
+              <button className="logout-btn" onClick={handleLogout} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <LogOut size={16} />
+                Logout
+              </button>
+            </Tooltip>
+          </div>
+        </header>
+
+        {/* Content Body */}
+        <AdminRefreshContext.Provider value={refreshContextValue}>
+          <main className="admin-content">{children}</main>
+        </AdminRefreshContext.Provider>
+      </div>
+    </div>
+  );
+};
+=== src/components/ui/PageHeader.tsx ===
+// src/components/ui/PageHeader.tsx
+import React from 'react';
+
+interface PageHeaderProps {
+  title: string;
+  subtitle?: string;
+}
+
+export const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle }) => {
+  return (
+    <div style={{ marginBottom: '24px' }}>
+      <h1 style={{ fontSize: '24px', fontWeight: 'bold', color: '#0a0a0a' }}>
+        {title}
+      </h1>
+      {subtitle && (
+        <p style={{ color: '#6b7280', marginTop: '4px', fontSize: '14px' }}>
+          {subtitle}
+        </p>
+      )}
+    </div>
+  );
+};=== src/components/ui/StatCard.tsx ===
+// src/components/ui/StatCard.tsx
+import React from 'react';
+
+interface StatCardProps {
+  label: string;
+  value: number | string;
+  icon?: string;
+}
+
+export const StatCard: React.FC<StatCardProps> = ({ label, value }) => {
+  return (
+    <div style={{ 
+      backgroundColor: 'white', 
+      padding: '20px', 
+      borderRadius: '12px', 
+      boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+      border: '1px solid #e5e7eb'
+    }}>
+      <p style={{ fontSize: '14px', color: '#6b7280', marginBottom: '4px' }}>
+        {label}
+      </p>
+      <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#0a0a0a' }}>
+        {value}
+      </p>
+    </div>
+  );
+};=== src/components/ProtectedRoute.tsx ===
+import React, { useEffect } from 'react';
+import { authService } from '../services/authService';
+
+interface ProtectedRouteProps {
+  requiredRole?: string;
+  onNavigate: (path: string) => void;
+  children: React.ReactNode;
+}
+
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  requiredRole = 'ADMIN',
+  onNavigate,
+  children,
+}) => {
+  const role = authService.getRole();
+
+  const isAuthenticated = authService.isAuthenticated();
+  const hasRequiredRole = !requiredRole || role === requiredRole;
+
+  useEffect(() => {
+    if (!isAuthenticated || !hasRequiredRole) {
+      onNavigate('/login');
+    }
+  }, [isAuthenticated, hasRequiredRole, onNavigate]);
+
+  if (!isAuthenticated || !hasRequiredRole) {
+    return null;
+  }
+
+  return <>{children}</>;
+};
+=== src/pages/LandingPage.tsx ===
+import React from 'react';
+import { Logo } from '../components/Logo';
+
+interface LandingPageProps {
+  onNavigate: (path: string) => void;
+}
+
+export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
+  return (
+    <div
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: '#FFFFFF',
+      }}
+    >
+      {/* Header / Navbar */}
+      <header
+        style={{
+          width: '100%',
+          maxWidth: '1280px',
+          margin: '0 auto',
+          padding: '24px 32px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <Logo onClick={() => onNavigate('/')} />
+        <button
+          onClick={() => onNavigate('/login')}
+          style={{
+            backgroundColor: '#4F6BFE',
+            color: '#FFFFFF',
+            padding: '10px 24px',
+            borderRadius: '10px',
+            fontSize: '14px',
+            fontWeight: 600,
+            cursor: 'pointer',
+          }}
+        >
+          Login
+        </button>
+      </header>
+
+      {/* Main Hero Section */}
+      <main
+        style={{
+          flex: 1,
+          width: '100%',
+          maxWidth: '1280px',
+          margin: '0 auto',
+          padding: '40px 32px 80px',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(440px, 1fr))',
+          gap: '48px',
+          alignItems: 'center',
+        }}
+      >
+        {/* Left Text Column */}
+        <div style={{ maxWidth: '560px' }}>
+          <h1
+            style={{
+              fontSize: 'clamp(32px, 4vw, 36px)',
+              fontWeight: 800,
+              lineHeight: 1.15,
+              letterSpacing: '-0.03em',
+              color: '#111827',
+            }}
+          >
+            Manage your workforce.
+            <br />
+            <span style={{ color: '#4F6BFE' }}>Predict absenteeism.</span>
+            <br />
+            Make smarter decisions.
+          </h1>
+
+          <p
+            style={{
+              fontSize: '16px',
+              lineHeight: 1.6,
+              color: '#6B7280',
+              marginTop: '24px',
+              marginBottom: '32px',
+            }}
+          >
+            PulseHR — Gestion RH intelligente. Centralize your HR data,
+            automate attendance tracking, and let AI anticipate absenteeism
+            before it happens.
+          </p>
+
+          <button
+            onClick={() => onNavigate('/login')}
+            style={{
+              backgroundColor: '#4F6BFE',
+              color: '#FFFFFF',
+              padding: '14px 32px',
+              borderRadius: '10px',
+              fontSize: '15px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              boxShadow: '0 4px 14px rgba(79, 107, 254, 0.3)',
+            }}
+          >
+            Get Started
+          </button>
+        </div>
+
+        {/* Right Preview Card */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <div
+  style={{
+    width: '100%',
+    maxWidth: '520px',
+    height: '380px',
+    backgroundColor: '#EEF3FF',
+    borderRadius: '24px',
+    overflow: 'hidden',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    boxShadow: '0 20px 60px rgba(79, 107, 254, 0.12)',
+  }}
+>
+  <img
+    src="/photos/landingPage.jpg"
+    alt="PulseHR"
+    style={{
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      display: 'block',
+    }}
+  />
+</div>
+        </div>
+      </main>
+    </div>
+  );
+};
+=== src/pages/LoginPage.tsx ===
+import React, { useState } from 'react';
+import { Logo } from '../components/Logo';
+import { authService } from '../services/authService';
+import './LoginPage.css';
+
+interface LoginPageProps {
+  onNavigate: (path: string) => void;
+}
+
+export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrorMsg('');
+
+    try {
+      const authenticatedUser = await authService.login({ email, password });
+      onNavigate(authenticatedUser.role === 'ADMIN' ? '/admin/dashboard' : '/');
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Login failed. Please check your credentials.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="login-container">
+      {/* Left Dark Column */}
+      <div className="login-left">
+        <div>
+          <Logo textColor="white" onClick={() => onNavigate('/')} />
+        </div>
+
+        <div className="login-left-content">
+          <h2 className="login-left-title">
+            Manage your workforce. Predict absenteeism. Make smarter decisions.
+          </h2>
+          <p className="login-left-subtitle">
+            PulseHR — Gestion RH intelligente
+          </p>
+        </div>
+
+        <div>
+          <p className="login-copyright">
+            © 2026 PulseHR. All rights reserved.
+          </p>
+        </div>
+      </div>
+
+      {/* Right White Form Column */}
+      <div className="login-right">
+        <div className="login-form-box">
+          <h2 className="login-form-title">Welcome back</h2>
+          <p className="login-form-subtitle">
+            Enter your credentials to access your account.
+          </p>
+
+          {errorMsg && <div className="error-banner">{errorMsg}</div>}
+
+          <form onSubmit={handleSubmit}>
+            <div className="form-field">
+              <label htmlFor="email" className="form-label">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                required
+                placeholder="you@company.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="form-input"
+              />
+            </div>
+
+            <div className="form-field" style={{ marginBottom: '28px' }}>
+              <label htmlFor="password" className="form-label">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                required
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="form-input"
+              />
+            </div>
+
+            <button type="submit" disabled={loading} className="login-submit-btn">
+              {loading ? 'Signing in...' : 'Sign In'}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+=== src/pages/admin/UsersPage.css ===
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-error {
+  align-items: center;
+  background: #FFF5F5;
+  border: 1px solid #FECACA;
+  border-radius: 10px;
+  color: #B42318;
+  display: flex;
+  font-size: 13px;
+  justify-content: space-between;
+  padding: 13px 16px;
+  gap: 16px;
+}
+
+.page-error button {
+  background: transparent;
+  color: #B42318;
+  font-size: 13px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: #64748B;
+  margin-top: 4px;
+}
+
+.primary-btn {
+  background-color: #3B49DF;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.primary-btn:hover {
+  background-color: #2F3BB5;
+}
+
+.table-wrapper {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.data-table th {
+  background-color: #F8FAFC;
+  padding: 14px 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748B;
+  text-transform: uppercase;
+  border-bottom: 1px solid #E2E8F0;
+  white-space: nowrap;
+}
+
+.data-table td {
+  padding: 16px 20px;
+  font-size: 14px;
+  color: #334155;
+  border-bottom: 1px solid #F1F5F9;
+  vertical-align: middle;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.table-state {
+  padding: 32px !important;
+  text-align: center;
+}
+
+.primary-cell {
+  color: #0F172A !important;
+  font-weight: 600;
+}
+
+.status-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.status-active {
+  background-color: #DCFCE7;
+  color: #166534;
+}
+
+.status-suspended {
+  background-color: #FEE2E2;
+  color: #B91C1C;
+}
+
+.status-leave {
+  background-color: #FEF3C7;
+  color: #B45309;
+}
+
+.status-resigned,
+.status-terminated {
+  background-color: #F1F5F9;
+  color: #475569;
+}
+
+/* Actions Column Icon Button - Matching Departments & Positions Pages */
+.action-btns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Unified Action Icon Buttons (Edit/Delete) */
+.action-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.action-icon-btn:hover {
+  background-color: #F1F5F9;
+}
+
+.pencil-btn {
+  color: #16A34A;
+}
+
+.pencil-btn:hover {
+  background-color: #E8F7EE;
+  color: #15803D;
+}
+
+.trash-btn {
+  color: #DC2626;
+}
+
+.trash-btn:hover {
+  background-color: #FEE2E2;
+  color: #B91C1C;
+}
+
+.delete-btn {
+  background-color: #FEF2F2;
+  color: #DC2626;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.delete-btn:hover:not(:disabled) {
+  background-color: #FEE2E2;
+}
+
+.delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button-spinner {
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-radius: 50%;
+  border-top-color: #FFFFFF;
+  display: inline-block;
+  height: 15px;
+  width: 15px;
+  animation: button-spin 0.7s linear infinite;
+}
+
+@keyframes button-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Custom Modal Overlay & Card (Matching Screenshot visual reference) */
+.custom-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  padding: 16px;
+}
+
+.custom-modal-card {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 580px;
+  padding: 28px 32px 28px 32px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: modal-appear 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modal-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.custom-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.custom-modal-category {
+  font-size: 11px;
+  font-weight: 700;
+  color: #3B49DF;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 2px;
+}
+
+.custom-modal-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+}
+
+.custom-modal-close-btn {
+  background: transparent;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.custom-modal-close-btn:hover {
+  color: #475569;
+  background-color: #F1F5F9;
+}
+
+.custom-modal-error {
+  background-color: #FEF2F2;
+  border: 1px solid #FECACA;
+  color: #991B1B;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.custom-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.custom-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 20px;
+}
+
+.custom-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.custom-form-group label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748B;
+}
+
+.custom-form-group input,
+.custom-form-group select {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #E2E8F0;
+  font-size: 14px;
+  outline: none;
+  color: #0F172A;
+  background-color: #FFFFFF;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.custom-form-group input::placeholder {
+  color: #94A3B8;
+}
+
+.custom-form-group input:disabled,
+.custom-form-group select:disabled {
+  background-color: #F8FAFC;
+  color: #94A3B8;
+  cursor: not-allowed;
+}
+
+.custom-form-group input:focus,
+.custom-form-group select:focus {
+  border-color: #3B49DF;
+  box-shadow: 0 0 0 3px rgba(59, 73, 223, 0.1);
+}
+
+.custom-form-group select {
+  cursor: pointer;
+}
+
+.custom-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.custom-btn-cancel {
+  background-color: #FFFFFF;
+  color: #334155;
+  padding: 9px 20px;
+  border-radius: 8px;
+  border: 1px solid #E2E8F0;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.custom-btn-cancel:hover:not(:disabled) {
+  background-color: #F8FAFC;
+  border-color: #CBD5E1;
+}
+
+.custom-btn-submit {
+  background-color: #3B49DF;
+  color: #FFFFFF;
+  padding: 9px 22px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.custom-btn-submit:hover:not(:disabled) {
+  background-color: #2F3BB5;
+}
+
+.custom-btn-cancel:disabled,
+.custom-btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+=== src/pages/admin/DepartementsPage.css ===
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-error {
+  align-items: center;
+  background: #FFF5F5;
+  border: 1px solid #FECACA;
+  border-radius: 10px;
+  color: #B42318;
+  display: flex;
+  font-size: 13px;
+  justify-content: space-between;
+  padding: 13px 16px;
+  gap: 16px;
+}
+
+.page-error button {
+  background: transparent;
+  color: #B42318;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: #64748B;
+  margin-top: 4px;
+}
+
+.primary-btn {
+  background-color: #4F6BFE;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.primary-btn:hover {
+  background-color: #3B56E2;
+}
+
+.table-wrapper {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.data-table th {
+  background-color: #F8FAFC;
+  padding: 14px 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748B;
+  text-transform: uppercase;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.data-table td {
+  padding: 16px 20px;
+  font-size: 14px;
+  color: #334155;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.action-btns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Unified Action Icon Buttons (Edit/Delete) */
+.action-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.action-icon-btn:hover {
+  background-color: #F1F5F9;
+}
+
+.pencil-btn {
+  color: #16A34A;
+}
+
+.pencil-btn:hover {
+  background-color: #E8F7EE;
+  color: #15803D;
+}
+
+.trash-btn {
+  color: #DC2626;
+}
+
+.trash-btn:hover {
+  background-color: #FEE2E2;
+  color: #B91C1C;
+}
+
+.edit-btn {
+  background-color: #F1F5F9;
+  color: #475569;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background-color: #E2E8F0;
+  color: #0F172A;
+}
+
+.delete-btn {
+  background-color: #FEF2F2;
+  color: #DC2626;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #FEE2E2;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  backdrop-filter: blur(2px);
+}
+
+.modal-card {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
+  padding: 28px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: #94A3B8;
+  cursor: pointer;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #CBD5E1;
+  font-size: 14px;
+  outline: none;
+  color: #0F172A;
+  font-family: inherit;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.cancel-btn {
+  background-color: #F1F5F9;
+  color: #475569;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+=== src/pages/admin/DepartementsPage.tsx ===
+import React, { useEffect, useState } from 'react';
+import { Tooltip } from '@mui/material';
+import { Pencil, Plus, Trash2, X } from 'lucide-react';
+import { api } from '../../api/client';
+import type { DepartementResponseDto } from '../../types/api';
+import './DepartementsPage.css';
+
+export const DepartementsPage: React.FC = () => {
+  const [departements, setDepartements] = useState<DepartementResponseDto[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [errorMsg, setErrorMsg] = useState<string>('');
+
+  const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
+  const [editingDept, setEditingDept] = useState<DepartementResponseDto | null>(null);
+
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+
+  const loadDepartements = async () => {
+    setLoading(true);
+    setErrorMsg('');
+    try {
+      const data = await api.getDepartements();
+      setDepartements(data);
+    } catch (err: any) {
+      console.error('Error loading departements:', err);
+      const status = err.response?.status;
+      setErrorMsg(status === 401 || status === 403
+        ? `Department access denied (${status}). Please sign in again or contact an administrator.`
+        : err.message || 'Failed to load departments');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadDepartements();
+  }, []);
+
+  const openCreateModal = () => {
+    setName('');
+    setDescription('');
+    setIsCreateOpen(true);
+  };
+
+  const openEditModal = (dept: DepartementResponseDto) => {
+    setEditingDept(dept);
+    setName(dept.name || '');
+    setDescription(dept.description || '');
+  };
+
+  const handleCreateSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await api.createDepartement({ name, description });
+      setIsCreateOpen(false);
+      loadDepartements();
+    } catch (err: any) {
+      alert('Error creating department: ' + err.message);
+    }
+  };
+
+  const handleEditSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingDept) return;
+    try {
+      await api.updateDepartement(editingDept.id, { name, description });
+      setEditingDept(null);
+      loadDepartements();
+    } catch (err: any) {
+      alert('Error updating department: ' + err.message);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (!window.confirm('Are you sure you want to delete this department?')) return;
+    try {
+      await api.deleteDepartement(id);
+      loadDepartements();
+    } catch (err: any) {
+      alert('Error deleting department: ' + err.message);
+    }
+  };
+
+  return (
+    <div className="page-container">
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">Department Management</h1>
+          <p className="page-subtitle">Organize and maintain organizational departments</p>
+        </div>
+        <button className="primary-btn" onClick={openCreateModal}>
+          <Plus size={16} /> Add Department
+        </button>
+      </div>
+
+      {errorMsg && (
+        <div className="page-error" role="alert">
+          <span>{errorMsg}</span>
+          <button onClick={loadDepartements}>Try again</button>
+        </div>
+      )}
+
+      <div className="table-wrapper">
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Department Name</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan={4} style={{ textAlign: 'center', padding: '24px' }}>
+                  Loading departments...
+                </td>
+              </tr>
+            ) : departements.length === 0 ? (
+              <tr>
+                <td colSpan={4} style={{ textAlign: 'center', padding: '24px' }}>
+                  No departments found.
+                </td>
+              </tr>
+            ) : (
+              departements.map((dept) => (
+                <tr key={dept.id}>
+                  <td>#{dept.id}</td>
+                  <td style={{ fontWeight: 600, color: '#0F172A' }}>{dept.name}</td>
+                  <td>{dept.description || '-'}</td>
+                  <td>
+                    <div className="action-btns">
+                      <Tooltip title="Edit department">
+                        <button
+                          type="button"
+                          className="action-icon-btn pencil-btn"
+                          onClick={() => openEditModal(dept)}
+                          aria-label={`Edit department ${dept.name}`}
+                        >
+                          <Pencil size={16} />
+                        </button>
+                      </Tooltip>
+                      <Tooltip title="Delete department">
+                        <button
+                          type="button"
+                          className="action-icon-btn trash-btn"
+                          onClick={() => handleDelete(dept.id)}
+                          aria-label={`Delete department ${dept.name}`}
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </Tooltip>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Create Modal */}
+      {isCreateOpen && (
+        <div className="modal-overlay" onClick={() => setIsCreateOpen(false)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <div className="modal-title">Create Department</div>
+              <button
+                type="button"
+                className="close-btn"
+                onClick={() => setIsCreateOpen(false)}
+                aria-label="Close modal"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <form onSubmit={handleCreateSubmit}>
+              <div className="form-group">
+                <label>Department Name</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Human Resources"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label>Description</label>
+                <textarea
+                  rows={3}
+                  placeholder="Brief summary of department responsibilities"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+              <div className="modal-actions">
+                <button type="button" className="cancel-btn" onClick={() => setIsCreateOpen(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="primary-btn">
+                  Create Department
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Modal */}
+      {editingDept && (
+        <div className="modal-overlay" onClick={() => setEditingDept(null)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <div className="modal-title">Edit Department #{editingDept.id}</div>
+              <button
+                type="button"
+                className="close-btn"
+                onClick={() => setEditingDept(null)}
+                aria-label="Close modal"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <form onSubmit={handleEditSubmit}>
+              <div className="form-group">
+                <label>Department Name</label>
+                <input
+                  type="text"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label>Description</label>
+                <textarea
+                  rows={3}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+              <div className="modal-actions">
+                <button type="button" className="cancel-btn" onClick={() => setEditingDept(null)}>
+                  Cancel
+                </button>
+                <button type="submit" className="primary-btn">
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+=== src/pages/admin/PositionsPage.css ===
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: #64748B;
+  margin-top: 4px;
+}
+
+.primary-btn {
+  background-color: #4F6BFE;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.primary-btn:hover {
+  background-color: #3B56E2;
+}
+
+.table-wrapper {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.data-table th {
+  background-color: #F8FAFC;
+  padding: 14px 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748B;
+  text-transform: uppercase;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.data-table td {
+  padding: 16px 20px;
+  font-size: 14px;
+  color: #334155;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.action-btns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Unified Action Icon Buttons (Edit/Delete) */
+.action-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.action-icon-btn:hover {
+  background-color: #F1F5F9;
+}
+
+.pencil-btn {
+  color: #16A34A;
+}
+
+.pencil-btn:hover {
+  background-color: #E8F7EE;
+  color: #15803D;
+}
+
+.trash-btn {
+  color: #DC2626;
+}
+
+.trash-btn:hover {
+  background-color: #FEE2E2;
+  color: #B91C1C;
+}
+
+.edit-btn {
+  background-color: #F1F5F9;
+  color: #475569;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background-color: #E2E8F0;
+  color: #0F172A;
+}
+
+.delete-btn {
+  background-color: #FEF2F2;
+  color: #DC2626;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #FEE2E2;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  backdrop-filter: blur(2px);
+}
+
+.modal-card {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
+  padding: 28px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: #94A3B8;
+  cursor: pointer;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #CBD5E1;
+  font-size: 14px;
+  outline: none;
+  color: #0F172A;
+  font-family: inherit;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.cancel-btn {
+  background-color: #F1F5F9;
+  color: #475569;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+=== src/pages/admin/PositionsPage.tsx ===
+import React, { useEffect, useState } from 'react';
+import { Tooltip } from '@mui/material';
+import { Pencil, Plus, Trash2, X } from 'lucide-react';
+import { api } from '../../api/client';
+import type { PositionResponseDto } from '../../types/api';
+import './PositionsPage.css';
+
+export const PositionsPage: React.FC = () => {
+  const [positions, setPositions] = useState<PositionResponseDto[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [errorMsg, setErrorMsg] = useState<string>('');
+
+  const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
+  const [editingPos, setEditingPos] = useState<PositionResponseDto | null>(null);
+
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+
+  const loadPositions = async () => {
+    setLoading(true);
+    setErrorMsg('');
+    try {
+      const data = await api.getPositions();
+      setPositions(data);
+    } catch (err: any) {
+      console.error('Error loading positions:', err);
+      setErrorMsg(err.message || 'Failed to load positions');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadPositions();
+  }, []);
+
+  const openCreateModal = () => {
+    setTitle('');
+    setDescription('');
+    setIsCreateOpen(true);
+  };
+
+  const openEditModal = (pos: PositionResponseDto) => {
+    setEditingPos(pos);
+    setTitle(pos.title || '');
+    setDescription(pos.description || '');
+  };
+
+  const handleCreateSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await api.createPosition({ title, description });
+      setIsCreateOpen(false);
+      loadPositions();
+    } catch (err: any) {
+      alert('Error creating position: ' + err.message);
+    }
+  };
+
+  const handleEditSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingPos) return;
+    try {
+      await api.updatePosition(editingPos.id, { title, description });
+      setEditingPos(null);
+      loadPositions();
+    } catch (err: any) {
+      alert('Error updating position: ' + err.message);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (!window.confirm('Are you sure you want to delete this position?')) return;
+    try {
+      await api.deletePosition(id);
+      loadPositions();
+    } catch (err: any) {
+      alert('Error deleting position: ' + err.message);
+    }
+  };
+
+  return (
+    <div className="page-container">
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">Position Management</h1>
+          <p className="page-subtitle">Manage job titles and role descriptions</p>
+        </div>
+        <button className="primary-btn" onClick={openCreateModal}>
+          <Plus size={16} /> Add Position
+        </button>
+      </div>
+
+      {errorMsg && (
+        <div style={{ padding: '12px 16px', backgroundColor: '#FEF2F2', color: '#DC2626', borderRadius: '8px' }}>
+          {errorMsg}
+        </div>
+      )}
+
+      <div className="table-wrapper">
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Position Title</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan={4} style={{ textAlign: 'center', padding: '24px' }}>
+                  Loading positions...
+                </td>
+              </tr>
+            ) : positions.length === 0 ? (
+              <tr>
+                <td colSpan={4} style={{ textAlign: 'center', padding: '24px' }}>
+                  No positions found.
+                </td>
+              </tr>
+            ) : (
+              positions.map((pos) => (
+                <tr key={pos.id}>
+                  <td>#{pos.id}</td>
+                  <td style={{ fontWeight: 600, color: '#0F172A' }}>{pos.title}</td>
+                  <td>{pos.description || '-'}</td>
+                  <td>
+                    <div className="action-btns">
+                      <Tooltip title="Edit position">
+                        <button
+                          type="button"
+                          className="action-icon-btn pencil-btn"
+                          onClick={() => openEditModal(pos)}
+                          aria-label={`Edit position ${pos.title}`}
+                        >
+                          <Pencil size={16} />
+                        </button>
+                      </Tooltip>
+                      <Tooltip title="Delete position">
+                        <button
+                          type="button"
+                          className="action-icon-btn trash-btn"
+                          onClick={() => handleDelete(pos.id)}
+                          aria-label={`Delete position ${pos.title}`}
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </Tooltip>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Create Modal */}
+      {isCreateOpen && (
+        <div className="modal-overlay" onClick={() => setIsCreateOpen(false)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <div className="modal-title">Create Position</div>
+              <button
+                type="button"
+                className="close-btn"
+                onClick={() => setIsCreateOpen(false)}
+                aria-label="Close modal"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <form onSubmit={handleCreateSubmit}>
+              <div className="form-group">
+                <label>Position Title</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Senior Software Engineer"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label>Description</label>
+                <textarea
+                  rows={3}
+                  placeholder="Job role responsibilities and requirements"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+              <div className="modal-actions">
+                <button type="button" className="cancel-btn" onClick={() => setIsCreateOpen(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="primary-btn">
+                  Create Position
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Modal */}
+      {editingPos && (
+        <div className="modal-overlay" onClick={() => setEditingPos(null)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <div className="modal-title">Edit Position #{editingPos.id}</div>
+              <button
+                type="button"
+                className="close-btn"
+                onClick={() => setEditingPos(null)}
+                aria-label="Close modal"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <form onSubmit={handleEditSubmit}>
+              <div className="form-group">
+                <label>Position Title</label>
+                <input
+                  type="text"
+                  required
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label>Description</label>
+                <textarea
+                  rows={3}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+              <div className="modal-actions">
+                <button type="button" className="cancel-btn" onClick={() => setEditingPos(null)}>
+                  Cancel
+                </button>
+                <button type="submit" className="primary-btn">
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+=== src/pages/admin/PredictionsPage.tsx ===
+import React, { useCallback, useEffect, useState } from 'react';
+import { RefreshCw } from 'lucide-react';
+import { AbsenteeismPredictionPanel } from '../../components/admin/AbsenteeismPredictionPanel';
+import { api } from '../../services/api';
+import type { DepartementResponseDto, PredictionResponseDto, UserResponseDto } from '../../types/api';
+import './PredictionsPage.css';
+
+export const PredictionsPage: React.FC = () => {
+  const [predictions, setPredictions] = useState<PredictionResponseDto[]>([]);
+  const [users, setUsers] = useState<UserResponseDto[]>([]);
+  const [departements, setDepartements] = useState<DepartementResponseDto[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const loadData = useCallback(async () => {
+    setLoading(true);
+    setErrorMsg('');
+    const [predictionsResult, usersResult, departmentsResult] = await Promise.allSettled([
+      api.getPredictions(),
+      api.getUsers(),
+      api.getDepartements(),
+    ]);
+    if (predictionsResult.status === 'fulfilled') setPredictions(predictionsResult.value);
+    if (usersResult.status === 'fulfilled') setUsers(usersResult.value);
+    if (departmentsResult.status === 'fulfilled') setDepartements(departmentsResult.value);
+    if (predictionsResult.status === 'rejected') {
+      console.error('Error loading predictions:', predictionsResult.reason);
+      const status = predictionsResult.reason?.response?.status;
+      setErrorMsg(status === 401 || status === 403 ? `Prediction access denied (${status}).` : predictionsResult.reason?.message || 'Unable to load predictions.');
+    }
+    setLoading(false);
+  }, []);
+
+  useEffect(() => { loadData(); }, [loadData]);
+
+  return (
+    <div className="predictions-page">
+      <div className="predictions-page-header">
+        <div>
+          <p className="eyebrow">AI-assisted workforce insight</p>
+          <h1>Absenteeism Predictions</h1>
+          <p>Consult the latest risk records generated for the workforce.</p>
+        </div>
+        <button onClick={loadData} disabled={loading} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+          <RefreshCw size={15} />
+          {loading ? 'Refreshing...' : 'Refresh'}
+        </button>
+      </div>
+      <AbsenteeismPredictionPanel
+        predictions={predictions}
+        users={users}
+        departements={departements}
+        loading={loading}
+        error={errorMsg}
+        onRetry={loadData}
+      />
+    </div>
+  );
+};
+=== src/pages/admin/PredictionsPage.css ===
+.predictions-page { display: flex; flex-direction: column; gap: 20px; }
+.predictions-page-header { align-items: flex-end; display: flex; justify-content: space-between; gap: 20px; }
+.predictions-page-header h1 { color: #172033; font-size: 28px; letter-spacing: -.03em; margin-top: 5px; }
+.predictions-page-header p:last-child { color: #7a8698; font-size: 13px; margin-top: 7px; }
+.predictions-page-header button { background: #172033; border-radius: 8px; color: #fff; font-size: 12px; font-weight: 700; min-height: 38px; padding: 0 16px; }
+.predictions-page-header button:disabled { cursor: wait; opacity: .6; }
+@media (max-width: 560px) { .predictions-page-header { align-items: flex-start; flex-direction: column; } .predictions-page-header button { width: 100%; } }
+=== src/pages/admin/dashboardMetrics.ts ===
+import type {
+  ContratResponseDto,
+  EvaluationResponseDto,
+  LeaveResponseDto,
+  PredictionResponseDto,
+  PresenceResponseDto,
+} from '../../types/api';
+
+export interface DashboardMetrics {
+  contractsToReview: number;
+  leavesToday: LeaveResponseDto[];
+  presentToday: number;
+  absentToday: number;
+  recordedAbsenceRate: number | null;
+  overallEvaluationScore: number | null;
+  highRiskPredictions: number;
+  mediumRiskPredictions: number;
+  lowRiskPredictions: number;
+}
+
+export const calculateDashboardMetrics = (
+  contracts: ContratResponseDto[],
+  leaves: LeaveResponseDto[],
+  presences: PresenceResponseDto[],
+  evaluations: EvaluationResponseDto[],
+  predictions: PredictionResponseDto[],
+  today: string
+): DashboardMetrics => {
+  const leavesToday = leaves.filter(
+    (leave) => leave.status === 'APPROVED' && leave.startDate <= today && leave.endDate >= today
+  );
+  const todayPresences = presences.filter((presence) => presence.date === today);
+  const measurablePresences = presences.filter((presence) => presence.status !== 'ON_LEAVE');
+  const evaluationScores = evaluations.flatMap((evaluation) => [
+    evaluation.performanceScore,
+    evaluation.competencyScore,
+    evaluation.behaviorScore,
+  ]);
+
+  return {
+    contractsToReview: contracts.filter((contract) => ['EXPIRED', 'SUSPENDED'].includes(contract.status)).length,
+    leavesToday,
+    presentToday: todayPresences.filter((presence) => ['PRESENT', 'LATE'].includes(presence.status)).length,
+    absentToday: todayPresences.filter((presence) => presence.status === 'ABSENT').length,
+    recordedAbsenceRate: measurablePresences.length
+      ? measurablePresences.filter((presence) => presence.status === 'ABSENT').length / measurablePresences.length * 100
+      : null,
+    overallEvaluationScore: evaluationScores.length
+      ? evaluationScores.reduce((total, score) => total + score, 0) / evaluationScores.length
+      : null,
+    highRiskPredictions: predictions.filter((prediction) => prediction.level === 'HIGH').length,
+    mediumRiskPredictions: predictions.filter((prediction) => prediction.level === 'MEDIUM').length,
+    lowRiskPredictions: predictions.filter((prediction) => prediction.level === 'LOW').length,
+  };
+};
+=== src/pages/admin/components/DashboardStats.tsx ===
+import React from 'react';
+import { Box, Card, CardContent, Grid, Skeleton, Typography } from '@mui/material';
+import { Building2, Users, UserRound } from 'lucide-react';
+
+interface DashboardStatsProps {
+  loading: boolean;
+  totalEmployees: number;
+  activeEmployees: number;
+  departments: number;
+}
+
+const StatCard: React.FC<{ label: string; value: number; note: string; accent?: boolean; icon: React.ReactNode; loading: boolean }> = ({ label, value, note, accent, icon, loading }) => (
+  <Card className={`dashboard-stat-card ${accent ? 'dashboard-stat-card-accent' : ''}`}>
+    <CardContent>
+      <Box className="stat-content-row">
+        <div>
+          <Typography className="stat-label">{label}</Typography>
+          {loading ? <Skeleton width={58} height={40} /> : <Typography className="stat-value">{value}</Typography>}
+          <Typography className="stat-note">{note}</Typography>
+        </div>
+        <span className="stat-icon">{icon}</span>
+      </Box>
+    </CardContent>
+  </Card>
+);
+
+export const DashboardStats: React.FC<DashboardStatsProps> = ({ loading, totalEmployees, activeEmployees, departments }) => (
+  <Grid container spacing={1.5} className="dashboard-stats-grid">
+    <Grid size={{ xs: 12, sm: 4 }}>
+      <StatCard label="Total employees" value={totalEmployees} note="From the employee directory" icon={<Users size={19} />} loading={loading} />
+    </Grid>
+    <Grid size={{ xs: 12, sm: 4 }}>
+      <StatCard label="Active employees" value={activeEmployees} note="Status marked ACTIVE" accent icon={<UserRound size={19} />} loading={loading} />
+    </Grid>
+    <Grid size={{ xs: 12, sm: 4 }}>
+      <StatCard label="Departments" value={departments} note="Current department records" icon={<Building2 size={19} />} loading={loading} />
+    </Grid>
+  </Grid>
+);
+=== src/pages/admin/components/AttendanceOverview.tsx ===
+import React from 'react';
+import { Box, Card, CardContent, Chip, Divider, LinearProgress, Typography } from '@mui/material';
+import { CalendarCheck, UserCheck, UserMinus } from 'lucide-react';
+
+interface AttendanceOverviewProps {
+  loading: boolean;
+  presentToday: number;
+  absentToday: number;
+  leaveToday: number;
+  recordedAbsenceRate: number | null;
+}
+
+export const AttendanceOverview: React.FC<AttendanceOverviewProps> = ({ loading, presentToday, absentToday, leaveToday, recordedAbsenceRate }) => {
+  const totalMeasured = presentToday + absentToday;
+  const attendanceProgress = totalMeasured ? presentToday / totalMeasured * 100 : 0;
+
+  return (
+    <Card className="dashboard-section-card attendance-card">
+      <CardContent>
+        <Box className="section-heading-row">
+          <div>
+            <Typography className="dashboard-eyebrow">Attendance overview</Typography>
+            <Typography className="section-title">Today at a glance</Typography>
+            <Typography className="section-caption">Based on presence records dated today.</Typography>
+          </div>
+          <Chip className="section-chip" icon={<CalendarCheck size={14} />} label="Live records" size="small" />
+        </Box>
+        <Box className="attendance-content">
+          <Box className="attendance-progress">
+            <Typography className="progress-value">{loading ? '...' : totalMeasured ? `${Math.round(attendanceProgress)}%` : 'N/A'}</Typography>
+            <Typography className="progress-label">Recorded attendance</Typography>
+            <LinearProgress variant="determinate" value={loading ? 0 : attendanceProgress} className="attendance-bar" />
+            <Typography className="section-caption">{recordedAbsenceRate === null ? 'No measurable presence records yet.' : `Recorded absence rate: ${recordedAbsenceRate.toFixed(1)}%`}</Typography>
+          </Box>
+          <Divider orientation="vertical" flexItem className="attendance-divider" />
+          <Box className="attendance-stat-list">
+            <div className="attendance-stat"><UserCheck size={17} /><strong>{loading ? '...' : presentToday}</strong><span>Present / late</span></div>
+            <div className="attendance-stat"><UserMinus size={17} /><strong>{loading ? '...' : absentToday}</strong><span>Absent</span></div>
+            <div className="attendance-stat"><CalendarCheck size={17} /><strong>{loading ? '...' : leaveToday}</strong><span>On leave</span></div>
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
+  );
+};
+=== src/pages/admin/components/WorkforceActions.tsx ===
+import React from 'react';
+import { Box, Button, Card, CardContent, Chip, Typography } from '@mui/material';
+import { ArrowUpRight, CalendarOff, FileClock } from 'lucide-react';
+
+interface WorkforceActionsProps {
+  contractsToReview: number;
+  leavesToday: number;
+  onNavigate: (path: string) => void;
+}
+
+const ActionCard: React.FC<{ title: string; value: number; note: string; icon: React.ReactNode; action: () => void }> = ({ title, value, note, icon, action }) => (
+  <Card className="dashboard-section-card action-card">
+    <CardContent>
+      <Box className="action-heading-row">
+        <span className="action-icon">{icon}</span>
+        <Chip label="Needs attention" size="small" className="attention-chip" />
+      </Box>
+      <Typography className="action-title">{title}</Typography>
+      <Typography className="action-value">{value}</Typography>
+      <Typography className="section-caption">{note}</Typography>
+      <Button size="small" className="view-all-button" endIcon={<ArrowUpRight size={15} />} onClick={action}>View all</Button>
+    </CardContent>
+  </Card>
+);
+
+export const WorkforceActions: React.FC<WorkforceActionsProps> = ({ contractsToReview, leavesToday, onNavigate }) => (
+  <Box className="workforce-actions">
+    <ActionCard title="Contracts to review" value={contractsToReview} note="Expired or suspended records" icon={<FileClock size={19} />} action={() => onNavigate('/admin/contracts')} />
+    <ActionCard title="On leave today" value={leavesToday} note="Approved leave records" icon={<CalendarOff size={19} />} action={() => onNavigate('/admin/leaves')} />
+  </Box>
+);
+=== src/pages/admin/components/EvaluationScoreCard.tsx ===
+import React from 'react';
+import { Box, Card, CardContent, Chip, LinearProgress, Typography } from '@mui/material';
+import { ClipboardCheck } from 'lucide-react';
+
+interface EvaluationScoreCardProps {
+  loading: boolean;
+  score: number | null;
+}
+
+export const EvaluationScoreCard: React.FC<EvaluationScoreCardProps> = ({ loading, score }) => (
+  <Card className="dashboard-section-card evaluation-card">
+    <CardContent>
+      <Box className="section-heading-row">
+        <div><Typography className="dashboard-eyebrow">Evaluation health</Typography><Typography className="section-title">Overall evaluation score</Typography></div>
+        <Chip icon={<ClipboardCheck size={14} />} label="0–100 scale" size="small" className="section-chip" />
+      </Box>
+      <Typography className="evaluation-value">{loading ? '...' : score === null ? 'N/A' : score.toFixed(1)}</Typography>
+      <Typography className="section-caption">Average of performance, competency, and behavior scores.</Typography>
+      {score !== null && <LinearProgress variant="determinate" value={Math.max(0, Math.min(score, 100))} className="evaluation-bar" />}
+    </CardContent>
+  </Card>
+);
+=== src/pages/admin/components/DirectorySnapshot.tsx ===
+import React from 'react';
+import { Avatar, Box, Card, CardContent, Chip, Typography } from '@mui/material';
+import { Building2, Mail, Users } from 'lucide-react';
+import type { DepartementResponseDto, UserResponseDto } from '../../../types/api';
+
+interface DirectorySnapshotProps {
+  users: UserResponseDto[];
+  departments: DepartementResponseDto[];
+  loading: boolean;
+}
+
+export const DirectorySnapshot: React.FC<DirectorySnapshotProps> = ({ users, departments, loading }) => (
+  <Box className="directory-snapshot">
+    <Card className="dashboard-section-card directory-card">
+      <CardContent>
+        <Box className="section-heading-row">
+          <div><Typography className="dashboard-eyebrow">Directory</Typography><Typography className="section-title">Recent employees</Typography></div>
+          <Chip icon={<Users size={14} />} label={loading ? '...' : users.length} size="small" className="section-chip" />
+        </Box>
+        {loading ? <Typography className="section-state">Loading employees...</Typography> : users.length === 0 ? <Typography className="section-state">No employees found.</Typography> : (
+          <Box className="directory-list">
+            {users.slice(0, 5).map((user) => (
+              <Box className="directory-row" key={user.id}>
+                <Avatar className="directory-avatar">{(user.firstName?.[0] || user.email[0] || '?').toUpperCase()}</Avatar>
+                <div className="directory-person"><Typography>{user.firstName} {user.lastName}</Typography><span><Mail size={12} />{user.email}</span></div>
+                <Chip label={user.status || 'Unspecified'} size="small" className={user.status === 'ACTIVE' ? 'active-chip' : 'muted-chip'} />
+              </Box>
+            ))}
+          </Box>
+        )}
+      </CardContent>
+    </Card>
+    <Card className="dashboard-section-card directory-card">
+      <CardContent>
+        <Box className="section-heading-row">
+          <div><Typography className="dashboard-eyebrow">Structure</Typography><Typography className="section-title">Departments</Typography></div>
+          <Chip icon={<Building2 size={14} />} label={loading ? '...' : departments.length} size="small" className="section-chip" />
+        </Box>
+        {loading ? <Typography className="section-state">Loading departments...</Typography> : departments.length === 0 ? <Typography className="section-state">No departments found.</Typography> : (
+          <Box className="directory-list">
+            {departments.slice(0, 5).map((department) => <Box className="directory-row" key={department.id}><Avatar className="department-avatar">{department.name[0]?.toUpperCase() || '?'}</Avatar><div className="directory-person"><Typography>{department.name}</Typography><span>{department.description || 'No description provided'}</span></div></Box>)}
+          </Box>
+        )}
+      </CardContent>
+    </Card>
+  </Box>
+);
+=== src/pages/admin/components/UserFormDialog.tsx ===
+import React, { useEffect, useState } from 'react';
+import { X } from 'lucide-react';
+import type {
+  DepartementResponseDto,
+  PositionResponseDto,
+  RoleResponseDto,
+  UserRequestDto,
+  UserResponseDto,
+  UserStatus,
+  UserUpdateRequestDto,
+} from '../../../types/api';
+
+export interface UserFormValues {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  phoneNumber: string;
+  hireDate: string;
+  status?: UserStatus;
+  departementId?: number;
+  roleId?: number;
+  positionId?: number;
+  managerId?: number;
+}
+
+interface UserFormDialogProps {
+  open: boolean;
+  mode: 'create' | 'edit';
+  initialValues: UserFormValues;
+  departments: DepartementResponseDto[];
+  positions: PositionResponseDto[];
+  roles: RoleResponseDto[];
+  users: UserResponseDto[];
+  submitting: boolean;
+  error?: string;
+  onClose: () => void;
+  onSubmit: (values: UserFormValues) => void;
+}
+
+export const toUserFormValues = (user?: UserResponseDto): UserFormValues => ({
+  firstName: user?.firstName || '',
+  lastName: user?.lastName || '',
+  email: user?.email || '',
+  password: '',
+  phoneNumber: user?.phoneNumber || '',
+  hireDate: user?.hireDate || new Date().toISOString().split('T')[0],
+  status: user?.status || 'ACTIVE',
+  departementId: user?.departementId,
+  roleId: user?.roleId,
+  positionId: user?.positionId,
+  managerId: user?.mangerId,
+});
+
+export const createDefaultUserFormValues = (
+  departments: DepartementResponseDto[],
+  positions: PositionResponseDto[],
+  roles: RoleResponseDto[]
+): UserFormValues => ({
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  phoneNumber: '',
+  hireDate: new Date().toISOString().split('T')[0],
+  status: 'ACTIVE',
+  departementId: departments[0]?.id,
+  roleId: roles[0]?.id,
+  positionId: positions[0]?.id,
+});
+
+export const UserFormDialog: React.FC<UserFormDialogProps> = ({
+  open,
+  mode,
+  initialValues,
+  departments,
+  positions,
+  roles,
+  users,
+  submitting,
+  error,
+  onClose,
+  onSubmit,
+}) => {
+  const [values, setValues] = useState<UserFormValues>(initialValues);
+
+  useEffect(() => {
+    if (open) setValues(initialValues);
+  }, [open, initialValues]);
+
+  if (!open) return null;
+
+  const setValue = <K extends keyof UserFormValues>(key: K, value: UserFormValues[K]) => {
+    setValues((current) => ({ ...current, [key]: value }));
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onSubmit(values);
+  };
+
+  const isCreate = mode === 'create';
+
+  return (
+    <div className="custom-modal-overlay" onClick={submitting ? undefined : onClose}>
+      <div className="custom-modal-card" onClick={(e) => e.stopPropagation()}>
+        <div className="custom-modal-header">
+          <div>
+            <div className="custom-modal-category">ADMINISTRATION</div>
+            <h2 className="custom-modal-title">{isCreate ? 'Add user' : 'Edit user'}</h2>
+          </div>
+          <button
+            type="button"
+            className="custom-modal-close-btn"
+            onClick={onClose}
+            disabled={submitting}
+            aria-label="Close modal"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        {error && <div className="custom-modal-error">{error}</div>}
+
+        <form onSubmit={handleSubmit} className="custom-modal-form">
+          <div className="custom-form-grid">
+            {/* Row 1: First name & Last name */}
+            <div className="custom-form-group">
+              <label htmlFor="user-firstname">First name</label>
+              <input
+                id="user-firstname"
+                type="text"
+                value={values.firstName}
+                onChange={(e) => setValue('firstName', e.target.value)}
+                required
+                placeholder="First name"
+              />
+            </div>
+
+            <div className="custom-form-group">
+              <label htmlFor="user-lastname">Last name</label>
+              <input
+                id="user-lastname"
+                type="text"
+                value={values.lastName}
+                onChange={(e) => setValue('lastName', e.target.value)}
+                required
+                placeholder="Last name"
+              />
+            </div>
+
+            {/* Row 2: Email & Phone */}
+            <div className="custom-form-group">
+              <label htmlFor="user-email">Email</label>
+              <input
+                id="user-email"
+                type="email"
+                value={values.email}
+                onChange={(e) => setValue('email', e.target.value)}
+                required
+                disabled={!isCreate}
+                placeholder="Email"
+              />
+            </div>
+
+            <div className="custom-form-group">
+              <label htmlFor="user-phone">Phone</label>
+              <input
+                id="user-phone"
+                type="text"
+                value={values.phoneNumber}
+                onChange={(e) => setValue('phoneNumber', e.target.value)}
+                required
+                placeholder="Phone"
+              />
+            </div>
+
+            {/* Row 3: Password & Hire date */}
+            {isCreate ? (
+              <div className="custom-form-group">
+                <label htmlFor="user-password">Password</label>
+                <input
+                  id="user-password"
+                  type="password"
+                  value={values.password}
+                  onChange={(e) => setValue('password', e.target.value)}
+                  required
+                  minLength={8}
+                  placeholder="Password"
+                />
+              </div>
+            ) : (
+              <div className="custom-form-group">
+                <label htmlFor="user-department">Department</label>
+                <select
+                  id="user-department"
+                  value={values.departementId ?? ''}
+                  onChange={(e) => setValue('departementId', e.target.value ? Number(e.target.value) : undefined)}
+                >
+                  <option value="" disabled>Select department</option>
+                  {departments.map((dept) => (
+                    <option key={dept.id} value={dept.id}>
+                      {dept.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            <div className="custom-form-group">
+              <label htmlFor="user-hiredate">Hire date</label>
+              <input
+                id="user-hiredate"
+                type="date"
+                value={values.hireDate}
+                onChange={(e) => setValue('hireDate', e.target.value)}
+                required
+              />
+            </div>
+
+            {/* Row 4: Status & Role */}
+            <div className="custom-form-group">
+              <label htmlFor="user-status">Status</label>
+              <select
+                id="user-status"
+                value={values.status ?? 'ACTIVE'}
+                onChange={(e) => setValue('status', e.target.value as UserStatus)}
+                required
+              >
+                <option value="ACTIVE">Active</option>
+                <option value="EN_LEAVE">On leave</option>
+                <option value="SUSPENDED">Suspended</option>
+                <option value="RESIGNED">Resigned</option>
+                <option value="TERMINATED">Terminated</option>
+              </select>
+            </div>
+
+            <div className="custom-form-group">
+              <label htmlFor="user-role">Role</label>
+              <select
+                id="user-role"
+                value={values.roleId ?? ''}
+                onChange={(e) => setValue('roleId', e.target.value ? Number(e.target.value) : undefined)}
+                required
+              >
+                <option value="" disabled>
+                  Select a role
+                </option>
+                {roles.map((role) => (
+                  <option key={role.id} value={role.id}>
+                    {role.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Extra row for Edit mode: Position & Manager */}
+            {!isCreate && (
+              <>
+                <div className="custom-form-group">
+                  <label htmlFor="user-position">Position</label>
+                  <select
+                    id="user-position"
+                    value={values.positionId ?? ''}
+                    onChange={(e) => setValue('positionId', e.target.value ? Number(e.target.value) : undefined)}
+                  >
+                    <option value="" disabled>Select position</option>
+                    {positions.map((pos) => (
+                      <option key={pos.id} value={pos.id}>
+                        {pos.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="custom-form-group">
+                  <label htmlFor="user-manager">Manager</label>
+                  <select
+                    id="user-manager"
+                    value={values.managerId ?? ''}
+                    onChange={(e) => setValue('managerId', e.target.value ? Number(e.target.value) : undefined)}
+                  >
+                    <option value="">No manager</option>
+                    {users.map((u) => (
+                      <option key={u.id} value={u.id}>
+                        {u.firstName} {u.lastName} ({u.email})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </>
+            )}
+
+            {isCreate && (
+              <div className="custom-form-group">
+                <label htmlFor="user-department-create">Department</label>
+                <select
+                  id="user-department-create"
+                  value={values.departementId ?? ''}
+                  onChange={(e) => setValue('departementId', e.target.value ? Number(e.target.value) : undefined)}
+                >
+                  <option value="" disabled>Select department</option>
+                  {departments.map((dept) => (
+                    <option key={dept.id} value={dept.id}>
+                      {dept.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </div>
+
+          <div className="custom-modal-actions">
+            <button
+              type="button"
+              className="custom-btn-cancel"
+              onClick={onClose}
+              disabled={submitting}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="custom-btn-submit"
+              disabled={submitting}
+            >
+              {submitting
+                ? 'Saving...'
+                : isCreate
+                ? 'Create user'
+                : 'Save changes'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export const toCreatePayload = (values: UserFormValues): UserRequestDto => ({
+  firstName: values.firstName.trim(),
+  lastName: values.lastName.trim(),
+  email: values.email.trim(),
+  password: values.password,
+  phoneNumber: values.phoneNumber.trim(),
+  hireDate: values.hireDate,
+  status: values.status as UserStatus,
+  departementId: values.departementId,
+  roleId: values.roleId,
+  positionId: values.positionId,
+});
+
+export const toUpdatePayload = (values: UserFormValues): UserUpdateRequestDto => ({
+  firstName: values.firstName.trim(),
+  lastName: values.lastName.trim(),
+  phoneNumber: values.phoneNumber.trim(),
+  status: values.status,
+  departementId: values.departementId,
+  roleId: values.roleId,
+  positionId: values.positionId,
+  managerId: values.managerId,
+});
+=== src/pages/admin/AdminDashboard.css ===
+.dashboard-container { display: flex; flex-direction: column; gap: 16px; padding-bottom: 24px; }
+.dashboard-eyebrow { align-items: center; color: #4f6bfe; display: flex; font-size: 10px !important; font-weight: 800 !important; gap: 5px; letter-spacing: .12em; text-transform: uppercase; }
+.dashboard-title { color: #172033; font-size: clamp(24px, 3vw, 31px) !important; font-weight: 750 !important; letter-spacing: -.03em; line-height: 1.1 !important; margin-top: 5px !important; }
+.dashboard-subtitle { color: #7a8698; font-size: 13px !important; margin-top: 8px !important; }
+.dashboard-stats-grid { margin: 0 !important; }
+.dashboard-stat-card, .dashboard-section-card, .prediction-panel { border: 1px solid #e8ebf0 !important; border-radius: 11px !important; box-shadow: 0 6px 20px rgba(31,43,68,.04) !important; }
+.dashboard-stat-card { min-height: 112px; }
+.dashboard-stat-card .MuiCardContent-root { padding: 17px 18px !important; }
+.dashboard-stat-card-accent { background: #172033 !important; border-color: #172033 !important; box-shadow: 0 8px 20px rgba(23,32,51,.14) !important; }
+.stat-content-row { align-items: flex-start; display: flex; justify-content: space-between; }
+.stat-label { color: #8994a6 !important; font-size: 11px !important; font-weight: 650 !important; }
+.stat-value { color: #172033; font-size: 28px !important; font-weight: 780 !important; line-height: 1 !important; margin: 13px 0 8px !important; }
+.dashboard-stat-card-accent .stat-label, .dashboard-stat-card-accent .stat-note, .dashboard-stat-card-accent .stat-value { color: #fff !important; }
+.dashboard-stat-card-accent .stat-label, .dashboard-stat-card-accent .stat-note { color: #b9c3d5 !important; }
+.stat-note { color: #a0a9b7 !important; font-size: 11px !important; }
+.stat-icon { color: #7b87a0; }
+.dashboard-stat-card-accent .stat-icon { color: #b9c3d5; }
+.dashboard-kpi-row { align-items: stretch; display: flex; gap: 12px; }
+.dashboard-kpi-row > * { flex: 1; }
+.section-heading-row { align-items: flex-start; display: flex; justify-content: space-between; }
+.section-title { color: #172033 !important; font-size: 16px !important; font-weight: 750 !important; margin-top: 5px !important; }
+.section-caption { color: #8994a6 !important; font-size: 11px !important; margin-top: 6px !important; }
+.section-chip { background: #eef2ff !important; color: #4f6bfe !important; font-size: 10px !important; }
+.attendance-card .MuiCardContent-root, .evaluation-card .MuiCardContent-root, .action-card .MuiCardContent-root, .directory-card .MuiCardContent-root { padding: 18px !important; }
+.attendance-content { align-items: stretch; display: flex; gap: 18px; margin-top: 20px; }
+.attendance-progress { flex: 1; min-width: 0; }
+.progress-value, .evaluation-value { color: #172033 !important; font-size: 32px !important; font-weight: 780 !important; line-height: 1 !important; }
+.progress-label { color: #536078 !important; font-size: 12px !important; margin-top: 5px !important; }
+.attendance-bar, .evaluation-bar { background: #edf0f6 !important; border-radius: 5px; height: 7px !important; margin: 15px 0 7px; }
+.attendance-bar .MuiLinearProgress-bar, .evaluation-bar .MuiLinearProgress-bar { background: #4f6bfe; border-radius: inherit; }
+.attendance-divider { margin: 0 4px; }
+.attendance-stat-list { display: flex; flex: 1.15; gap: 10px; }
+.attendance-stat { align-items: flex-start; background: #f8f9fc; border-radius: 8px; color: #68758c; display: flex; flex: 1; flex-direction: column; gap: 7px; padding: 12px; }
+.attendance-stat strong { color: #172033; font-size: 22px; line-height: 1; }
+.attendance-stat span { color: #8994a6; font-size: 10px; }
+.action-heading-row { align-items: flex-start; display: flex; justify-content: space-between; }
+.action-icon { align-items: center; background: #eef2ff; border-radius: 8px; color: #4f6bfe; display: flex; padding: 8px; }
+.attention-chip { background: #fff7e6 !important; color: #9a6a08 !important; font-size: 9px !important; }
+.action-title { color: #536078 !important; font-size: 12px !important; margin-top: 15px !important; }
+.action-value { color: #172033 !important; font-size: 29px !important; font-weight: 780 !important; line-height: 1 !important; margin-top: 7px !important; }
+.view-all-button { color: #4f6bfe !important; font-size: 11px !important; font-weight: 750 !important; margin-top: 12px !important; padding: 3px 0 !important; text-transform: none !important; }
+.directory-snapshot { display: flex; gap: 12px; }
+.directory-snapshot > * { flex: 1; }
+.directory-list { margin-top: 12px; }
+.directory-row { align-items: center; border-top: 1px solid #edf0f4; display: flex; gap: 10px; padding: 10px 0; }
+.directory-avatar, .department-avatar { background: #e8edff !important; color: #4f6bfe !important; font-size: 12px !important; height: 31px !important; width: 31px !important; }
+.department-avatar { background: #fff2df !important; color: #b66a12 !important; }
+.directory-person { flex: 1; min-width: 0; }
+.directory-person .MuiTypography-root { color: #263248; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.directory-person span { align-items: center; color: #8a95a6; display: flex; font-size: 10px; gap: 4px; margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.active-chip { background: #e8f7ee !important; color: #18864b !important; font-size: 9px !important; }
+.muted-chip { background: #f1f3f6 !important; color: #7b8798 !important; font-size: 9px !important; }
+.section-state { color: #8994a6 !important; font-size: 12px !important; padding: 28px 8px; text-align: center; }
+.dashboard-source-note { color: #9aa5b5; font-size: 10px; text-align: right; }
+
+@media (max-width: 800px) { .dashboard-kpi-row, .directory-snapshot { flex-direction: column; } .attendance-content { flex-direction: column; } .attendance-divider { display: none; } }
+@media (max-width: 560px) { .attendance-stat-list { flex-wrap: wrap; } .attendance-stat { min-width: 30%; } }
+=== src/pages/admin/UsersPage.tsx ===
+import React, { useEffect, useState } from 'react';
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Tooltip } from '@mui/material';
+import { Pencil, Trash2 } from 'lucide-react';
+import { api } from '../../api/client';
+import type {
+  DepartementResponseDto,
+  PositionResponseDto,
+  RoleResponseDto,
+  UserResponseDto,
+} from '../../types/api';
+import {
+  createDefaultUserFormValues,
+  toCreatePayload,
+  toUpdatePayload,
+  toUserFormValues,
+  UserFormDialog,
+  type UserFormValues,
+} from './components/UserFormDialog';
+import './UsersPage.css';
+
+export const UsersPage: React.FC = () => {
+  const [users, setUsers] = useState<UserResponseDto[]>([]);
+  const [departements, setDepartements] = useState<DepartementResponseDto[]>([]);
+  const [positions, setPositions] = useState<PositionResponseDto[]>([]);
+  const [roles, setRoles] = useState<RoleResponseDto[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [dialogMode, setDialogMode] = useState<'create' | 'edit' | null>(null);
+  const [editingUser, setEditingUser] = useState<UserResponseDto | null>(null);
+  const [dialogValues, setDialogValues] = useState<UserFormValues>(() => createDefaultUserFormValues([], [], []));
+  const [dialogError, setDialogError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<UserResponseDto | null>(null);
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const loadData = async () => {
+    setLoading(true);
+    setErrorMsg('');
+    const [usersResult, departmentsResult, positionsResult, rolesResult] = await Promise.allSettled([
+      api.getUsers(),
+      api.getDepartements(),
+      api.getPositions(),
+      api.getRoles(),
+    ]);
+
+    if (usersResult.status === 'fulfilled') setUsers(usersResult.value);
+    else {
+      console.error('Error fetching users:', usersResult.reason);
+      const status = usersResult.reason?.response?.status;
+      setErrorMsg(status === 401 || status === 403
+        ? `User directory access denied (${status}). Please sign in again or contact an administrator.`
+        : usersResult.reason?.message || 'Failed to load user data');
+    }
+    if (departmentsResult.status === 'fulfilled') setDepartements(departmentsResult.value);
+    if (positionsResult.status === 'fulfilled') setPositions(positionsResult.value);
+    if (rolesResult.status === 'fulfilled') setRoles(rolesResult.value);
+    if ([departmentsResult, positionsResult, rolesResult].some((result) => result.status === 'rejected') && usersResult.status === 'fulfilled') {
+      console.error('Some user metadata requests failed:', { departmentsResult, positionsResult, rolesResult });
+      setErrorMsg('Users loaded, but some department, position, or role details are unavailable.');
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => { loadData(); }, []);
+
+  const openCreateDialog = () => {
+    setDialogError('');
+    setEditingUser(null);
+    setDialogValues(createDefaultUserFormValues(departements, positions, roles));
+    setDialogMode('create');
+  };
+
+  const openEditDialog = (user: UserResponseDto) => {
+    setDialogError('');
+    setEditingUser(user);
+    setDialogValues(toUserFormValues(user));
+    setDialogMode('edit');
+  };
+
+  const closeDialog = () => {
+    if (!submitting) {
+      setDialogMode(null);
+      setEditingUser(null);
+      setDialogError('');
+    }
+  };
+
+  const errorMessage = (error: unknown, fallback: string) => {
+    if (typeof error === 'object' && error !== null && 'response' in error) {
+      const response = (error as { response?: { status?: number; data?: { message?: string } } }).response;
+      if (response?.data?.message) return response.data.message;
+      if (response?.status === 400) return 'The request is invalid. Check the user details and try again.';
+      if (response?.status === 401) return 'Your session is no longer authorized. Please sign in again.';
+      if (response?.status === 403) return 'You are not authorized to perform this action.';
+      if (response?.status === 404) return 'The user no longer exists.';
+      if (response?.status === 409) return 'This user cannot be changed because it conflicts with existing data.';
+      if (response?.status === 500) return 'The server could not complete this action. Existing HR records may reference this user.';
+    }
+    return error instanceof Error ? error.message : fallback;
+  };
+
+  const handleDialogSubmit = async (values: UserFormValues) => {
+    const currentEmail = localStorage.getItem('email');
+    const currentRole = localStorage.getItem('role');
+    const selectedRole = roles.find((role) => role.id === values.roleId)?.name;
+    if (
+      dialogMode === 'edit' &&
+      editingUser &&
+      currentEmail &&
+      editingUser.email.toLowerCase() === currentEmail.toLowerCase() &&
+      currentRole === 'ADMIN' &&
+      selectedRole !== 'ADMIN'
+    ) {
+      setDialogError('You cannot remove your own ADMIN access from this dialog.');
+      return;
+    }
+    setSubmitting(true);
+    setDialogError('');
+    try {
+      if (dialogMode === 'create') {
+        await api.createUser(toCreatePayload(values));
+        setSuccessMessage('User created successfully.');
+      } else if (editingUser) {
+        await api.updateUser(editingUser.id, toUpdatePayload(values));
+        setSuccessMessage('User updated successfully.');
+      }
+      setDialogMode(null);
+      setEditingUser(null);
+      await loadData();
+    } catch (error: unknown) {
+      setDialogError(errorMessage(error, 'Unable to save user details.'));
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const requestDelete = (user: UserResponseDto) => {
+    const currentEmail = localStorage.getItem('email');
+    if (currentEmail && user.email.toLowerCase() === currentEmail.toLowerCase()) {
+      setErrorMsg('You cannot delete the currently authenticated administrator.');
+      return;
+    }
+    setDeleteTarget(user);
+  };
+
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
+    setDeletingId(deleteTarget.id);
+    try {
+      await api.deleteUser(deleteTarget.id);
+      setSuccessMessage('User deleted successfully.');
+      setDeleteTarget(null);
+      await loadData();
+    } catch (error: unknown) {
+      setErrorMsg(errorMessage(error, 'Unable to delete user.'));
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const getDeptName = (id?: number) => departements.find((department) => department.id === id)?.name || '-';
+  const getRoleName = (id?: number) => roles.find((role) => role.id === id)?.name || '-';
+  const getPositionTitle = (id?: number) => positions.find((position) => position.id === id)?.title || '-';
+
+  return (
+    <div className="page-container">
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">User Management</h1>
+          <p className="page-subtitle">Manage accounts, roles, and workforce directory</p>
+        </div>
+        <button className="primary-btn" onClick={openCreateDialog}>+ Add user</button>
+      </div>
+
+      {errorMsg && (
+        <div className="page-error" role="alert">
+          <span>{errorMsg}</span>
+          <button onClick={loadData}>Try again</button>
+        </div>
+      )}
+
+      <div className="table-wrapper">
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>User</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Department</th>
+              <th>Role</th>
+              <th>Position</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan={9} className="table-state">Loading users...</td>
+              </tr>
+            ) : users.length === 0 ? (
+              <tr>
+                <td colSpan={9} className="table-state">No users found.</td>
+              </tr>
+            ) : (
+              users.map((user) => (
+                <tr key={user.id}>
+                  <td>#{user.id}</td>
+                  <td className="primary-cell">{user.firstName} {user.lastName}</td>
+                  <td>{user.email}</td>
+                  <td>{user.phoneNumber || '-'}</td>
+                  <td>{getDeptName(user.departementId)}</td>
+                  <td>{getRoleName(user.roleId)}</td>
+                  <td>{getPositionTitle(user.positionId)}</td>
+                  <td>
+                    <span
+                      className={`status-tag ${
+                        user.status === 'ACTIVE'
+                          ? 'status-active'
+                          : user.status === 'SUSPENDED'
+                          ? 'status-suspended'
+                          : user.status === 'EN_LEAVE'
+                          ? 'status-leave'
+                          : 'status-resigned'
+                      }`}
+                    >
+                      {user.status || 'ACTIVE'}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="action-btns">
+                      <Tooltip title="Edit user">
+                        <button
+                          type="button"
+                          className="action-icon-btn pencil-btn"
+                          onClick={() => openEditDialog(user)}
+                          aria-label={`Edit ${user.email}`}
+                        >
+                          <Pencil size={16} />
+                        </button>
+                      </Tooltip>
+                      <Tooltip title="Delete user">
+                        <button
+                          type="button"
+                          className="action-icon-btn trash-btn"
+                          onClick={() => requestDelete(user)}
+                          disabled={deletingId === user.id}
+                          aria-label={`Delete ${user.email}`}
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </Tooltip>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {dialogMode && (
+        <UserFormDialog
+          open
+          mode={dialogMode}
+          initialValues={dialogValues}
+          departments={departements}
+          positions={positions}
+          roles={roles}
+          users={users}
+          submitting={submitting}
+          error={dialogError}
+          onClose={closeDialog}
+          onSubmit={handleDialogSubmit}
+        />
+      )}
+
+      <Dialog
+        open={Boolean(deleteTarget)}
+        onClose={deletingId === null ? () => setDeleteTarget(null) : undefined}
+        maxWidth="xs"
+        fullWidth
+        slotProps={{
+          paper: { style: { borderRadius: 16, padding: 8 } }
+        }}
+      >
+        <DialogTitle style={{ fontWeight: 700, fontSize: '18px' }}>Delete user?</DialogTitle>
+        <DialogContent>
+          <Alert severity="warning" style={{ borderRadius: 10 }}>
+            This will permanently remove {deleteTarget?.firstName} {deleteTarget?.lastName} ({deleteTarget?.email}). Existing HR records referencing this user may prevent deletion.
+          </Alert>
+        </DialogContent>
+        <DialogActions style={{ padding: '8px 24px 16px 24px' }}>
+          <Button
+            onClick={() => setDeleteTarget(null)}
+            disabled={deletingId !== null}
+            style={{ color: '#475569', fontWeight: 600 }}
+          >
+            Cancel
+          </Button>
+          <Button
+            color="error"
+            variant="contained"
+            onClick={handleDelete}
+            disabled={deletingId !== null}
+            startIcon={deletingId !== null ? <span className="button-spinner" /> : <Trash2 size={16} />}
+            style={{ borderRadius: 8, fontWeight: 600, backgroundColor: '#DC2626' }}
+          >
+            {deletingId !== null ? 'Deleting...' : 'Delete user'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Snackbar
+        open={Boolean(successMessage)}
+        autoHideDuration={3500}
+        onClose={() => setSuccessMessage('')}
+      >
+        <Alert severity="success" onClose={() => setSuccessMessage('')}>
+          {successMessage}
+        </Alert>
+      </Snackbar>
+    </div>
+  );
+};
+=== src/pages/admin/RolesPage.tsx ===
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Alert, Snackbar } from '@mui/material';
+import { Check, ChevronDown, Shield } from 'lucide-react';
+import { api } from '../../api/client';
+import { useAdminRefresh } from '../../components/admin/AdminRefreshContext';
+import type { RoleResponseDto, UserResponseDto } from '../../types/api';
+import './RolesPage.css';
+
+const userLabel = (user: UserResponseDto) =>
+  `${user.firstName} ${user.lastName} (${user.email})`;
+
+export const RolesPage: React.FC = () => {
+  const { register } = useAdminRefresh();
+  const [users, setUsers] = useState<UserResponseDto[]>([]);
+  const [roles, setRoles] = useState<RoleResponseDto[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState<number | ''>('');
+  const [selectedRoleId, setSelectedRoleId] = useState<number | ''>('');
+  const [openMenu, setOpenMenu] = useState<'user' | 'role' | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const loadData = useCallback(async () => {
+    setLoading(true);
+    setErrorMsg('');
+    const [usersResult, rolesResult] = await Promise.allSettled([
+      api.getUsers(),
+      api.getRoles(),
+    ]);
+
+    if (usersResult.status === 'fulfilled') {
+      setUsers(usersResult.value);
+    } else {
+      console.error('Error fetching users for roles page:', usersResult.reason);
+      const status = usersResult.reason?.response?.status;
+      setErrorMsg(
+        status === 401 || status === 403
+          ? `User directory access denied (${status}). Please sign in again or contact an administrator.`
+          : usersResult.reason?.message || 'Failed to load users'
+      );
+    }
+
+    if (rolesResult.status === 'fulfilled') {
+      setRoles(rolesResult.value);
+    } else if (usersResult.status === 'fulfilled') {
+      console.error('Error fetching roles:', rolesResult.reason);
+      setErrorMsg('Users loaded, but role options are unavailable.');
+    }
+
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  useEffect(() => register(loadData, loading), [register, loadData, loading]);
+
+  useEffect(() => {
+    const handlePointerDown = (event: MouseEvent) => {
+      if (formRef.current && !formRef.current.contains(event.target as Node)) {
+        setOpenMenu(null);
+      }
+    };
+    document.addEventListener('mousedown', handlePointerDown);
+    return () => document.removeEventListener('mousedown', handlePointerDown);
+  }, []);
+
+  const selectedUser = useMemo(
+    () => users.find((user) => user.id === selectedUserId),
+    [users, selectedUserId]
+  );
+  const selectedRole = useMemo(
+    () => roles.find((role) => role.id === selectedRoleId),
+    [roles, selectedRoleId]
+  );
+
+  const selectUser = (userId: number) => {
+    const user = users.find((entry) => entry.id === userId);
+    setSelectedUserId(userId);
+    setSelectedRoleId(user?.roleId ?? '');
+    setOpenMenu(null);
+    setErrorMsg('');
+  };
+
+  const selectRole = (roleId: number | '') => {
+    setSelectedRoleId(roleId);
+    setOpenMenu(null);
+  };
+
+  const errorMessage = (error: unknown, fallback: string) => {
+    if (typeof error === 'object' && error !== null && 'response' in error) {
+      const response = (error as { response?: { status?: number; data?: { message?: string } } }).response;
+      if (response?.data?.message) return response.data.message;
+      if (response?.status === 400) return 'The request is invalid. Check the selected user and role.';
+      if (response?.status === 401) return 'Your session is no longer authorized. Please sign in again.';
+      if (response?.status === 403) return 'You are not authorized to change this role.';
+      if (response?.status === 404) return 'The user or role no longer exists.';
+      if (response?.status === 409) return 'This role cannot be changed because it conflicts with existing data.';
+    }
+    return error instanceof Error ? error.message : fallback;
+  };
+
+  const handleSave = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!selectedUser || selectedRoleId === '') {
+      setErrorMsg('Select a user and a role before saving.');
+      return;
+    }
+
+    const currentEmail = localStorage.getItem('email');
+    const currentRole = localStorage.getItem('role');
+    const nextRoleName = roles.find((role) => role.id === selectedRoleId)?.name;
+    if (
+      currentEmail &&
+      selectedUser.email.toLowerCase() === currentEmail.toLowerCase() &&
+      currentRole === 'ADMIN' &&
+      nextRoleName !== 'ADMIN'
+    ) {
+      setErrorMsg('You cannot remove your own ADMIN access from this page.');
+      return;
+    }
+
+    setSubmitting(true);
+    setErrorMsg('');
+    try {
+      await api.updateUser(selectedUser.id, {
+        firstName: selectedUser.firstName,
+        lastName: selectedUser.lastName,
+        phoneNumber: selectedUser.phoneNumber || '',
+        status: selectedUser.status || 'ACTIVE',
+        departementId: selectedUser.departementId,
+        roleId: selectedRoleId,
+        positionId: selectedUser.positionId,
+        managerId: selectedUser.mangerId,
+      });
+      setSuccessMessage(`Role updated for ${userLabel(selectedUser)}.`);
+      await loadData();
+    } catch (error: unknown) {
+      setErrorMsg(errorMessage(error, 'Unable to save the assigned role.'));
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const saveDisabled =
+    loading ||
+    submitting ||
+    !selectedUser ||
+    selectedRoleId === '' ||
+    selectedUser.roleId === selectedRoleId;
+
+  return (
+    <div className="roles-page">
+      <div className="roles-page-header">
+        <div>
+          <p className="roles-eyebrow">ADMINISTRATION</p>
+          <h1 className="roles-title">Role management</h1>
+          <p className="roles-subtitle">Change the role assigned to an existing user.</p>
+        </div>
+        <div className="roles-header-icon" aria-hidden="true">
+          <Shield size={28} strokeWidth={1.75} />
+        </div>
+      </div>
+
+      {errorMsg && (
+        <div className="page-error" role="alert">
+          <span>{errorMsg}</span>
+          <button type="button" onClick={loadData}>Try again</button>
+        </div>
+      )}
+
+      <form className="roles-card" onSubmit={handleSave} ref={formRef}>
+        <div className="roles-field">
+          <label htmlFor="roles-user-trigger">User</label>
+          <div className="roles-select">
+            <button
+              id="roles-user-trigger"
+              type="button"
+              className="roles-select-trigger"
+              aria-haspopup="listbox"
+              aria-expanded={openMenu === 'user'}
+              disabled={loading || users.length === 0}
+              onClick={() => setOpenMenu((current) => (current === 'user' ? null : 'user'))}
+            >
+              <span className={selectedUser ? '' : 'roles-placeholder'}>
+                {loading ? 'Loading users...' : selectedUser ? userLabel(selectedUser) : 'Select a user'}
+              </span>
+              <ChevronDown size={16} />
+            </button>
+            {openMenu === 'user' && (
+              <ul className="roles-select-menu" role="listbox" aria-labelledby="roles-user-trigger">
+                {users.length === 0 ? (
+                  <li className="roles-select-empty">No users found.</li>
+                ) : (
+                  users.map((user) => (
+                    <li key={user.id}>
+                      <button
+                        type="button"
+                        role="option"
+                        aria-selected={user.id === selectedUserId}
+                        className={user.id === selectedUserId ? 'is-selected' : ''}
+                        onClick={() => selectUser(user.id)}
+                      >
+                        {userLabel(user)}
+                      </button>
+                    </li>
+                  ))
+                )}
+              </ul>
+            )}
+          </div>
+        </div>
+
+        <div className="roles-field">
+          <label htmlFor="roles-role-trigger">Role</label>
+          <div className="roles-select">
+            <button
+              id="roles-role-trigger"
+              type="button"
+              className="roles-select-trigger"
+              aria-haspopup="listbox"
+              aria-expanded={openMenu === 'role'}
+              disabled={loading || !selectedUser || roles.length === 0}
+              onClick={() => setOpenMenu((current) => (current === 'role' ? null : 'role'))}
+            >
+              <span className={selectedRole ? '' : 'roles-placeholder'}>
+                {selectedRole ? selectedRole.name : 'Select a role'}
+              </span>
+              <ChevronDown size={16} />
+            </button>
+            {openMenu === 'role' && (
+              <ul className="roles-select-menu" role="listbox" aria-labelledby="roles-role-trigger">
+                <li>
+                  <button
+                    type="button"
+                    role="option"
+                    aria-selected={selectedRoleId === ''}
+                    className={selectedRoleId === '' ? 'is-selected' : ''}
+                    onClick={() => selectRole('')}
+                  >
+                    Select a role
+                  </button>
+                </li>
+                {roles.map((role) => (
+                  <li key={role.id}>
+                    <button
+                      type="button"
+                      role="option"
+                      aria-selected={role.id === selectedRoleId}
+                      className={role.id === selectedRoleId ? 'is-selected' : ''}
+                      onClick={() => selectRole(role.id)}
+                    >
+                      {role.name}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+
+        <button type="submit" className="roles-save-btn" disabled={saveDisabled}>
+          <Check size={16} strokeWidth={2.5} />
+          {submitting ? 'Saving...' : 'Save role'}
+        </button>
+      </form>
+      {!loading && users.length === 0 && !errorMsg && (
+        <p className="roles-empty">No users are available to assign a role.</p>
+      )}
+
+      <Snackbar
+        open={Boolean(successMessage)}
+        autoHideDuration={3500}
+        onClose={() => setSuccessMessage('')}
+      >
+        <Alert severity="success" onClose={() => setSuccessMessage('')}>
+          {successMessage}
+        </Alert>
+      </Snackbar>
+    </div>
+  );
+};
+=== src/pages/admin/RolesPage.css ===
+.roles-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.roles-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.roles-eyebrow {
+  color: #4F6BFE;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.roles-title {
+  color: #0F172A;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin: 6px 0 0;
+}
+
+.roles-subtitle {
+  color: #64748B;
+  font-size: 14px;
+  margin: 8px 0 0;
+}
+
+.roles-header-icon {
+  align-items: center;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  color: #93A4F8;
+  display: flex;
+  flex-shrink: 0;
+  height: 56px;
+  justify-content: center;
+  width: 56px;
+}
+
+.roles-card {
+  align-items: flex-end;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+  display: flex;
+  gap: 16px;
+  padding: 22px 24px;
+}
+
+.roles-field {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.roles-field label {
+  color: #64748B;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.roles-select {
+  position: relative;
+}
+
+.roles-select-trigger {
+  align-items: center;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  color: #0F172A;
+  cursor: pointer;
+  display: flex;
+  font-family: inherit;
+  font-size: 14px;
+  gap: 12px;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 10px 14px;
+  text-align: left;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  width: 100%;
+}
+
+.roles-select-trigger:hover:not(:disabled) {
+  border-color: #CBD5E1;
+}
+
+.roles-select-trigger[aria-expanded='true'] {
+  border-color: #4F6BFE;
+  box-shadow: 0 0 0 3px rgba(79, 107, 254, 0.12);
+}
+
+.roles-select-trigger:disabled {
+  background: #F8FAFC;
+  color: #94A3B8;
+  cursor: not-allowed;
+}
+
+.roles-select-trigger span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.roles-placeholder {
+  color: #94A3B8;
+}
+
+.roles-select-trigger svg {
+  color: #94A3B8;
+  flex-shrink: 0;
+}
+
+.roles-select-menu {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.1);
+  left: 0;
+  list-style: none;
+  margin: 6px 0 0;
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 6px;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: 8;
+}
+
+.roles-select-menu button {
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: #0F172A;
+  cursor: pointer;
+  display: block;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 9px 12px;
+  text-align: left;
+  width: 100%;
+}
+
+.roles-select-menu button:hover,
+.roles-select-menu button.is-selected {
+  background: #4F6BFE;
+  color: #FFFFFF;
+}
+
+.roles-select-empty {
+  color: #94A3B8;
+  font-size: 13px;
+  padding: 10px 12px;
+}
+
+.roles-save-btn {
+  align-items: center;
+  background: #4F6BFE;
+  border: none;
+  border-radius: 10px;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-flex;
+  flex-shrink: 0;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 18px;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.roles-save-btn:hover:not(:disabled) {
+  background: #3B56E2;
+}
+
+.roles-save-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.roles-empty {
+  color: #64748B;
+  font-size: 14px;
+  margin: 0;
+}
+
+.roles-page .page-error {
+  align-items: center;
+  background: #FFF5F5;
+  border: 1px solid #FECACA;
+  border-radius: 10px;
+  color: #B42318;
+  display: flex;
+  font-size: 13px;
+  gap: 16px;
+  justify-content: space-between;
+  padding: 13px 16px;
+}
+
+.roles-page .page-error button {
+  background: transparent;
+  border: none;
+  color: #B42318;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .roles-card {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .roles-save-btn {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .roles-page-header {
+    align-items: center;
+  }
+
+  .roles-title {
+    font-size: 24px;
+  }
+}
+=== src/pages/admin/AdminDashboard.tsx ===
+import React, { useCallback, useEffect, useState } from 'react';
+import { Alert, Box, Button } from '@mui/material';
+import { api } from '../../api/client';
+import { AbsenteeismPredictionPanel } from '../../components/admin/AbsenteeismPredictionPanel';
+import { useAdminRefresh } from '../../components/admin/AdminRefreshContext';
+import { AttendanceOverview } from './components/AttendanceOverview';
+import { DashboardStats } from './components/DashboardStats';
+import { DirectorySnapshot } from './components/DirectorySnapshot';
+import { EvaluationScoreCard } from './components/EvaluationScoreCard';
+import { WorkforceActions } from './components/WorkforceActions';
+import { calculateDashboardMetrics } from './dashboardMetrics';
+import type {
+  ContratResponseDto,
+  DepartementResponseDto,
+  EvaluationResponseDto,
+  LeaveResponseDto,
+  PredictionResponseDto,
+  PresenceResponseDto,
+  PositionResponseDto,
+  UserResponseDto,
+} from '../../types/api';
+import './AdminDashboard.css';
+
+interface AdminDashboardProps {
+  onNavigate: (path: string) => void;
+}
+
+export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigate }) => {
+  const { register } = useAdminRefresh();
+  const [users, setUsers] = useState<UserResponseDto[]>([]);
+  const [departements, setDepartements] = useState<DepartementResponseDto[]>([]);
+  const [positions, setPositions] = useState<PositionResponseDto[]>([]);
+  const [contracts, setContracts] = useState<ContratResponseDto[]>([]);
+  const [leaves, setLeaves] = useState<LeaveResponseDto[]>([]);
+  const [presences, setPresences] = useState<PresenceResponseDto[]>([]);
+  const [evaluations, setEvaluations] = useState<EvaluationResponseDto[]>([]);
+  const [predictions, setPredictions] = useState<PredictionResponseDto[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [predictionLoading, setPredictionLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [predictionError, setPredictionError] = useState('');
+
+  const loadOverview = useCallback(async () => {
+    setLoading(true);
+    setPredictionLoading(true);
+    setErrorMsg('');
+    setPredictionError('');
+
+    const results = await Promise.allSettled([
+      api.getUsers(), api.getDepartements(), api.getPredictions(), api.getPositions(),
+      api.getContrats(), api.getLeaves(), api.getPresences(), api.getEvaluations(),
+    ]);
+    const [usersResult, departmentsResult, predictionsResult, positionsResult, contractsResult, leavesResult, presencesResult, evaluationsResult] = results;
+
+    if (usersResult.status === 'fulfilled') setUsers(usersResult.value);
+    if (departmentsResult.status === 'fulfilled') setDepartements(departmentsResult.value);
+    if (positionsResult.status === 'fulfilled') setPositions(positionsResult.value);
+    if (contractsResult.status === 'fulfilled') setContracts(contractsResult.value);
+    if (leavesResult.status === 'fulfilled') setLeaves(leavesResult.value);
+    if (presencesResult.status === 'fulfilled') setPresences(presencesResult.value);
+    if (evaluationsResult.status === 'fulfilled') setEvaluations(evaluationsResult.value);
+    if (predictionsResult.status === 'fulfilled') setPredictions(predictionsResult.value);
+
+    if (predictionsResult.status === 'rejected') {
+      console.error('Error loading absenteeism predictions:', predictionsResult.reason);
+      const status = predictionsResult.reason?.response?.status;
+      setPredictionError(status === 401 || status === 403 ? `Prediction access denied (${status}).` : predictionsResult.reason?.message || 'Prediction data could not be loaded.');
+    }
+
+    const failures = results.filter((result) => result.status === 'rejected');
+    if (failures.length > 0) {
+      console.error('Error loading dashboard overview:', failures);
+      setErrorMsg('Some overview data could not be loaded. Available sections remain visible.');
+    }
+    setLoading(false);
+    setPredictionLoading(false);
+  }, []);
+
+  useEffect(() => { loadOverview(); }, [loadOverview]);
+  useEffect(() => register(loadOverview, loading), [loadOverview, loading, register]);
+
+  const activeEmployees = users.filter((user) => user.status === 'ACTIVE').length;
+  const today = new Date().toISOString().slice(0, 10);
+  const metrics = calculateDashboardMetrics(contracts, leaves, presences, evaluations, predictions, today);
+
+  return (
+    <Box className="dashboard-container">
+      {errorMsg && <Alert severity="warning" action={<Button color="inherit" size="small" onClick={loadOverview}>Retry</Button>}>{errorMsg}</Alert>}
+      <DashboardStats loading={loading} totalEmployees={users.length} activeEmployees={activeEmployees} departments={departements.length} />
+      <Box className="dashboard-kpi-row">
+        <WorkforceActions contractsToReview={metrics.contractsToReview} leavesToday={metrics.leavesToday.length} onNavigate={onNavigate} />
+        <EvaluationScoreCard loading={loading} score={metrics.overallEvaluationScore} />
+      </Box>
+      <AttendanceOverview loading={loading} presentToday={metrics.presentToday} absentToday={metrics.absentToday} leaveToday={metrics.leavesToday.length} recordedAbsenceRate={metrics.recordedAbsenceRate} />
+      <Box className="prediction-feature">
+        <AbsenteeismPredictionPanel predictions={predictions} users={users} departements={departements} loading={predictionLoading} error={predictionError} onRetry={loadOverview} onViewAll={() => onNavigate('/admin/predictions')} />
+      </Box>
+      <DirectorySnapshot users={users} departments={departements} loading={loading} />
+      <Box className="dashboard-source-note">Positions: {loading ? '...' : positions.length} · High-risk predictions: {predictionLoading ? '...' : metrics.highRiskPredictions} · Medium: {predictionLoading ? '...' : metrics.mediumRiskPredictions} · Low: {predictionLoading ? '...' : metrics.lowRiskPredictions}</Box>
+    </Box>
+  );
+};
+=== src/pages/LoginPage.css ===
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  background-color: #FFFFFF;
+}
+
+.login-left {
+  flex: 1;
+  background-color: #191B2B;
+  padding: 48px 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #FFFFFF;
+}
+
+.login-left-content {
+  max-width: 520px;
+  margin: auto 0;
+}
+
+.login-left-title {
+  font-size: clamp(28px, 4vw, 36px);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+}
+
+.login-left-subtitle {
+  font-size: 15px;
+  color: #8E96AD;
+  margin-top: 20px;
+}
+
+.login-copyright {
+  font-size: 13px;
+  color: #5C6479;
+}
+
+.login-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 32px;
+  background-color: #FFFFFF;
+}
+
+.login-form-box {
+  width: 100%;
+  max-width: 380px;
+}
+
+.login-form-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+
+.login-form-subtitle {
+  font-size: 14px;
+  color: #6B7280;
+  margin-top: 6px;
+  margin-bottom: 32px;
+}
+
+.form-field {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  font-size: 14px;
+  color: #111827;
+  background-color: #FFFFFF;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.form-input:focus {
+  border-color: #4F6BFE;
+}
+
+.login-submit-btn {
+  width: 100%;
+  background-color: #4F6BFE;
+  color: #FFFFFF;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(79, 107, 254, 0.25);
+  margin-top: 8px;
+}
+
+.error-banner {
+  background-color: #FEF2F2;
+  color: #DC2626;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+=== src/types/api.ts ===
+export type RoleName = 'ADMIN' | 'RH_MANAGER' | 'MANAGER' | 'EMPLOYEE';
+
+export type UserStatus = 'ACTIVE' | 'EN_LEAVE' | 'SUSPENDED' | 'RESIGNED' | 'TERMINATED';
+
+export type ContratType = 'CDI' | 'CDD' | 'INTERIM' | 'STAGE' | 'ALTERNANCE';
+
+export type ContratStatus = 'ACTIVE' | 'EXPIRED' | 'TERMINATED' | 'SUSPENDED';
+
+export type LeaveType = 'ANUAL' | 'SICK' | 'MATERNATY' | 'PTAERNEITY' | 'UNPAID' | 'SPECIAL';
+
+export type LeaveStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED';
+
+export type PresenceStatus = 'PRESENT' | 'ABSENT' | 'LATE' | 'HALF_DAY' | 'ON_LEAVE';
+
+export type EvaluationPeriod = 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
+
+export type ObjectiveStatus = 'NOT_STARTED' | 'IN_PROGRESS' | 'ACHIEVED' | 'NOT_ACHIEVED';
+
+export type PredictionLevel = 'LOW' | 'MEDIUM' | 'HIGH';
+
+export interface AuthResponseDto {
+  token: string;
+  email: string;
+  role: string;
+}
+
+export interface UserResponseDto {
+  id: number;
+  firstName: string;
+  lastName: string;
+  phoneNumber?: string;
+  email: string;
+  createddate?: string;
+  hireDate?: string;
+  status?: UserStatus;
+  departementId?: number;
+  roleId?: number;
+  positionId?: number;
+  mangerId?: number;
+}
+
+export interface UserRequestDto {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  password?: string;
+  hireDate: string;
+  status: UserStatus;
+  departementId?: number;
+  roleId?: number;
+  positionId?: number;
+}
+
+export interface UserUpdateRequestDto {
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  status?: UserStatus;
+  departementId?: number;
+  roleId?: number;
+  positionId?: number;
+  managerId?: number;
+}
+
+export interface RegisterRequestDto {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password?: string;
+}
+
+export interface DepartementResponseDto {
+  id: number;
+  name: string;
+  description?: string;
+}
+
+export interface DepartementRequestDto {
+  name: string;
+  description?: string;
+}
+
+export interface PositionResponseDto {
+  id: number;
+  title: string;
+  description?: string;
+}
+
+export interface PositionRequestDto {
+  title: string;
+  description?: string;
+}
+
+export interface RoleResponseDto {
+  id: number;
+  name: RoleName;
+}
+
+export interface LeaveResponseDto {
+  id: number;
+  type: LeaveType;
+  startDate: string;
+  endDate: string;
+  status: LeaveStatus;
+  reason?: string;
+  userId: number;
+}
+
+export interface PredictionResponseDto {
+  id: number;
+  score: number;
+  level: PredictionLevel;
+  predictionDate: string;
+  analysisPeriod: string;
+  userId: number;
+}
+
+export interface ContratResponseDto {
+  id: number;
+  type: ContratType;
+  baseSalary: number;
+  signatureDate: string;
+  startDate: string;
+  endDate: string;
+  status: ContratStatus;
+  userId: number;
+}
+
+export interface PresenceResponseDto {
+  id: number;
+  date: string;
+  checkInTime?: string;
+  checkOutTime?: string;
+  status: PresenceStatus;
+  userId: number;
+}
+
+export interface EvaluationResponseDto {
+  id: number;
+  period: EvaluationPeriod;
+  performanceScore: number;
+  competencyScore: number;
+  behaviorScore: number;
+  evaluationDate: string;
+  comment?: string;
+  confirmed: boolean;
+  evaluatedUserId: number;
+  evaluatorId: number;
+}
+=== src/api/client.ts ===
+export { api, apiClient } from '../services/api';
+=== src/services/api.ts ===
+import axios from 'axios';
+import type {
+  AuthResponseDto,
+  UserResponseDto,
+  UserRequestDto,
+  UserUpdateRequestDto,
+  RegisterRequestDto,
+  DepartementResponseDto,
+  DepartementRequestDto,
+  PositionResponseDto,
+  PositionRequestDto,
+  RoleResponseDto,
+  LeaveResponseDto,
+  PredictionResponseDto,
+  ContratResponseDto,
+  PresenceResponseDto,
+  EvaluationResponseDto,
+} from '../types/api';
+
+export const apiClient = axios.create({
+  baseURL: '/api',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Axios Request Interceptor: Automatically attach Authorization Bearer token from localStorage
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Centralized API calls
+export const api = {
+  // Auth
+  login: (data: { email: string; password: string }) =>
+    apiClient.post<AuthResponseDto>('/auth/login', data),
+
+  register: (data: RegisterRequestDto) =>
+    apiClient.post<AuthResponseDto>('/auth/register', data),
+
+  // Users
+  getUsers: async () => {
+    const res = await apiClient.get<UserResponseDto[]>('/users');
+    return res.data;
+  },
+  getUserById: async (id: number) => {
+    const res = await apiClient.get<UserResponseDto>(`/users/${id}`);
+    return res.data;
+  },
+  createUser: async (data: UserRequestDto) => {
+    const res = await apiClient.post<UserResponseDto>('/users', data);
+    return res.data;
+  },
+  updateUser: async (id: number, data: UserUpdateRequestDto) => {
+    const res = await apiClient.patch<UserResponseDto>(`/users/${id}`, data);
+    return res.data;
+  },
+  deleteUser: async (id: number) => {
+    const res = await apiClient.delete<void>(`/users/${id}`);
+    return res.data;
+  },
+
+  // Departements
+  getDepartements: async () => {
+    const res = await apiClient.get<DepartementResponseDto[]>('/departements');
+    return res.data;
+  },
+  getDepartementById: async (id: number) => {
+    const res = await apiClient.get<DepartementResponseDto>(`/departements/${id}`);
+    return res.data;
+  },
+  createDepartement: async (data: DepartementRequestDto) => {
+    const res = await apiClient.post<DepartementResponseDto>('/departements', data);
+    return res.data;
+  },
+  updateDepartement: async (id: number, data: DepartementRequestDto) => {
+    const res = await apiClient.patch<DepartementResponseDto>(`/departements/${id}`, data);
+    return res.data;
+  },
+  deleteDepartement: async (id: number) => {
+    const res = await apiClient.delete<void>(`/departements/${id}`);
+    return res.data;
+  },
+
+  // Positions
+  getPositions: async () => {
+    const res = await apiClient.get<PositionResponseDto[]>('/positions');
+    return res.data;
+  },
+  getPositionById: async (id: number) => {
+    const res = await apiClient.get<PositionResponseDto>(`/positions/${id}`);
+    return res.data;
+  },
+  createPosition: async (data: PositionRequestDto) => {
+    const res = await apiClient.post<PositionResponseDto>('/positions', data);
+    return res.data;
+  },
+  updatePosition: async (id: number, data: PositionRequestDto) => {
+    const res = await apiClient.patch<PositionResponseDto>(`/positions/${id}`, data);
+    return res.data;
+  },
+  deletePosition: async (id: number) => {
+    const res = await apiClient.delete<void>(`/positions/${id}`);
+    return res.data;
+  },
+
+  // Roles
+  getRoles: async () => {
+    const res = await apiClient.get<RoleResponseDto[]>('/roles');
+    return res.data;
+  },
+
+  // Leaves
+  getLeaves: async () => {
+    const res = await apiClient.get<LeaveResponseDto[]>('/leaves');
+    return res.data;
+  },
+
+  // Predictions
+  getPredictions: async () => {
+    const res = await apiClient.get<PredictionResponseDto[]>('/predictions');
+    return res.data;
+  },
+
+  // Contrats
+  getContrats: async () => {
+    const res = await apiClient.get<ContratResponseDto[]>('/contrats');
+    return res.data;
+  },
+
+  // Presences
+  getPresences: async () => {
+    const res = await apiClient.get<PresenceResponseDto[]>('/presences');
+    return res.data;
+  },
+
+  // Evaluations
+  getEvaluations: async () => {
+    const res = await apiClient.get<EvaluationResponseDto[]>('/evaluations');
+    return res.data;
+  },
+};
+=== src/services/authService.ts ===
+import { api } from './api';
+import type { AuthResponseDto } from '../types/api';
+
+export const authService = {
+  async login(credentials: { email: string; password: string }): Promise<AuthResponseDto> {
+    try {
+      const response = await api.login(credentials);
+
+      if (
+        response.status === 200 &&
+        response.data &&
+        typeof response.data.token === 'string' &&
+        response.data.token.trim() &&
+        typeof response.data.email === 'string' &&
+        response.data.email.trim() &&
+        typeof response.data.role === 'string' &&
+        response.data.role.trim()
+      ) {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('email', response.data.email);
+        localStorage.setItem('role', response.data.role);
+        return response.data;
+      } else {
+        authService.logout();
+        throw new Error('Login failed: Invalid server response.');
+      }
+    } catch (err: any) {
+      authService.logout();
+      const message = err.response?.data?.message || err.message || 'Invalid credentials';
+      throw new Error(message);
+    }
+  },
+
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('email');
+    localStorage.removeItem('role');
+  },
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  },
+
+  getRole(): string | null {
+    return localStorage.getItem('role');
+  },
+
+  isAuthenticated(): boolean {
+    const token = authService.getToken();
+    if (!token) return false;
+
+    try {
+      const payload = token.split('.')[1];
+      if (!payload) return false;
+      const normalizedPayload = payload.replace(/-/g, '+').replace(/_/g, '/');
+      const paddedPayload = normalizedPayload.padEnd(Math.ceil(normalizedPayload.length / 4) * 4, '=');
+      const claims = JSON.parse(atob(paddedPayload));
+      return typeof claims.exp === 'number' && claims.exp * 1000 > Date.now();
+    } catch {
+      return false;
+    }
+  },
+};
+=== src/contexts/RefreshContext.tsx ===
+// src/contexts/RefreshContext.tsx
+import React, { createContext, useContext, useState } from 'react';
+
+interface RefreshContextType {
+  refreshKey: number;
+  triggerRefresh: () => void;
+}
+
+const RefreshContext = createContext<RefreshContextType | undefined>(undefined);
+
+export const RefreshProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const triggerRefresh = () => {
+    setRefreshKey(prev => prev + 1);
+  };
+
+  return (
+    <RefreshContext.Provider value={{ refreshKey, triggerRefresh }}>
+      {children}
+    </RefreshContext.Provider>
+  );
+};
+
+export const useRefresh = (): RefreshContextType => {
+  const context = useContext(RefreshContext);
+  if (!context) {
+    throw new Error('useRefresh must be used inside RefreshProvider');
+  }
+  return context;
+};=== src/common/Layout/Sidebar.tsx ===
+// src/components/common/Layout/Sidebar.tsx
+import React from 'react';
+
+interface NavItem {
+  label: string;
+  path: string;
+  icon: React.ReactNode;
+}
+
+interface SidebarProps {
+  navItems: NavItem[];
+  currentPath: string;
+  onNavigate: (path: string) => void;
+  role: string;
+}
+
+export const Sidebar: React.FC<SidebarProps> = ({
+  navItems,
+  currentPath,
+  onNavigate,
+  role,
+}) => {
+  return (
+    <aside style={{
+      width: '250px',
+      backgroundColor: 'white',
+      borderRight: '1px solid #e5e7eb',
+      display: 'flex',
+      flexDirection: 'column',
+    }}>
+      <div style={{ padding: '16px 24px', borderBottom: '1px solid #e5e7eb' }}>
+        <h2 style={{ color: '#2563eb' }}>PulseHR</h2>
+        <span style={{ fontSize: '12px', color: '#6b7280' }}>{role}</span>
+      </div>
+      <nav style={{ flex: 1, padding: '16px' }}>
+        {navItems.map((item) => (
+          <button
+            key={item.path}
+            onClick={() => onNavigate(item.path)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              width: '100%',
+              padding: '10px 16px',
+              borderRadius: '8px',
+              border: 'none',
+              backgroundColor: currentPath === item.path ? '#dbeafe' : 'transparent',
+              color: currentPath === item.path ? '#2563eb' : '#4b5563',
+              cursor: 'pointer',
+              marginBottom: '4px',
+              fontWeight: currentPath === item.path ? '600' : '400',
+            }}
+          >
+            {item.icon}
+            <span>{item.label}</span>
+          </button>
+        ))}
+      </nav>
+    </aside>
+  );
+};=== src/common/Layout/Topbar.tsx ===
+// src/common/Layout/Topbar.tsx
+import React from 'react';
+
+interface TopbarProps {
+  title: string;
+  role: string;
+  onNavigate: (path: string) => void;
+}
+
+export const Topbar: React.FC<TopbarProps> = ({ title, role, onNavigate }) => {
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('email');
+    localStorage.removeItem('role');
+    onNavigate('/login');
+  };
+
+  return (
+    <header style={{
+      height: '65px',
+      backgroundColor: 'white',
+      borderBottom: '1px solid #e5e7eb',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '0 24px',
+      flexShrink: 0,
+    }}>
+      <div>
+        <h1 style={{ fontSize: '18px', fontWeight: '600', color: '#0a0a0a' }}>
+          {title}
+        </h1>
+        <span style={{ fontSize: '12px', color: '#6b7280' }}>{role}</span>
+      </div>
+      
+      <button
+        onClick={handleLogout}
+        style={{
+          padding: '8px 16px',
+          backgroundColor: '#f3f4f6',
+          border: 'none',
+          borderRadius: '8px',
+          cursor: 'pointer',
+          fontSize: '14px',
+          color: '#4b5563',
+        }}
+      >
+        Logout
+      </button>
+    </header>
+  );
+};=== src/common/Layout/MainLayout.tsx ===
+// src/common/Layout/MainLayout.tsx
+import React from 'react';
+import {Sidebar } from './Sidebar';
+import {Topbar }from './Topbar';
+
+interface NavItem {
+  label: string;
+  path: string;
+  icon: React.ReactNode;
+}
+
+interface MainLayoutProps {
+  currentPath: string;
+  onNavigate: (path: string) => void;
+  children: React.ReactNode;
+  navItems: NavItem[];
+  title: string;
+  role: string;
+}
+
+export const MainLayout: React.FC<MainLayoutProps> = ({
+  currentPath,
+  onNavigate,
+  children,
+  navItems,
+  title,
+  role,
+}) => {
+  return (
+    <div className="main-layout" style={{ display: 'flex', height: '100vh' }}>
+      <Sidebar
+        navItems={navItems}
+        currentPath={currentPath}
+        onNavigate={onNavigate}
+        role={role}
+      />
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+        <Topbar title={title} role={role} onNavigate={onNavigate} />
+        <main style={{
+          flex: 1,
+          padding: '24px',
+          overflowY: 'auto',
+          backgroundColor: '#f5f7fa',
+        }}>
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+};=== src/App.tsx ===
+import { useState, useEffect } from 'react';
+import { LandingPage } from './pages/LandingPage';
+import { LoginPage } from './pages/LoginPage';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { AdminLayout } from './components/admin/AdminLayout';
+import { AdminDashboard } from './pages/admin/AdminDashboard';
+import { UsersPage } from './pages/admin/UsersPage';
+import { RolesPage } from './pages/admin/RolesPage';
+import { DepartementsPage } from './pages/admin/DepartementsPage';
+import { PositionsPage } from './pages/admin/PositionsPage';
+import { PredictionsPage } from './pages/admin/PredictionsPage';
+import { AdminResourcePage } from './components/admin/AdminResourcePage';
+
+export function App() {
+  const [currentPath, setCurrentPath] = useState<string>(
+    window.location.pathname
+  );
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigate = (path: string) => {
+    window.history.pushState({}, '', path);
+    setCurrentPath(path);
+  };
+
+  // Route matching
+  if (currentPath === '/login') {
+    return <LoginPage onNavigate={navigate} />;
+  }
+
+  if (currentPath.startsWith('/admin')) {
+    return (
+      <ProtectedRoute requiredRole="ADMIN" onNavigate={navigate}>
+        <AdminLayout currentPath={currentPath} onNavigate={navigate}>
+          {currentPath === '/admin/users' && <UsersPage />}
+          {currentPath === '/admin/roles' && <RolesPage />}
+          {currentPath === '/admin/departments' && <DepartementsPage />}
+          {currentPath === '/admin/positions' && <PositionsPage />}
+          {currentPath === '/admin/contracts' && (
+            <AdminResourcePage resource="contracts" title="Contracts" subtitle="Consult workforce contract records and current statuses." />
+          )}
+          {currentPath === '/admin/leaves' && (
+            <AdminResourcePage resource="leaves" title="Leaves" subtitle="Consult leave requests and approved absence periods." />
+          )}
+          {currentPath === '/admin/presences' && (
+            <AdminResourcePage resource="presences" title="Présences" subtitle="Consult attendance and presence records across the workforce." />
+          )}
+          {currentPath === '/admin/evaluations' && (
+            <AdminResourcePage resource="evaluations" title="Évaluations" subtitle="Consult performance, competency, and behavior evaluations." />
+          )}
+          {currentPath === '/admin/predictions' && <PredictionsPage />}
+          {(currentPath === '/admin/dashboard' || currentPath === '/admin') && (
+            <AdminDashboard onNavigate={navigate} />
+          )}
+        </AdminLayout>
+      </ProtectedRoute>
+    );
+  }
+
+  return <LandingPage onNavigate={navigate} />;
+}
+
+export default App;

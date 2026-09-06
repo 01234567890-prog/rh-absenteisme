@@ -1,7 +1,7 @@
 package com.araiedh.rh_absenteisme.entity;
 
 public enum LeaveType {
-    ANUAL ,
+    ANNUAL ,
     SICK ,
     MATERNATY ,
     PTAERNEITY ,

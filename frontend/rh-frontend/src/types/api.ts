@@ -6,7 +6,7 @@ export type ContratType = 'CDI' | 'CDD' | 'INTERIM' | 'STAGE' | 'ALTERNANCE';
 
 export type ContratStatus = 'ACTIVE' | 'EXPIRED' | 'TERMINATED' | 'SUSPENDED';
 
-export type LeaveType = 'ANUAL' | 'SICK' | 'MATERNATY' | 'PTAERNEITY' | 'UNPAID' | 'SPECIAL';
+export type LeaveType = 'ANNUAL' | 'SICK' | 'MATERNITY' | 'PATERNEITY' | 'UNPAID' | 'SPECIAL';
 
 export type LeaveStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED';
 
@@ -36,7 +36,7 @@ export interface UserResponseDto {
   departementId?: number;
   roleId?: number;
   positionId?: number;
-  mangerId?: number;
+  managerId?: number;
 }
 
 export interface UserRequestDto {

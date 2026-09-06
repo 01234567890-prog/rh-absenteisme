@@ -14,19 +14,25 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
   const [errorMsg, setErrorMsg] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setErrorMsg('');
+  e.preventDefault();
+  setLoading(true);
+  setErrorMsg('');
 
-    try {
-      const authenticatedUser = await authService.login({ email, password });
-      onNavigate(authenticatedUser.role === 'ADMIN' ? '/admin/dashboard' : '/');
-    } catch (err: any) {
-      setErrorMsg(err.message || 'Login failed. Please check your credentials.');
-    } finally {
-      setLoading(false);
+  try {
+    const authenticatedUser = await authService.login({ email, password });
+    if (authenticatedUser.role === 'ADMIN') {
+      onNavigate('/admin/dashboard');
+    } else if (authenticatedUser.role === 'RH_MANAGER') {
+      onNavigate('/rh/dashboard');
+    } else {
+      onNavigate('/');
     }
-  };
+  } catch (err: any) {
+    setErrorMsg(err.message || 'Login failed. Please check your credentials.');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="login-container">

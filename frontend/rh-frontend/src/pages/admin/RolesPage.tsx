@@ -134,7 +134,7 @@ export const RolesPage: React.FC = () => {
         departementId: selectedUser.departementId,
         roleId: selectedRoleId,
         positionId: selectedUser.positionId,
-        managerId: selectedUser.mangerId,
+        managerId: selectedUser.managerId,
       });
       setSuccessMessage(`Role updated for ${userLabel(selectedUser)}.`);
       await loadData();

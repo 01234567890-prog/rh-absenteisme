@@ -49,7 +49,7 @@ export const toUserFormValues = (user?: UserResponseDto): UserFormValues => ({
   departementId: user?.departementId,
   roleId: user?.roleId,
   positionId: user?.positionId,
-  managerId: user?.mangerId,
+  managerId: user?.managerId,
 });
 
 export const createDefaultUserFormValues = (

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { ProtectedRoute } from './components/ProtectedRoute';
+
 import { AdminLayout } from './components/admin/AdminLayout';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { UsersPage } from './pages/admin/UsersPage';
@@ -10,6 +11,9 @@ import { DepartementsPage } from './pages/admin/DepartementsPage';
 import { PositionsPage } from './pages/admin/PositionsPage';
 import { PredictionsPage } from './pages/admin/PredictionsPage';
 import { AdminResourcePage } from './components/admin/AdminResourcePage';
+
+import { RhLayout } from './components/rh/RhLayout';
+import { RhDashboard } from './pages/rh/RhDashboard';
 
 export function App() {
   const [currentPath, setCurrentPath] = useState<string>(
@@ -20,7 +24,9 @@ export function App() {
     const handlePopState = () => {
       setCurrentPath(window.location.pathname);
     };
+
     window.addEventListener('popstate', handlePopState);
+
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
@@ -29,40 +35,90 @@ export function App() {
     setCurrentPath(path);
   };
 
-  // Route matching
+  // Login
   if (currentPath === '/login') {
     return <LoginPage onNavigate={navigate} />;
   }
 
+  // Admin routes
   if (currentPath.startsWith('/admin')) {
     return (
       <ProtectedRoute requiredRole="ADMIN" onNavigate={navigate}>
         <AdminLayout currentPath={currentPath} onNavigate={navigate}>
+          
           {currentPath === '/admin/users' && <UsersPage />}
+
           {currentPath === '/admin/roles' && <RolesPage />}
+
           {currentPath === '/admin/departments' && <DepartementsPage />}
+
           {currentPath === '/admin/positions' && <PositionsPage />}
+
           {currentPath === '/admin/contracts' && (
-            <AdminResourcePage resource="contracts" title="Contracts" subtitle="Consult workforce contract records and current statuses." />
+            <AdminResourcePage
+              resource="contracts"
+              title="Contracts"
+              subtitle="Consult workforce contract records and current statuses."
+            />
           )}
+
           {currentPath === '/admin/leaves' && (
-            <AdminResourcePage resource="leaves" title="Leaves" subtitle="Consult leave requests and approved absence periods." />
+            <AdminResourcePage
+              resource="leaves"
+              title="Leaves"
+              subtitle="Consult leave requests and approved absence periods."
+            />
           )}
+
           {currentPath === '/admin/presences' && (
-            <AdminResourcePage resource="presences" title="Présences" subtitle="Consult attendance and presence records across the workforce." />
+            <AdminResourcePage
+              resource="presences"
+              title="Présences"
+              subtitle="Consult attendance and presence records across the workforce."
+            />
           )}
+
           {currentPath === '/admin/evaluations' && (
-            <AdminResourcePage resource="evaluations" title="Évaluations" subtitle="Consult performance, competency, and behavior evaluations." />
+            <AdminResourcePage
+              resource="evaluations"
+              title="Évaluations"
+              subtitle="Consult performance, competency, and behavior evaluations."
+            />
           )}
+
           {currentPath === '/admin/predictions' && <PredictionsPage />}
-          {(currentPath === '/admin/dashboard' || currentPath === '/admin') && (
+
+          {(currentPath === '/admin/dashboard' ||
+            currentPath === '/admin') && (
             <AdminDashboard onNavigate={navigate} />
           )}
+
         </AdminLayout>
       </ProtectedRoute>
     );
   }
 
+  // RH Manager routes
+  if (currentPath.startsWith('/rh')) {
+    return (
+      <ProtectedRoute
+        requiredRole="RH_MANAGER"
+        onNavigate={navigate}
+      >
+        <RhLayout
+          currentPath={currentPath}
+          onNavigate={navigate}
+        >
+          {(currentPath === '/rh/dashboard' ||
+            currentPath === '/rh') && (
+            <RhDashboard />
+          )}
+        </RhLayout>
+      </ProtectedRoute>
+    );
+  }
+
+  // Default route
   return <LandingPage onNavigate={navigate} />;
 }
 
