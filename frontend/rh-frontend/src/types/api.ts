@@ -50,12 +50,13 @@ export interface UserRequestDto {
   departementId?: number;
   roleId?: number;
   positionId?: number;
+  managerId?: number;
 }
 
 export interface UserUpdateRequestDto {
   firstName?: string;
   lastName?: string;
-  phoneNumber?: string;
+  phoneNumber?: string | null ;
   status?: UserStatus;
   departementId?: number;
   roleId?: number;
@@ -106,6 +107,9 @@ export interface LeaveResponseDto {
   reason?: string;
   userId: number;
 }
+export interface LeaveUpdateRequestDto {
+  status: LeaveStatus;
+}
 
 export interface PredictionResponseDto {
   id: number;
@@ -118,6 +122,16 @@ export interface PredictionResponseDto {
 
 export interface ContratResponseDto {
   id: number;
+  type: ContratType;
+  baseSalary: number;
+  signatureDate: string;
+  startDate: string;
+  endDate: string;
+  status: ContratStatus;
+  userId: number;
+}
+
+export interface ContratRequestDto {
   type: ContratType;
   baseSalary: number;
   signatureDate: string;

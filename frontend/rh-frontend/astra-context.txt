@@ -1,4 +1,101 @@
+========================================
+RH ABSENTEISME - FRONTEND CONTEXT
+========================================
+
+=== PROJECT STRUCTURE ===
+src/api/client.ts
+src/App.css
+src/App.tsx
+src/common/Layout/MainLayout.tsx
+src/common/Layout/Sidebar.tsx
+src/common/Layout/Topbar.tsx
+src/components/admin/AbsenteeismPredictionPanel.css
+src/components/admin/AbsenteeismPredictionPanel.tsx
+src/components/admin/AdminLayout.css
+src/components/admin/AdminLayout.tsx
+src/components/admin/AdminRefreshContext.tsx
+src/components/admin/AdminResourcePage.css
+src/components/admin/AdminResourcePage.tsx
+src/components/Logo.tsx
+src/components/ProtectedRoute.tsx
+src/components/rh/RhLayout.tsx
+src/components/ui/PageHeader.tsx
+src/components/ui/StatCard.tsx
+src/contexts/RefreshContext.tsx
+src/index.css
+src/main.tsx
+src/pages/admin/AdminDashboard.css
+src/pages/admin/AdminDashboard.tsx
+src/pages/admin/components/AttendanceOverview.tsx
+src/pages/admin/components/DashboardStats.tsx
+src/pages/admin/components/DirectorySnapshot.tsx
+src/pages/admin/components/EvaluationScoreCard.tsx
+src/pages/admin/components/UserFormDialog.tsx
+src/pages/admin/components/WorkforceActions.tsx
+src/pages/admin/dashboardMetrics.ts
+src/pages/admin/DepartementsPage.css
+src/pages/admin/DepartementsPage.tsx
+src/pages/admin/PositionsPage.css
+src/pages/admin/PositionsPage.tsx
+src/pages/admin/PredictionsPage.css
+src/pages/admin/PredictionsPage.tsx
+src/pages/admin/RolesPage.css
+src/pages/admin/RolesPage.tsx
+src/pages/admin/UsersPage.css
+src/pages/admin/UsersPage.tsx
+src/pages/LandingPage.tsx
+src/pages/LoginPage.css
+src/pages/LoginPage.tsx
+src/pages/rh/EmployeesPage.css
+src/pages/rh/EmployeesPage.tsx
+src/pages/rh/RhDashboard.css
+src/pages/rh/RhDashboard.tsx
+src/pages/rh/RhMetrics.ts
+src/services/api.ts
+src/services/authService.ts
+src/types/api.ts
+
+=== PACKAGE.JSON ===
+{
+  "name": "rh-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^9.4.0",
+    "axios": "^1.20.0",
+    "lucide-react": "^1.41.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.7",
+    "@rolldown/plugin-babel": "^0.2.3",
+    "@types/babel__core": "^7.20.5",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.4",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "oxlint": "^1.75.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.2.0"
+  }
+}
+
+=== SOURCE CODE ===
+
+========================================
 === src/App.css ===
+========================================
 .counter {
   font-size: 16px;
   padding: 5px 10px;
@@ -183,7 +280,10 @@
     border-right-color: var(--border);
   }
 }
+
+========================================
 === src/index.css ===
+========================================
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
@@ -231,7 +331,10 @@ input {
   font-family: inherit;
   outline: none;
 }
+
+========================================
 === src/main.tsx ===
+========================================
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
@@ -242,7 +345,10 @@ createRoot(document.getElementById('root')!).render(
     <App />
   </StrictMode>,
 )
+
+========================================
 === src/components/Logo.tsx ===
+========================================
 import React from 'react';
 
 interface LogoProps {
@@ -305,7 +411,10 @@ export const Logo: React.FC<LogoProps> = ({
     </div>
   );
 };
+
+========================================
 === src/components/admin/AdminLayout.css ===
+========================================
 .admin-container {
   display: flex;
   height: 100vh;
@@ -543,7 +652,10 @@ export const Logo: React.FC<LogoProps> = ({
   .logout-btn { padding: 7px 10px; }
   .admin-content { padding: 20px 14px; }
 }
+
+========================================
 === src/components/admin/AbsenteeismPredictionPanel.tsx ===
+========================================
 import React from 'react';
 import { Box, Button, Card, CardContent, Chip, LinearProgress, Skeleton, Typography } from '@mui/material';
 import { ArrowUpRight, Brain, CalendarDays } from 'lucide-react';
@@ -673,7 +785,10 @@ export const AbsenteeismPredictionPanel: React.FC<AbsenteeismPredictionPanelProp
       </CardContent>
     </Card>
   );
-};=== src/components/admin/AdminResourcePage.tsx ===
+};
+========================================
+=== src/components/admin/AdminResourcePage.tsx ===
+========================================
 import React, { useCallback, useEffect, useState } from 'react';
 import { RefreshCw } from 'lucide-react';
 import { api } from '../../services/api';
@@ -856,7 +971,10 @@ export const AdminResourcePage: React.FC<AdminResourcePageProps> = ({ resource, 
     </section>
   );
 };
+
+========================================
 === src/components/admin/AdminResourcePage.css ===
+========================================
 .resource-page { display: flex; flex-direction: column; gap: 20px; }
 .resource-page-header { align-items: flex-end; display: flex; justify-content: space-between; gap: 20px; }
 .resource-page-header h1 { color: #172033; font-size: 28px; letter-spacing: -0.03em; margin-top: 5px; }
@@ -877,7 +995,10 @@ export const AdminResourcePage: React.FC<AdminResourcePageProps> = ({ resource, 
 .resource-status { background: #eef2ff; border-radius: 5px; color: #4f6bfe; font-size: 10px; font-weight: 800; padding: 5px 8px; }
 .resource-state { color: #8994a6 !important; padding: 36px !important; text-align: center; }
 @media (max-width: 560px) { .resource-page-header { align-items: flex-start; flex-direction: column; } .resource-refresh { width: 100%; } .resource-card { padding: 14px; } }
+
+========================================
 === src/components/admin/AbsenteeismPredictionPanel.css ===
+========================================
 .prediction-panel { border-left: 3px solid #4f6bfe !important; }
 .prediction-panel .MuiCardContent-root { padding: 20px !important; }
 .prediction-heading { align-items: flex-start; display: flex; gap: 16px; justify-content: space-between; }
@@ -914,7 +1035,10 @@ export const AdminResourcePage: React.FC<AdminResourcePageProps> = ({ resource, 
 .prediction-error .MuiButton-root { color: #b42318; font-size: 11px; text-transform: none; }
 .prediction-footnote { color: #8994a6; font-size: 11px; margin-top: 12px; }
 @media (max-width: 680px) { .prediction-summary { grid-template-columns: 1fr; } .prediction-list-header { display: none; } .prediction-row { align-items: start; grid-template-columns: minmax(0, 1fr) auto; row-gap: 8px; } .prediction-employee { grid-column: 1 / -1; } .prediction-date { justify-self: end; } .prediction-actions { align-items: flex-end; flex-direction: column; } }
+
+========================================
 === src/components/admin/AdminRefreshContext.tsx ===
+========================================
 import { createContext, useContext } from 'react';
 
 export interface AdminRefreshContextValue {
@@ -932,7 +1056,10 @@ export const useAdminRefresh = () => {
   }
   return context;
 };
+
+========================================
 === src/components/admin/AdminLayout.tsx ===
+========================================
 import React, { useCallback, useMemo, useState } from 'react';
 import { Button, Tooltip } from '@mui/material';
 import {
@@ -1083,7 +1210,10 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
     </div>
   );
 };
+
+========================================
 === src/components/ui/PageHeader.tsx ===
+========================================
 // src/components/ui/PageHeader.tsx
 import React from 'react';
 
@@ -1105,7 +1235,10 @@ export const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle }) => {
       )}
     </div>
   );
-};=== src/components/ui/StatCard.tsx ===
+};
+========================================
+=== src/components/ui/StatCard.tsx ===
+========================================
 // src/components/ui/StatCard.tsx
 import React from 'react';
 
@@ -1132,7 +1265,10 @@ export const StatCard: React.FC<StatCardProps> = ({ label, value }) => {
       </p>
     </div>
   );
-};=== src/components/ProtectedRoute.tsx ===
+};
+========================================
+=== src/components/ProtectedRoute.tsx ===
+========================================
 import React, { useEffect } from 'react';
 import { authService } from '../services/authService';
 
@@ -1164,7 +1300,150 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   return <>{children}</>;
 };
+
+========================================
+=== src/components/rh/RhLayout.tsx ===
+========================================
+import React, { useCallback, useMemo, useState } from 'react';
+import { Button, Tooltip } from '@mui/material';
+import {
+  Bell,
+  CalendarOff,
+  FileText,
+  LayoutDashboard,
+  LogOut,
+  Moon,
+  RefreshCw,
+  Search,
+  TrendingUp,
+  Users,
+} from 'lucide-react';
+import { Logo } from '../Logo';
+import { authService } from '../../services/authService';
+import { AdminRefreshContext } from '../admin/AdminRefreshContext';
+import '../admin/AdminLayout.css';
+
+interface RhLayoutProps {
+  currentPath: string;
+  onNavigate: (path: string) => void;
+  children: React.ReactNode;
+}
+
+export const RhLayout: React.FC<RhLayoutProps> = ({ currentPath, onNavigate, children }) => {
+  const [refreshState, setRefreshState] = useState<{ refresh: () => void; loading: boolean } | null>(null);
+
+  const registerRefresh = useCallback((refresh: () => void, loading: boolean) => {
+    setRefreshState({ refresh, loading });
+    return () => setRefreshState((current) => (current?.refresh === refresh ? null : current));
+  }, []);
+
+  const refreshContextValue = useMemo(
+    () => ({
+      loading: refreshState?.loading ?? false,
+      refresh: refreshState?.refresh ?? (() => undefined),
+      register: registerRefresh,
+    }),
+    [refreshState, registerRefresh]
+  );
+
+  const handleLogout = () => {
+    authService.logout();
+    onNavigate('/login');
+  };
+
+  const navItems = [
+    { label: 'Dashboard', path: '/rh/dashboard', icon: <LayoutDashboard size={18} /> },
+    { label: 'Employees', path: '/rh/employees', icon: <Users size={18} /> },
+    { label: 'Contracts', path: '/rh/contracts', icon: <FileText size={18} /> },
+    { label: 'Leaves', path: '/rh/leaves', icon: <CalendarOff size={18} /> },
+    { label: 'Predictions', path: '/rh/predictions', icon: <TrendingUp size={18} /> },
+  ];
+
+  const userEmail = localStorage.getItem('email') || 'Authenticated user';
+  const initial = userEmail.charAt(0).toUpperCase();
+
+  return (
+    <div className="admin-container">
+      <aside className="admin-sidebar">
+        <div className="sidebar-logo">
+          <Logo onClick={() => onNavigate('/rh/dashboard')} />
+        </div>
+        <nav className="sidebar-nav">
+          {navItems.map((item) => {
+            const isActive = currentPath === item.path;
+            return (
+              <div
+                key={item.path}
+                className={`sidebar-link ${isActive ? 'active' : ''}`}
+                onClick={() => onNavigate(item.path)}
+              >
+                {item.icon}
+                <span>{item.label}</span>
+              </div>
+            );
+          })}
+        </nav>
+      </aside>
+
+      <div className="admin-main-wrapper">
+        <header className="admin-header">
+          <div className="header-search">
+            <Search size={18} style={{ color: '#94A3B8' }} />
+            <input type="text" placeholder="Rechercher un employé" />
+          </div>
+
+          <div className="header-right">
+            <div className="header-date-badge">
+              {new Date().toLocaleString('en-GB', { weekday: 'short', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+            </div>
+
+            <Tooltip title="Toggle theme">
+              <button className="icon-btn" aria-label="Toggle theme">
+                <Moon size={18} />
+              </button>
+            </Tooltip>
+
+            <Tooltip title="Notifications">
+              <button className="icon-btn" aria-label="Notifications">
+                <span className="notification-dot" />
+                <Bell size={18} />
+              </button>
+            </Tooltip>
+
+            <Button
+              className="navbar-refresh-btn"
+              variant="outlined"
+              size="small"
+              startIcon={<RefreshCw size={15} />}
+              onClick={refreshContextValue.refresh}
+              disabled={!refreshState || refreshContextValue.loading}
+            >
+              {refreshContextValue.loading ? 'Actualisation...' : 'Actualiser'}
+            </Button>
+
+            <div className="user-avatar" title={userEmail}>
+              {initial}
+            </div>
+
+            <Tooltip title="Sign out">
+              <button className="logout-btn" onClick={handleLogout} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <LogOut size={16} />
+                Logout
+              </button>
+            </Tooltip>
+          </div>
+        </header>
+
+        <AdminRefreshContext.Provider value={refreshContextValue}>
+          <main className="admin-content">{children}</main>
+        </AdminRefreshContext.Provider>
+      </div>
+    </div>
+  );
+};
+========================================
 === src/pages/LandingPage.tsx ===
+========================================
 import React from 'react';
 import { Logo } from '../components/Logo';
 
@@ -1312,7 +1591,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
     </div>
   );
 };
+
+========================================
 === src/pages/LoginPage.tsx ===
+========================================
 import React, { useState } from 'react';
 import { Logo } from '../components/Logo';
 import { authService } from '../services/authService';
@@ -1329,19 +1611,25 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
   const [errorMsg, setErrorMsg] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setErrorMsg('');
+  e.preventDefault();
+  setLoading(true);
+  setErrorMsg('');
 
-    try {
-      const authenticatedUser = await authService.login({ email, password });
-      onNavigate(authenticatedUser.role === 'ADMIN' ? '/admin/dashboard' : '/');
-    } catch (err: any) {
-      setErrorMsg(err.message || 'Login failed. Please check your credentials.');
-    } finally {
-      setLoading(false);
+  try {
+    const authenticatedUser = await authService.login({ email, password });
+    if (authenticatedUser.role === 'ADMIN') {
+      onNavigate('/admin/dashboard');
+    } else if (authenticatedUser.role === 'RH_MANAGER') {
+      onNavigate('/rh/dashboard');
+    } else {
+      onNavigate('/');
     }
-  };
+  } catch (err: any) {
+    setErrorMsg(err.message || 'Login failed. Please check your credentials.');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="login-container">
@@ -1417,7 +1705,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
     </div>
   );
 };
+
+========================================
 === src/pages/admin/UsersPage.css ===
+========================================
 .page-container {
   display: flex;
   flex-direction: column;
@@ -1839,7 +2130,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+========================================
 === src/pages/admin/DepartementsPage.css ===
+========================================
 .page-container {
   display: flex;
   flex-direction: column;
@@ -2101,7 +2395,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
   font-weight: 600;
   cursor: pointer;
 }
+
+========================================
 === src/pages/admin/DepartementsPage.tsx ===
+========================================
 import React, { useEffect, useState } from 'react';
 import { Tooltip } from '@mui/material';
 import { Pencil, Plus, Trash2, X } from 'lucide-react';
@@ -2361,7 +2658,10 @@ export const DepartementsPage: React.FC = () => {
     </div>
   );
 };
+
+========================================
 === src/pages/admin/PositionsPage.css ===
+========================================
 .page-container {
   display: flex;
   flex-direction: column;
@@ -2602,7 +2902,10 @@ export const DepartementsPage: React.FC = () => {
   font-weight: 600;
   cursor: pointer;
 }
+
+========================================
 === src/pages/admin/PositionsPage.tsx ===
+========================================
 import React, { useEffect, useState } from 'react';
 import { Tooltip } from '@mui/material';
 import { Pencil, Plus, Trash2, X } from 'lucide-react';
@@ -2858,7 +3161,10 @@ export const PositionsPage: React.FC = () => {
     </div>
   );
 };
+
+========================================
 === src/pages/admin/PredictionsPage.tsx ===
+========================================
 import React, { useCallback, useEffect, useState } from 'react';
 import { RefreshCw } from 'lucide-react';
 import { AbsenteeismPredictionPanel } from '../../components/admin/AbsenteeismPredictionPanel';
@@ -2918,7 +3224,10 @@ export const PredictionsPage: React.FC = () => {
     </div>
   );
 };
+
+========================================
 === src/pages/admin/PredictionsPage.css ===
+========================================
 .predictions-page { display: flex; flex-direction: column; gap: 20px; }
 .predictions-page-header { align-items: flex-end; display: flex; justify-content: space-between; gap: 20px; }
 .predictions-page-header h1 { color: #172033; font-size: 28px; letter-spacing: -.03em; margin-top: 5px; }
@@ -2926,7 +3235,10 @@ export const PredictionsPage: React.FC = () => {
 .predictions-page-header button { background: #172033; border-radius: 8px; color: #fff; font-size: 12px; font-weight: 700; min-height: 38px; padding: 0 16px; }
 .predictions-page-header button:disabled { cursor: wait; opacity: .6; }
 @media (max-width: 560px) { .predictions-page-header { align-items: flex-start; flex-direction: column; } .predictions-page-header button { width: 100%; } }
+
+========================================
 === src/pages/admin/dashboardMetrics.ts ===
+========================================
 import type {
   ContratResponseDto,
   EvaluationResponseDto,
@@ -2982,7 +3294,10 @@ export const calculateDashboardMetrics = (
     lowRiskPredictions: predictions.filter((prediction) => prediction.level === 'LOW').length,
   };
 };
+
+========================================
 === src/pages/admin/components/DashboardStats.tsx ===
+========================================
 import React from 'react';
 import { Box, Card, CardContent, Grid, Skeleton, Typography } from '@mui/material';
 import { Building2, Users, UserRound } from 'lucide-react';
@@ -3022,7 +3337,10 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({ loading, totalEm
     </Grid>
   </Grid>
 );
+
+========================================
 === src/pages/admin/components/AttendanceOverview.tsx ===
+========================================
 import React from 'react';
 import { Box, Card, CardContent, Chip, Divider, LinearProgress, Typography } from '@mui/material';
 import { CalendarCheck, UserCheck, UserMinus } from 'lucide-react';
@@ -3068,7 +3386,10 @@ export const AttendanceOverview: React.FC<AttendanceOverviewProps> = ({ loading,
     </Card>
   );
 };
+
+========================================
 === src/pages/admin/components/WorkforceActions.tsx ===
+========================================
 import React from 'react';
 import { Box, Button, Card, CardContent, Chip, Typography } from '@mui/material';
 import { ArrowUpRight, CalendarOff, FileClock } from 'lucide-react';
@@ -3100,7 +3421,10 @@ export const WorkforceActions: React.FC<WorkforceActionsProps> = ({ contractsToR
     <ActionCard title="On leave today" value={leavesToday} note="Approved leave records" icon={<CalendarOff size={19} />} action={() => onNavigate('/admin/leaves')} />
   </Box>
 );
+
+========================================
 === src/pages/admin/components/EvaluationScoreCard.tsx ===
+========================================
 import React from 'react';
 import { Box, Card, CardContent, Chip, LinearProgress, Typography } from '@mui/material';
 import { ClipboardCheck } from 'lucide-react';
@@ -3123,7 +3447,10 @@ export const EvaluationScoreCard: React.FC<EvaluationScoreCardProps> = ({ loadin
     </CardContent>
   </Card>
 );
+
+========================================
 === src/pages/admin/components/DirectorySnapshot.tsx ===
+========================================
 import React from 'react';
 import { Avatar, Box, Card, CardContent, Chip, Typography } from '@mui/material';
 import { Building2, Mail, Users } from 'lucide-react';
@@ -3171,7 +3498,10 @@ export const DirectorySnapshot: React.FC<DirectorySnapshotProps> = ({ users, dep
     </Card>
   </Box>
 );
+
+========================================
 === src/pages/admin/components/UserFormDialog.tsx ===
+========================================
 import React, { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import type {
@@ -3223,7 +3553,7 @@ export const toUserFormValues = (user?: UserResponseDto): UserFormValues => ({
   departementId: user?.departementId,
   roleId: user?.roleId,
   positionId: user?.positionId,
-  managerId: user?.mangerId,
+  managerId: user?.managerId,
 });
 
 export const createDefaultUserFormValues = (
@@ -3534,7 +3864,10 @@ export const toUpdatePayload = (values: UserFormValues): UserUpdateRequestDto =>
   positionId: values.positionId,
   managerId: values.managerId,
 });
+
+========================================
 === src/pages/admin/AdminDashboard.css ===
+========================================
 .dashboard-container { display: flex; flex-direction: column; gap: 16px; padding-bottom: 24px; }
 .dashboard-eyebrow { align-items: center; color: #4f6bfe; display: flex; font-size: 10px !important; font-weight: 800 !important; gap: 5px; letter-spacing: .12em; text-transform: uppercase; }
 .dashboard-title { color: #172033; font-size: clamp(24px, 3vw, 31px) !important; font-weight: 750 !important; letter-spacing: -.03em; line-height: 1.1 !important; margin-top: 5px !important; }
@@ -3592,7 +3925,10 @@ export const toUpdatePayload = (values: UserFormValues): UserUpdateRequestDto =>
 
 @media (max-width: 800px) { .dashboard-kpi-row, .directory-snapshot { flex-direction: column; } .attendance-content { flex-direction: column; } .attendance-divider { display: none; } }
 @media (max-width: 560px) { .attendance-stat-list { flex-wrap: wrap; } .attendance-stat { min-width: 30%; } }
+
+========================================
 === src/pages/admin/UsersPage.tsx ===
+========================================
 import React, { useEffect, useState } from 'react';
 import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Tooltip } from '@mui/material';
 import { Pencil, Trash2 } from 'lucide-react';
@@ -3920,7 +4256,10 @@ export const UsersPage: React.FC = () => {
     </div>
   );
 };
+
+========================================
 === src/pages/admin/RolesPage.tsx ===
+========================================
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, Snackbar } from '@mui/material';
 import { Check, ChevronDown, Shield } from 'lucide-react';
@@ -4057,7 +4396,7 @@ export const RolesPage: React.FC = () => {
         departementId: selectedUser.departementId,
         roleId: selectedRoleId,
         positionId: selectedUser.positionId,
-        managerId: selectedUser.mangerId,
+        managerId: selectedUser.managerId,
       });
       setSuccessMessage(`Role updated for ${userLabel(selectedUser)}.`);
       await loadData();
@@ -4206,7 +4545,10 @@ export const RolesPage: React.FC = () => {
     </div>
   );
 };
+
+========================================
 === src/pages/admin/RolesPage.css ===
+========================================
 .roles-page {
   display: flex;
   flex-direction: column;
@@ -4457,7 +4799,10 @@ export const RolesPage: React.FC = () => {
     font-size: 24px;
   }
 }
+
+========================================
 === src/pages/admin/AdminDashboard.tsx ===
+========================================
 import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, Box, Button } from '@mui/material';
 import { api } from '../../api/client';
@@ -4560,7 +4905,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigate }) =>
     </Box>
   );
 };
+
+========================================
 === src/pages/LoginPage.css ===
+========================================
 .login-container {
   min-height: 100vh;
   display: flex;
@@ -4678,7 +5026,381 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigate }) =>
   font-size: 13px;
   margin-bottom: 20px;
 }
+
+========================================
+=== src/pages/rh/RhDashboard.css ===
+========================================
+.rh-container { display: flex; flex-direction: column; gap: 16px; padding-bottom: 24px; }
+.rh-header-row { align-items: center; display: flex; justify-content: space-between; }
+.rh-eyebrow { color: #4f6bfe; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.rh-title { color: #172033; font-size: clamp(24px, 3vw, 31px); font-weight: 750; letter-spacing: -.03em; line-height: 1.1; margin-top: 5px; }
+.rh-subtitle { color: #7a8698; font-size: 13px; margin-top: 8px; }
+.rh-refresh-btn { align-items: center; background: #172033; border: none; border-radius: 8px; color: #fff; cursor: pointer; display: inline-flex; font-size: 13px; font-weight: 700; gap: 6px; min-height: 38px; padding: 0 16px; }
+.rh-refresh-btn:disabled { cursor: wait; opacity: .6; }
+
+.rh-stats-grid { display: grid; gap: 14px; grid-template-columns: repeat(4, 1fr); }
+.rh-stat-card { background: #fff; border: 1px solid #e8ebf0; border-radius: 11px; box-shadow: 0 6px 20px rgba(31,43,68,.04); padding: 17px 18px; }
+.rh-stat-top { align-items: flex-start; display: flex; justify-content: space-between; }
+.rh-stat-label { color: #8994a6; font-size: 11px; font-weight: 650; }
+.rh-stat-value { color: #172033; font-size: 28px; font-weight: 780; line-height: 1; margin: 13px 0 0; }
+.rh-stat-icon { color: #7b87a0; }
+
+.rh-mid-row { display: grid; gap: 14px; grid-template-columns: 1.3fr 1fr; }
+.rh-card { background: #fff; border: 1px solid #e8ebf0; border-radius: 11px; box-shadow: 0 6px 20px rgba(31,43,68,.04); padding: 18px; }
+.rh-card-eyebrow { color: #4f6bfe; font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.rh-card-title-row { align-items: center; display: flex; justify-content: space-between; margin-top: 4px; }
+.rh-card-title { color: #172033; font-size: 16px; font-weight: 750; }
+
+.rh-leave-summary { display: grid; gap: 10px; grid-template-columns: repeat(3, 1fr); margin-top: 16px; }
+.rh-leave-box { background: #f8f9fc; border-radius: 8px; padding: 14px; }
+.rh-leave-box strong { color: #172033; display: block; font-size: 24px; font-weight: 780; line-height: 1; }
+.rh-leave-box span { color: #8994a6; font-size: 11px; }
+.rh-leave-note { color: #8994a6; font-size: 11px; margin-top: 14px; }
+
+.rh-risk-list { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+.rh-risk-row { align-items: center; display: flex; gap: 10px; justify-content: space-between; }
+.rh-risk-label { align-items: center; display: flex; gap: 8px; font-size: 13px; color: #39465b; }
+.rh-risk-dot { border-radius: 50%; height: 8px; width: 8px; }
+.rh-risk-dot.high { background: #df5b6b; }
+.rh-risk-dot.medium { background: #dda52f; }
+.rh-risk-dot.low { background: #45a86c; }
+.rh-risk-count { color: #172033; font-size: 13px; font-weight: 700; }
+
+.rh-predictions-header { align-items: center; display: flex; justify-content: space-between; }
+.rh-search-input { align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; gap: 8px; padding: 8px 12px; width: 260px; }
+.rh-search-input input { background: transparent; border: none; font-size: 13px; outline: none; width: 100%; }
+.rh-table { border-collapse: collapse; margin-top: 16px; text-align: left; width: 100%; }
+.rh-table th { border-bottom: 1px solid #e8ebf0; color: #8994a6; font-size: 10px; font-weight: 800; letter-spacing: .07em; padding: 10px 8px; text-transform: uppercase; }
+.rh-table td { border-bottom: 1px solid #f0f2f5; color: #39465b; font-size: 13px; padding: 12px 8px; }
+.rh-table tr:last-child td { border-bottom: none; }
+.rh-level-badge { border-radius: 20px; font-size: 10px; font-weight: 800; padding: 3px 10px; }
+.rh-level-badge.HIGH { background: #fff1f3; color: #a9253b; }
+.rh-level-badge.MEDIUM { background: #fff8e7; color: #986c0c; }
+.rh-level-badge.LOW { background: #edf9f1; color: #277847; }
+
+@media (max-width: 900px) { .rh-stats-grid { grid-template-columns: repeat(2, 1fr); } .rh-mid-row { grid-template-columns: 1fr; } .rh-leave-summary { grid-template-columns: 1fr; } }
+========================================
+=== src/pages/rh/RhDashboard.tsx ===
+========================================
+import React, { useCallback, useEffect, useState } from 'react';
+import { RefreshCw, Users, FileText, CalendarOff, TrendingUp } from 'lucide-react';
+import { api } from '../../api/client';
+import { useAdminRefresh } from '../../components/admin/AdminRefreshContext';
+import { calculateRhMetrics } from './RhMetrics';
+import type {
+  ContratResponseDto,
+  LeaveResponseDto,
+  PredictionResponseDto,
+  UserResponseDto,
+} from '../../types/api';
+import './RhDashboard.css';
+
+export const RhDashboard: React.FC = () => {
+  const { register } = useAdminRefresh();
+  const [users, setUsers] = useState<UserResponseDto[]>([]);
+  const [contracts, setContracts] = useState<ContratResponseDto[]>([]);
+  const [leaves, setLeaves] = useState<LeaveResponseDto[]>([]);
+  const [predictions, setPredictions] = useState<PredictionResponseDto[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const loadData = useCallback(async () => {
+    setLoading(true);
+    setErrorMsg('');
+    const results = await Promise.allSettled([
+      api.getUsers(),
+      api.getContrats(),
+      api.getLeaves(),
+      api.getPredictions(),
+    ]);
+    const [usersResult, contractsResult, leavesResult, predictionsResult] = results;
+
+    if (usersResult.status === 'fulfilled') setUsers(usersResult.value);
+    if (contractsResult.status === 'fulfilled') setContracts(contractsResult.value);
+    if (leavesResult.status === 'fulfilled') setLeaves(leavesResult.value);
+    if (predictionsResult.status === 'fulfilled') setPredictions(predictionsResult.value);
+
+    const failed = results.filter((r) => r.status === 'rejected');
+    if (failed.length > 0) {
+      console.error('RH dashboard load errors:', failed);
+      setErrorMsg('Certaines données n\'ont pas pu être chargées.');
+    }
+    setLoading(false);
+  }, []);
+
+  useEffect(() => { loadData(); }, [loadData]);
+  useEffect(() => register(loadData, loading), [loadData, loading, register]);
+
+  const metrics = calculateRhMetrics(users, contracts, leaves, predictions);
+  const userMap = new Map(users.map((u) => [u.id, u]));
+
+  return (
+    <div className="rh-container">
+      <div className="rh-header-row">
+        <div>
+          <p className="rh-eyebrow">Espace Responsable RH</p>
+          <h1 className="rh-title">Vue d'ensemble RH</h1>
+          <p className="rh-subtitle">Suivez les effectifs, les congés et les signaux d'absentéisme.</p>
+        </div>
+        <button className="rh-refresh-btn" onClick={loadData} disabled={loading}>
+          <RefreshCw size={15} />
+          {loading ? 'Actualisation...' : 'Actualiser'}
+        </button>
+      </div>
+
+      {errorMsg && <div className="page-error" role="alert"><span>{errorMsg}</span><button onClick={loadData}>Réessayer</button></div>}
+
+      <div className="rh-stats-grid">
+        <div className="rh-stat-card">
+          <div className="rh-stat-top"><span className="rh-stat-label">Employés</span><Users size={18} className="rh-stat-icon" /></div>
+          <p className="rh-stat-value">{loading ? '...' : metrics.totalEmployees}</p>
+        </div>
+        <div className="rh-stat-card">
+          <div className="rh-stat-top"><span className="rh-stat-label">Contrats</span><FileText size={18} className="rh-stat-icon" /></div>
+          <p className="rh-stat-value">{loading ? '...' : metrics.totalContracts}</p>
+        </div>
+        <div className="rh-stat-card">
+          <div className="rh-stat-top"><span className="rh-stat-label">Congés en attente</span><CalendarOff size={18} className="rh-stat-icon" /></div>
+          <p className="rh-stat-value">{loading ? '...' : metrics.pendingLeaves}</p>
+        </div>
+        <div className="rh-stat-card">
+          <div className="rh-stat-top"><span className="rh-stat-label">Risque élevé</span><TrendingUp size={18} className="rh-stat-icon" /></div>
+          <p className="rh-stat-value">{loading ? '...' : metrics.highRiskCount}</p>
+        </div>
+      </div>
+
+      <div className="rh-mid-row">
+        <div className="rh-card">
+          <p className="rh-card-eyebrow">Demandes de congé</p>
+          <div className="rh-card-title-row"><span className="rh-card-title">Suivi des décisions</span></div>
+          <div className="rh-leave-summary">
+            <div className="rh-leave-box"><strong>{loading ? '...' : metrics.pendingLeaves}</strong><span>En attente</span></div>
+            <div className="rh-leave-box"><strong>{loading ? '...' : metrics.approvedLeaves}</strong><span>Approuvées</span></div>
+            <div className="rh-leave-box"><strong>{loading ? '...' : metrics.rejectedLeaves}</strong><span>Refusées</span></div>
+          </div>
+          <p className="rh-leave-note">Les demandes sont synchronisées avec le service des congés.</p>
+        </div>
+
+        <div className="rh-card">
+          <p className="rh-card-eyebrow">Prévisions</p>
+          <div className="rh-card-title-row"><span className="rh-card-title">Répartition du risque</span></div>
+          <div className="rh-risk-list">
+            <div className="rh-risk-row"><span className="rh-risk-label"><span className="rh-risk-dot high" />Élevé</span><span className="rh-risk-count">{loading ? '...' : metrics.highRiskCount}</span></div>
+            <div className="rh-risk-row"><span className="rh-risk-label"><span className="rh-risk-dot medium" />Moyen</span><span className="rh-risk-count">{loading ? '...' : metrics.mediumRiskCount}</span></div>
+            <div className="rh-risk-row"><span className="rh-risk-label"><span className="rh-risk-dot low" />Faible</span><span className="rh-risk-count">{loading ? '...' : metrics.lowRiskCount}</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="rh-card">
+        <p className="rh-card-eyebrow">Aide à la décision</p>
+        <div className="rh-predictions-header">
+          <span className="rh-card-title">Prévisions d'absentéisme</span>
+        </div>
+        <table className="rh-table">
+          <thead>
+            <tr><th>Employé</th><th>Département</th><th>Score</th><th>Niveau</th><th>Période</th></tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr><td colSpan={5} style={{ textAlign: 'center', padding: 20 }}>Chargement...</td></tr>
+            ) : predictions.length === 0 ? (
+              <tr><td colSpan={5} style={{ textAlign: 'center', padding: 20 }}>Aucune prévision disponible.</td></tr>
+            ) : (
+              predictions.slice(0, 5).map((prediction) => {
+                const user = userMap.get(prediction.userId);
+                return (
+                  <tr key={prediction.id}>
+                    <td>{user ? `${user.firstName} ${user.lastName}` : `#${prediction.userId}`}</td>
+                    <td>{user?.departementId ?? '-'}</td>
+                    <td>{Math.round(prediction.score <= 1 ? prediction.score * 100 : prediction.score)}%</td>
+                    <td><span className={`rh-level-badge ${prediction.level}`}>{prediction.level}</span></td>
+                    <td>{prediction.analysisPeriod}</td>
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+========================================
+=== src/pages/rh/RhMetrics.ts ===
+========================================
+import type {
+  ContratResponseDto,
+  LeaveResponseDto,
+  PredictionResponseDto,
+  UserResponseDto,
+} from '../../types/api';
+
+export interface RhMetrics {
+  totalEmployees: number;
+  totalContracts: number;
+  pendingLeaves: number;
+  approvedLeaves: number;
+  rejectedLeaves: number;
+  highRiskCount: number;
+  mediumRiskCount: number;
+  lowRiskCount: number;
+}
+
+export const calculateRhMetrics = (
+  users: UserResponseDto[],
+  contracts: ContratResponseDto[],
+  leaves: LeaveResponseDto[],
+  predictions: PredictionResponseDto[]
+): RhMetrics => ({
+  totalEmployees: users.length,
+  totalContracts: contracts.length,
+  pendingLeaves: leaves.filter((leave) => leave.status === 'PENDING').length,
+  approvedLeaves: leaves.filter((leave) => leave.status === 'APPROVED').length,
+  rejectedLeaves: leaves.filter((leave) => leave.status === 'REJECTED').length,
+  highRiskCount: predictions.filter((prediction) => prediction.level === 'HIGH').length,
+  mediumRiskCount: predictions.filter((prediction) => prediction.level === 'MEDIUM').length,
+  lowRiskCount: predictions.filter((prediction) => prediction.level === 'LOW').length,
+});
+========================================
+=== src/pages/rh/EmployeesPage.css ===
+========================================
+.page-container { display: flex; flex-direction: column; gap: 24px; }
+.page-header { align-items: center; display: flex; justify-content: space-between; }
+.page-eyebrow { color: #4F6BFE; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.page-title { color: #0F172A; font-size: 24px; font-weight: 700; margin-top: 4px; }
+.page-subtitle { color: #64748B; font-size: 14px; margin-top: 4px; }
+.table-wrapper { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.02); overflow-x: auto; }
+.data-table { border-collapse: collapse; text-align: left; width: 100%; }
+.data-table th { background: #F8FAFC; border-bottom: 1px solid #E2E8F0; color: #64748B; font-size: 12px; font-weight: 600; padding: 14px 20px; text-transform: uppercase; white-space: nowrap; }
+.data-table td { border-bottom: 1px solid #F1F5F9; color: #334155; font-size: 14px; padding: 16px 20px; }
+.data-table tr:last-child td { border-bottom: none; }
+.table-state { padding: 32px !important; text-align: center; }
+.dept-select { border: 1px solid #E2E8F0; border-radius: 8px; color: #0F172A; font-size: 13px; padding: 8px 10px; }
+.dept-select:disabled { background: #F8FAFC; color: #94A3B8; }
+.remove-dept-btn { background: #FEF2F2; border: none; border-radius: 6px; color: #DC2626; cursor: pointer; font-size: 12px; font-weight: 600; padding: 6px 10px; }
+.remove-dept-btn:hover:not(:disabled) { background: #FEE2E2; }
+.remove-dept-btn:disabled { cursor: not-allowed; opacity: .5; }
+.page-error { align-items: center; background: #FFF5F5; border: 1px solid #FECACA; border-radius: 10px; color: #B42318; display: flex; font-size: 13px; gap: 16px; justify-content: space-between; padding: 13px 16px; }
+.page-error button { background: transparent; border: none; color: #B42318; cursor: pointer; font-size: 13px; font-weight: 700; text-decoration: underline; }
+========================================
+=== src/pages/rh/EmployeesPage.tsx ===
+========================================
+import React, { useEffect, useState } from 'react';
+import { api } from '../../api/client';
+import type { DepartementResponseDto, UserResponseDto } from '../../types/api';
+import './EmployeesPage.css';
+
+export const EmployeesPage: React.FC = () => {
+  const [users, setUsers] = useState<UserResponseDto[]>([]);
+  const [departements, setDepartements] = useState<DepartementResponseDto[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [savingId, setSavingId] = useState<number | null>(null);
+
+  const loadData = async () => {
+    setLoading(true);
+    setErrorMsg('');
+    const [usersResult, deptResult] = await Promise.allSettled([
+      api.getUsers(),
+      api.getDepartements(),
+    ]);
+    if (usersResult.status === 'fulfilled') setUsers(usersResult.value);
+    else {
+      const status = (usersResult.reason as any)?.response?.status;
+      setErrorMsg(status === 401 || status === 403 ? `Accès refusé (${status}).` : 'Impossible de charger les employés.');
+    }
+    if (deptResult.status === 'fulfilled') setDepartements(deptResult.value);
+    setLoading(false);
+  };
+
+  useEffect(() => { loadData(); }, []);
+
+  const getDeptName = (id?: number) => departements.find((d) => d.id === id)?.name || '-';
+
+  const handleAssign = async (user: UserResponseDto, departementId: number | undefined) => {
+    setSavingId(user.id);
+    try {
+      await api.updateUser(user.id, {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        phoneNumber: user.phoneNumber || '',
+        status: user.status || 'ACTIVE',
+        departementId,
+        roleId: user.roleId,
+        positionId: user.positionId,
+        managerId: user.managerId,
+      });
+      await loadData();
+    } catch (err: any) {
+      alert('Erreur : ' + (err.message || 'impossible de mettre à jour le département.'));
+    } finally {
+      setSavingId(null);
+    }
+  };
+
+  return (
+    <div className="page-container">
+      <div className="page-header">
+        <div>
+          <p className="page-eyebrow">People Operations</p>
+          <h1 className="page-title">Employees</h1>
+          <p className="page-subtitle">Consultez les employés et gérez leur affectation aux départements.</p>
+        </div>
+      </div>
+
+      {errorMsg && <div className="page-error" role="alert"><span>{errorMsg}</span><button onClick={loadData}>Réessayer</button></div>}
+
+      <div className="table-wrapper">
+        <table className="data-table">
+          <thead>
+            <tr><th>Employé</th><th>Email</th><th>Département</th><th>Assigner à</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr><td colSpan={5} className="table-state">Chargement...</td></tr>
+            ) : users.length === 0 ? (
+              <tr><td colSpan={5} className="table-state">Aucun employé trouvé.</td></tr>
+            ) : (
+              users.map((user) => (
+                <tr key={user.id}>
+                  <td>{user.firstName} {user.lastName}</td>
+                  <td>{user.email}</td>
+                  <td>{getDeptName(user.departementId)}</td>
+                  <td>
+                    <select
+                      className="dept-select"
+                      value={user.departementId ?? ''}
+                      disabled={savingId === user.id}
+                      onChange={(e) => handleAssign(user, e.target.value ? Number(e.target.value) : undefined)}
+                    >
+                      <option value="">Aucun</option>
+                      {departements.map((d) => (
+                        <option key={d.id} value={d.id}>{d.name}</option>
+                      ))}
+                    </select>
+                  </td>
+                  <td>
+                    <button
+                      className="remove-dept-btn"
+                      disabled={!user.departementId || savingId === user.id}
+                      onClick={() => handleAssign(user, undefined)}
+                    >
+                      Retirer
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+========================================
 === src/types/api.ts ===
+========================================
 export type RoleName = 'ADMIN' | 'RH_MANAGER' | 'MANAGER' | 'EMPLOYEE';
 
 export type UserStatus = 'ACTIVE' | 'EN_LEAVE' | 'SUSPENDED' | 'RESIGNED' | 'TERMINATED';
@@ -4687,7 +5409,7 @@ export type ContratType = 'CDI' | 'CDD' | 'INTERIM' | 'STAGE' | 'ALTERNANCE';
 
 export type ContratStatus = 'ACTIVE' | 'EXPIRED' | 'TERMINATED' | 'SUSPENDED';
 
-export type LeaveType = 'ANUAL' | 'SICK' | 'MATERNATY' | 'PTAERNEITY' | 'UNPAID' | 'SPECIAL';
+export type LeaveType = 'ANNUAL' | 'SICK' | 'MATERNITY' | 'PATERNEITY' | 'UNPAID' | 'SPECIAL';
 
 export type LeaveStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED';
 
@@ -4717,7 +5439,7 @@ export interface UserResponseDto {
   departementId?: number;
   roleId?: number;
   positionId?: number;
-  mangerId?: number;
+  managerId?: number;
 }
 
 export interface UserRequestDto {
@@ -4829,9 +5551,15 @@ export interface EvaluationResponseDto {
   evaluatedUserId: number;
   evaluatorId: number;
 }
+
+========================================
 === src/api/client.ts ===
+========================================
 export { api, apiClient } from '../services/api';
+
+========================================
 === src/services/api.ts ===
+========================================
 import axios from 'axios';
 import type {
   AuthResponseDto,
@@ -4981,7 +5709,10 @@ export const api = {
     return res.data;
   },
 };
+
+========================================
 === src/services/authService.ts ===
+========================================
 import { api } from './api';
 import type { AuthResponseDto } from '../types/api';
 
@@ -5045,7 +5776,10 @@ export const authService = {
     }
   },
 };
+
+========================================
 === src/contexts/RefreshContext.tsx ===
+========================================
 // src/contexts/RefreshContext.tsx
 import React, { createContext, useContext, useState } from 'react';
 
@@ -5076,7 +5810,10 @@ export const useRefresh = (): RefreshContextType => {
     throw new Error('useRefresh must be used inside RefreshProvider');
   }
   return context;
-};=== src/common/Layout/Sidebar.tsx ===
+};
+========================================
+=== src/common/Layout/Sidebar.tsx ===
+========================================
 // src/components/common/Layout/Sidebar.tsx
 import React from 'react';
 
@@ -5138,7 +5875,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </nav>
     </aside>
   );
-};=== src/common/Layout/Topbar.tsx ===
+};
+========================================
+=== src/common/Layout/Topbar.tsx ===
+========================================
 // src/common/Layout/Topbar.tsx
 import React from 'react';
 
@@ -5190,7 +5930,10 @@ export const Topbar: React.FC<TopbarProps> = ({ title, role, onNavigate }) => {
       </button>
     </header>
   );
-};=== src/common/Layout/MainLayout.tsx ===
+};
+========================================
+=== src/common/Layout/MainLayout.tsx ===
+========================================
 // src/common/Layout/MainLayout.tsx
 import React from 'react';
 import {Sidebar } from './Sidebar';
@@ -5240,11 +5983,15 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
       </div>
     </div>
   );
-};=== src/App.tsx ===
+};
+========================================
+=== src/App.tsx ===
+========================================
 import { useState, useEffect } from 'react';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { ProtectedRoute } from './components/ProtectedRoute';
+
 import { AdminLayout } from './components/admin/AdminLayout';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { UsersPage } from './pages/admin/UsersPage';
@@ -5253,6 +6000,9 @@ import { DepartementsPage } from './pages/admin/DepartementsPage';
 import { PositionsPage } from './pages/admin/PositionsPage';
 import { PredictionsPage } from './pages/admin/PredictionsPage';
 import { AdminResourcePage } from './components/admin/AdminResourcePage';
+
+import { RhLayout } from './components/rh/RhLayout';
+import { RhDashboard } from './pages/rh/RhDashboard';
 
 export function App() {
   const [currentPath, setCurrentPath] = useState<string>(
@@ -5263,7 +6013,9 @@ export function App() {
     const handlePopState = () => {
       setCurrentPath(window.location.pathname);
     };
+
     window.addEventListener('popstate', handlePopState);
+
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
@@ -5272,40 +6024,90 @@ export function App() {
     setCurrentPath(path);
   };
 
-  // Route matching
+  // Login
   if (currentPath === '/login') {
     return <LoginPage onNavigate={navigate} />;
   }
 
+  // Admin routes
   if (currentPath.startsWith('/admin')) {
     return (
       <ProtectedRoute requiredRole="ADMIN" onNavigate={navigate}>
         <AdminLayout currentPath={currentPath} onNavigate={navigate}>
+          
           {currentPath === '/admin/users' && <UsersPage />}
+
           {currentPath === '/admin/roles' && <RolesPage />}
+
           {currentPath === '/admin/departments' && <DepartementsPage />}
+
           {currentPath === '/admin/positions' && <PositionsPage />}
+
           {currentPath === '/admin/contracts' && (
-            <AdminResourcePage resource="contracts" title="Contracts" subtitle="Consult workforce contract records and current statuses." />
+            <AdminResourcePage
+              resource="contracts"
+              title="Contracts"
+              subtitle="Consult workforce contract records and current statuses."
+            />
           )}
+
           {currentPath === '/admin/leaves' && (
-            <AdminResourcePage resource="leaves" title="Leaves" subtitle="Consult leave requests and approved absence periods." />
+            <AdminResourcePage
+              resource="leaves"
+              title="Leaves"
+              subtitle="Consult leave requests and approved absence periods."
+            />
           )}
+
           {currentPath === '/admin/presences' && (
-            <AdminResourcePage resource="presences" title="Présences" subtitle="Consult attendance and presence records across the workforce." />
+            <AdminResourcePage
+              resource="presences"
+              title="Présences"
+              subtitle="Consult attendance and presence records across the workforce."
+            />
           )}
+
           {currentPath === '/admin/evaluations' && (
-            <AdminResourcePage resource="evaluations" title="Évaluations" subtitle="Consult performance, competency, and behavior evaluations." />
+            <AdminResourcePage
+              resource="evaluations"
+              title="Évaluations"
+              subtitle="Consult performance, competency, and behavior evaluations."
+            />
           )}
+
           {currentPath === '/admin/predictions' && <PredictionsPage />}
-          {(currentPath === '/admin/dashboard' || currentPath === '/admin') && (
+
+          {(currentPath === '/admin/dashboard' ||
+            currentPath === '/admin') && (
             <AdminDashboard onNavigate={navigate} />
           )}
+
         </AdminLayout>
       </ProtectedRoute>
     );
   }
 
+  // RH Manager routes
+  if (currentPath.startsWith('/rh')) {
+    return (
+      <ProtectedRoute
+        requiredRole="RH_MANAGER"
+        onNavigate={navigate}
+      >
+        <RhLayout
+          currentPath={currentPath}
+          onNavigate={navigate}
+        >
+          {(currentPath === '/rh/dashboard' ||
+            currentPath === '/rh') && (
+            <RhDashboard />
+          )}
+        </RhLayout>
+      </ProtectedRoute>
+    );
+  }
+
+  // Default route
   return <LandingPage onNavigate={navigate} />;
 }
 

@@ -21,12 +21,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
   try {
     const authenticatedUser = await authService.login({ email, password });
     if (authenticatedUser.role === 'ADMIN') {
-      onNavigate('/admin/dashboard');
-    } else if (authenticatedUser.role === 'RH_MANAGER') {
-      onNavigate('/rh/dashboard');
-    } else {
-      onNavigate('/');
-    }
+  onNavigate('/admin/dashboard');
+} else if (authenticatedUser.role === 'RH_MANAGER') {
+  onNavigate('/rh/dashboard');
+} else if (authenticatedUser.role === 'MANAGER') {
+  onNavigate('/manager/dashboard');
+} else {
+  onNavigate('/');
+}
   } catch (err: any) {
     setErrorMsg(err.message || 'Login failed. Please check your credentials.');
   } finally {

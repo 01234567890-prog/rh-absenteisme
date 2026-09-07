@@ -15,6 +15,16 @@ import { AdminResourcePage } from './components/admin/AdminResourcePage';
 import { RhLayout } from './components/rh/RhLayout';
 import { RhDashboard } from './pages/rh/RhDashboard';
 
+import { EmployeesPage } from './pages/rh/EmployeesPage';
+import { ContractsPage } from './pages/rh/ContractsPage';
+import { LeavesPage } from './pages/rh/LeavesPage';
+import { RhPredictionsPage } from './pages/rh/PredictionsPage';
+
+import { ManagerLayout } from './components/manager/ManagerLayout';
+import { ManagerDashboard } from './pages/manager/ManagerDashboard';
+import { EvaluationsPage } from './pages/manager/EvaluationsPage';
+import { AttendancePage } from './pages/manager/AttendancePage';
+
 export function App() {
   const [currentPath, setCurrentPath] = useState<string>(
     window.location.pathname
@@ -105,19 +115,30 @@ export function App() {
         requiredRole="RH_MANAGER"
         onNavigate={navigate}
       >
-        <RhLayout
-          currentPath={currentPath}
-          onNavigate={navigate}
-        >
-          {(currentPath === '/rh/dashboard' ||
-            currentPath === '/rh') && (
-            <RhDashboard />
-          )}
-        </RhLayout>
+        <RhLayout currentPath={currentPath} onNavigate={navigate}>
+  {currentPath === '/rh/employees' && <EmployeesPage />}
+  {currentPath === '/rh/contracts' && <ContractsPage />}
+  {currentPath === '/rh/leaves' && <LeavesPage />}
+  {currentPath === '/rh/predictions' && <RhPredictionsPage />}
+  {(currentPath === '/rh/dashboard' || currentPath === '/rh') && <RhDashboard />}
+</RhLayout>
       </ProtectedRoute>
     );
   }
 
+
+  // Manager routes
+  if (currentPath.startsWith('/manager')) {
+  return (
+    <ProtectedRoute requiredRole="MANAGER" onNavigate={navigate}>
+      <ManagerLayout currentPath={currentPath} onNavigate={navigate}>
+        {currentPath === '/manager/evaluations' && <EvaluationsPage />}
+        {currentPath === '/manager/attendance' && <AttendancePage />}
+        {(currentPath === '/manager/dashboard' || currentPath === '/manager') && <ManagerDashboard />}
+      </ManagerLayout>
+    </ProtectedRoute>
+  );
+}
   // Default route
   return <LandingPage onNavigate={navigate} />;
 }

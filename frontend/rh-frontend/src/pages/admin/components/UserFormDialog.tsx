@@ -38,13 +38,16 @@ interface UserFormDialogProps {
   onSubmit: (values: UserFormValues) => void;
 }
 
-export const toUserFormValues = (user?: UserResponseDto): UserFormValues => ({
+export const toUserFormValues = (
+  user?: UserResponseDto
+): UserFormValues => ({
   firstName: user?.firstName || '',
   lastName: user?.lastName || '',
   email: user?.email || '',
   password: '',
   phoneNumber: user?.phoneNumber || '',
-  hireDate: user?.hireDate || new Date().toISOString().split('T')[0],
+  hireDate:
+    user?.hireDate || new Date().toISOString().split('T')[0],
   status: user?.status || 'ACTIVE',
   departementId: user?.departementId,
   roleId: user?.roleId,
@@ -64,9 +67,12 @@ export const createDefaultUserFormValues = (
   phoneNumber: '',
   hireDate: new Date().toISOString().split('T')[0],
   status: 'ACTIVE',
+
+  // Default values for create mode
   departementId: departments[0]?.id,
   roleId: roles[0]?.id,
   positionId: positions[0]?.id,
+  managerId: undefined,
 });
 
 export const UserFormDialog: React.FC<UserFormDialogProps> = ({
@@ -82,19 +88,32 @@ export const UserFormDialog: React.FC<UserFormDialogProps> = ({
   onClose,
   onSubmit,
 }) => {
-  const [values, setValues] = useState<UserFormValues>(initialValues);
+  const [values, setValues] =
+    useState<UserFormValues>(initialValues);
 
   useEffect(() => {
-    if (open) setValues(initialValues);
+    if (open) {
+      setValues(initialValues);
+    }
   }, [open, initialValues]);
 
-  if (!open) return null;
+  if (!open) {
+    return null;
+  }
 
-  const setValue = <K extends keyof UserFormValues>(key: K, value: UserFormValues[K]) => {
-    setValues((current) => ({ ...current, [key]: value }));
+  const setValue = <K extends keyof UserFormValues>(
+    key: K,
+    value: UserFormValues[K]
+  ) => {
+    setValues((current) => ({
+      ...current,
+      [key]: value,
+    }));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
     onSubmit(values);
   };
@@ -102,13 +121,26 @@ export const UserFormDialog: React.FC<UserFormDialogProps> = ({
   const isCreate = mode === 'create';
 
   return (
-    <div className="custom-modal-overlay" onClick={submitting ? undefined : onClose}>
-      <div className="custom-modal-card" onClick={(e) => e.stopPropagation()}>
+    <div
+      className="custom-modal-overlay"
+      onClick={submitting ? undefined : onClose}
+    >
+      <div
+        className="custom-modal-card"
+        onClick={(event) => event.stopPropagation()}
+      >
+        {/* Header */}
         <div className="custom-modal-header">
           <div>
-            <div className="custom-modal-category">ADMINISTRATION</div>
-            <h2 className="custom-modal-title">{isCreate ? 'Add user' : 'Edit user'}</h2>
+            <div className="custom-modal-category">
+              ADMINISTRATION
+            </div>
+
+            <h2 className="custom-modal-title">
+              {isCreate ? 'Add user' : 'Edit user'}
+            </h2>
           </div>
+
           <button
             type="button"
             className="custom-modal-close-btn"
@@ -120,43 +152,76 @@ export const UserFormDialog: React.FC<UserFormDialogProps> = ({
           </button>
         </div>
 
-        {error && <div className="custom-modal-error">{error}</div>}
+        {/* Error */}
+        {error && (
+          <div className="custom-modal-error">
+            {error}
+          </div>
+        )}
 
-        <form onSubmit={handleSubmit} className="custom-modal-form">
+        <form
+          onSubmit={handleSubmit}
+          className="custom-modal-form"
+        >
           <div className="custom-form-grid">
-            {/* Row 1: First name & Last name */}
+
+            {/* Row 1: First name / Last name */}
             <div className="custom-form-group">
-              <label htmlFor="user-firstname">First name</label>
+              <label htmlFor="user-firstname">
+                First name
+              </label>
+
               <input
                 id="user-firstname"
                 type="text"
                 value={values.firstName}
-                onChange={(e) => setValue('firstName', e.target.value)}
+                onChange={(event) =>
+                  setValue(
+                    'firstName',
+                    event.target.value
+                  )
+                }
                 required
                 placeholder="First name"
               />
             </div>
 
             <div className="custom-form-group">
-              <label htmlFor="user-lastname">Last name</label>
+              <label htmlFor="user-lastname">
+                Last name
+              </label>
+
               <input
                 id="user-lastname"
                 type="text"
                 value={values.lastName}
-                onChange={(e) => setValue('lastName', e.target.value)}
+                onChange={(event) =>
+                  setValue(
+                    'lastName',
+                    event.target.value
+                  )
+                }
                 required
                 placeholder="Last name"
               />
             </div>
 
-            {/* Row 2: Email & Phone */}
+            {/* Row 2: Email / Phone */}
             <div className="custom-form-group">
-              <label htmlFor="user-email">Email</label>
+              <label htmlFor="user-email">
+                Email
+              </label>
+
               <input
                 id="user-email"
                 type="email"
                 value={values.email}
-                onChange={(e) => setValue('email', e.target.value)}
+                onChange={(event) =>
+                  setValue(
+                    'email',
+                    event.target.value
+                  )
+                }
                 required
                 disabled={!isCreate}
                 placeholder="Email"
@@ -164,26 +229,42 @@ export const UserFormDialog: React.FC<UserFormDialogProps> = ({
             </div>
 
             <div className="custom-form-group">
-              <label htmlFor="user-phone">Phone</label>
+              <label htmlFor="user-phone">
+                Phone
+              </label>
+
               <input
                 id="user-phone"
                 type="text"
                 value={values.phoneNumber}
-                onChange={(e) => setValue('phoneNumber', e.target.value)}
+                onChange={(event) =>
+                  setValue(
+                    'phoneNumber',
+                    event.target.value
+                  )
+                }
                 required
                 placeholder="Phone"
               />
             </div>
 
-            {/* Row 3: Password & Hire date */}
+            {/* Row 3: Password / Hire date */}
             {isCreate ? (
               <div className="custom-form-group">
-                <label htmlFor="user-password">Password</label>
+                <label htmlFor="user-password">
+                  Password
+                </label>
+
                 <input
                   id="user-password"
                   type="password"
                   value={values.password}
-                  onChange={(e) => setValue('password', e.target.value)}
+                  onChange={(event) =>
+                    setValue(
+                      'password',
+                      event.target.value
+                    )
+                  }
                   required
                   minLength={8}
                   placeholder="Password"
@@ -191,16 +272,32 @@ export const UserFormDialog: React.FC<UserFormDialogProps> = ({
               </div>
             ) : (
               <div className="custom-form-group">
-                <label htmlFor="user-department">Department</label>
+                <label htmlFor="user-department">
+                  Department
+                </label>
+
                 <select
                   id="user-department"
                   value={values.departementId ?? ''}
-                  onChange={(e) => setValue('departementId', e.target.value ? Number(e.target.value) : undefined)}
+                  onChange={(event) =>
+                    setValue(
+                      'departementId',
+                      event.target.value
+                        ? Number(event.target.value)
+                        : undefined
+                    )
+                  }
                 >
-                  <option value="" disabled>Select department</option>
-                  {departments.map((dept) => (
-                    <option key={dept.id} value={dept.id}>
-                      {dept.name}
+                  <option value="" disabled>
+                    Select department
+                  </option>
+
+                  {departments.map((department) => (
+                    <option
+                      key={department.id}
+                      value={department.id}
+                    >
+                      {department.name}
                     </option>
                   ))}
                 </select>
@@ -208,101 +305,193 @@ export const UserFormDialog: React.FC<UserFormDialogProps> = ({
             )}
 
             <div className="custom-form-group">
-              <label htmlFor="user-hiredate">Hire date</label>
+              <label htmlFor="user-hiredate">
+                Hire date
+              </label>
+
               <input
                 id="user-hiredate"
                 type="date"
                 value={values.hireDate}
-                onChange={(e) => setValue('hireDate', e.target.value)}
+                onChange={(event) =>
+                  setValue(
+                    'hireDate',
+                    event.target.value
+                  )
+                }
                 required
               />
             </div>
 
-            {/* Row 4: Status & Role */}
+            {/* Row 4: Status / Role */}
             <div className="custom-form-group">
-              <label htmlFor="user-status">Status</label>
+              <label htmlFor="user-status">
+                Status
+              </label>
+
               <select
                 id="user-status"
                 value={values.status ?? 'ACTIVE'}
-                onChange={(e) => setValue('status', e.target.value as UserStatus)}
+                onChange={(event) =>
+                  setValue(
+                    'status',
+                    event.target.value as UserStatus
+                  )
+                }
                 required
               >
-                <option value="ACTIVE">Active</option>
-                <option value="EN_LEAVE">On leave</option>
-                <option value="SUSPENDED">Suspended</option>
-                <option value="RESIGNED">Resigned</option>
-                <option value="TERMINATED">Terminated</option>
+                <option value="ACTIVE">
+                  Active
+                </option>
+
+                <option value="EN_LEAVE">
+                  On leave
+                </option>
+
+                <option value="SUSPENDED">
+                  Suspended
+                </option>
+
+                <option value="RESIGNED">
+                  Resigned
+                </option>
+
+                <option value="TERMINATED">
+                  Terminated
+                </option>
               </select>
             </div>
 
             <div className="custom-form-group">
-              <label htmlFor="user-role">Role</label>
+              <label htmlFor="user-role">
+                Role
+              </label>
+
               <select
                 id="user-role"
                 value={values.roleId ?? ''}
-                onChange={(e) => setValue('roleId', e.target.value ? Number(e.target.value) : undefined)}
+                onChange={(event) =>
+                  setValue(
+                    'roleId',
+                    event.target.value
+                      ? Number(event.target.value)
+                      : undefined
+                  )
+                }
                 required
               >
                 <option value="" disabled>
                   Select a role
                 </option>
+
                 {roles.map((role) => (
-                  <option key={role.id} value={role.id}>
+                  <option
+                    key={role.id}
+                    value={role.id}
+                  >
                     {role.name}
                   </option>
                 ))}
               </select>
             </div>
 
-            {/* Extra row for Edit mode: Position & Manager */}
-            {!isCreate && (
-              <>
-                <div className="custom-form-group">
-                  <label htmlFor="user-position">Position</label>
-                  <select
-                    id="user-position"
-                    value={values.positionId ?? ''}
-                    onChange={(e) => setValue('positionId', e.target.value ? Number(e.target.value) : undefined)}
-                  >
-                    <option value="" disabled>Select position</option>
-                    {positions.map((pos) => (
-                      <option key={pos.id} value={pos.id}>
-                        {pos.title}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+            {/* Row 5: Position / Manager */}
+            <div className="custom-form-group">
+              <label htmlFor="user-position">
+                Position
+              </label>
 
-                <div className="custom-form-group">
-                  <label htmlFor="user-manager">Manager</label>
-                  <select
-                    id="user-manager"
-                    value={values.managerId ?? ''}
-                    onChange={(e) => setValue('managerId', e.target.value ? Number(e.target.value) : undefined)}
-                  >
-                    <option value="">No manager</option>
-                    {users.map((u) => (
-                      <option key={u.id} value={u.id}>
-                        {u.firstName} {u.lastName} ({u.email})
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </>
-            )}
+              <select
+                id="user-position"
+                value={values.positionId ?? ''}
+                onChange={(event) =>
+                  setValue(
+                    'positionId',
+                    event.target.value
+                      ? Number(event.target.value)
+                      : undefined
+                  )
+                }
+                required
+              >
+                <option value="" disabled>
+                  Select position
+                </option>
 
+                {positions.map((position) => (
+                  <option
+                    key={position.id}
+                    value={position.id}
+                  >
+                    {position.title}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="custom-form-group">
+              <label htmlFor="user-manager">
+                Manager
+              </label>
+
+              <select
+                id="user-manager"
+                value={values.managerId ?? ''}
+                onChange={(event) =>
+                  setValue(
+                    'managerId',
+                    event.target.value
+                      ? Number(event.target.value)
+                      : undefined
+                  )
+                }
+              >
+                <option value="">
+                  No manager
+                </option>
+
+                {users.map((user) => (
+                  <option
+                    key={user.id}
+                    value={user.id}
+                  >
+                    {user.firstName} {user.lastName} (
+                    {user.email})
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Row 6: Department for Create */}
             {isCreate && (
               <div className="custom-form-group">
-                <label htmlFor="user-department-create">Department</label>
+                <label htmlFor="user-department-create">
+                  Department
+                </label>
+
                 <select
                   id="user-department-create"
                   value={values.departementId ?? ''}
-                  onChange={(e) => setValue('departementId', e.target.value ? Number(e.target.value) : undefined)}
+                  onChange={(event) =>
+                    setValue(
+                      'departementId',
+                      event.target.value
+                        ? Number(event.target.value)
+                        : undefined
+                    )
+                  }
+                  required
                 >
-                  <option value="" disabled>Select department</option>
-                  {departments.map((dept) => (
-                    <option key={dept.id} value={dept.id}>
-                      {dept.name}
+                  <option value="" disabled>
+                    Select department
+                  </option>
+
+                  {departments.map((department) => (
+                    <option
+                      key={department.id}
+                      value={department.id}
+                    >
+                      {department.name}
                     </option>
                   ))}
                 </select>
@@ -310,6 +499,7 @@ export const UserFormDialog: React.FC<UserFormDialogProps> = ({
             )}
           </div>
 
+          {/* Actions */}
           <div className="custom-modal-actions">
             <button
               type="button"
@@ -319,6 +509,7 @@ export const UserFormDialog: React.FC<UserFormDialogProps> = ({
             >
               Cancel
             </button>
+
             <button
               type="submit"
               className="custom-btn-submit"
@@ -337,7 +528,13 @@ export const UserFormDialog: React.FC<UserFormDialogProps> = ({
   );
 };
 
-export const toCreatePayload = (values: UserFormValues): UserRequestDto => ({
+/**
+ * Convert form values to the payload expected
+ * by the backend when creating a user.
+ */
+export const toCreatePayload = (
+  values: UserFormValues
+): UserRequestDto => ({
   firstName: values.firstName.trim(),
   lastName: values.lastName.trim(),
   email: values.email.trim(),
@@ -345,16 +542,25 @@ export const toCreatePayload = (values: UserFormValues): UserRequestDto => ({
   phoneNumber: values.phoneNumber.trim(),
   hireDate: values.hireDate,
   status: values.status as UserStatus,
+
   departementId: values.departementId,
   roleId: values.roleId,
   positionId: values.positionId,
+  managerId: values.managerId,
 });
 
-export const toUpdatePayload = (values: UserFormValues): UserUpdateRequestDto => ({
+/**
+ * Convert form values to the payload expected
+ * by the backend when updating a user.
+ */
+export const toUpdatePayload = (
+  values: UserFormValues
+): UserUpdateRequestDto => ({
   firstName: values.firstName.trim(),
   lastName: values.lastName.trim(),
   phoneNumber: values.phoneNumber.trim(),
   status: values.status,
+
   departementId: values.departementId,
   roleId: values.roleId,
   positionId: values.positionId,

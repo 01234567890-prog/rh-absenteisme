@@ -11,10 +11,12 @@ import type {
   PositionRequestDto,
   RoleResponseDto,
   LeaveResponseDto,
+  LeaveStatus,
   PredictionResponseDto,
   ContratResponseDto,
   PresenceResponseDto,
   EvaluationResponseDto,
+  ContratRequestDto,
 } from '../types/api';
 
 export const apiClient = axios.create({
@@ -122,6 +124,10 @@ export const api = {
     const res = await apiClient.get<LeaveResponseDto[]>('/leaves');
     return res.data;
   },
+ updateLeaveStatus: async (id: number, status: LeaveStatus) => {
+  const res = await apiClient.patch<LeaveResponseDto>(`/leaves/${id}`, { status });
+  return res.data;
+},
 
   // Predictions
   getPredictions: async () => {
@@ -132,6 +138,10 @@ export const api = {
   // Contrats
   getContrats: async () => {
     const res = await apiClient.get<ContratResponseDto[]>('/contrats');
+    return res.data;
+  },
+  createContrat: async (data: ContratRequestDto) => {
+    const res = await apiClient.post<ContratResponseDto>('/contrats', data);
     return res.data;
   },
 
@@ -146,4 +156,15 @@ export const api = {
     const res = await apiClient.get<EvaluationResponseDto[]>('/evaluations');
     return res.data;
   },
+
+   createEvaluation: async (data: any) => {
+    const res = await apiClient.post('/evaluations', data);
+    return res.data;
+  },
+
+  confirmEvaluation: async (id: number) => {
+    const res = await apiClient.post(`/evaluations/${id}/confirm`);
+    return res.data;
+  },
 };
+ 

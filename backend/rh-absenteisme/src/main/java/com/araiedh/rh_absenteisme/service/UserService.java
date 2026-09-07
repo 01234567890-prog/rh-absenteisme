@@ -35,7 +35,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER')")
     public List<UserResponseDto> getAllUser() {
         List<User> allUsers = userRepository.findAll() ;
         return allUsers.stream()
@@ -67,8 +67,17 @@ public class UserService {
         Position position = positionRepository.findById(dto.positionId())
                 .orElseThrow(()-> new ResourceNotFoundException("position not found with id : " +dto.positionId())) ;
 
+        User manager = null;
+
+        if (dto.managerId() != null) {
+            manager = userRepository.findById(dto.managerId())
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Manager not found with id : " + dto.managerId()
+                    ));
+        }
 
         User user = userMapper.toEntity(dto , departement , role , position) ;
+        user.setManager(manager);
         user.setPassword(passwordEncoder.encode(dto.password()));
         User savedUser = userRepository.save(user) ;
         return userMapper.toDto(savedUser) ;
@@ -109,7 +118,11 @@ public class UserService {
         }
         if (dto.managerId() != null) {
             User manager = userRepository.findById(dto.managerId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Manager not found with id " + dto.managerId()));
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Manager not found with id " + dto.managerId()
+                    ));
+
+            user.setManager(manager);
         }
 
         User savedUser = userRepository.save(user) ;

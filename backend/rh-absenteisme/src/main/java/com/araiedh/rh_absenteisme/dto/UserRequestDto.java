@@ -35,7 +35,9 @@ public record UserRequestDto(
 
         Long roleId ,
 
-        Long positionId
+        Long positionId ,
+
+        Long managerId
 
 ) {
 }
