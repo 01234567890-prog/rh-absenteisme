@@ -1,0 +1,43 @@
+.emp-profile-container { display: flex; flex-direction: column; gap: 20px; }
+.emp-profile-header-row { align-items: flex-start; display: flex; justify-content: space-between; }
+.emp-profile-title { color: #172033; font-size: 26px; font-weight: 750; }
+.emp-profile-subtitle { color: #8994a6; font-size: 13px; margin-top: 6px; }
+.emp-download-btn { align-items: center; background: #fff; border: 1px solid #E2E8F0; border-radius: 8px; color: #334155; cursor: pointer; display: inline-flex; font-size: 13px; font-weight: 600; gap: 8px; padding: 9px 16px; }
+.emp-info-card { background: #fff; border: 1px solid #e8ebf0; border-radius: 14px; display: flex; justify-content: space-between; padding: 22px 24px; }
+.emp-identity-row { align-items: center; display: flex; gap: 16px; }
+.emp-avatar-lg { align-items: center; background: #FDBA74; border-radius: 14px; color: #7C2D12; display: flex; font-size: 22px; font-weight: 700; height: 64px; justify-content: center; width: 64px; }
+.emp-name-row { align-items: center; display: flex; gap: 10px; }
+.emp-name { color: #172033; font-size: 19px; font-weight: 750; }
+.emp-active-badge { background: #DCFCE7; border-radius: 20px; color: #166534; font-size: 11px; font-weight: 700; padding: 3px 10px; }
+.emp-title-line { color: #64748B; font-size: 13px; margin-top: 4px; }
+.emp-contact-row { align-items: center; color: #64748B; display: flex; font-size: 12px; gap: 16px; margin-top: 8px; }
+.emp-contact-row span { align-items: center; display: flex; gap: 5px; }
+.emp-meta-grid { display: grid; gap: 4px 40px; grid-template-columns: repeat(2, auto); }
+.emp-meta-label { color: #94A3B8; font-size: 11px; }
+.emp-meta-value { color: #172033; font-size: 13px; font-weight: 650; margin-top: 2px; }
+.emp-summary-card { align-items: center; background: #fff; border: 1px solid #e8ebf0; border-radius: 14px; display: flex; gap: 16px; justify-content: space-between; padding: 20px 24px; }
+.emp-summary-left { align-items: flex-start; display: flex; gap: 14px; }
+.emp-summary-icon { align-items: center; background: #EEF2FF; border-radius: 10px; color: #4F6BFE; display: flex; height: 38px; justify-content: center; width: 38px; }
+.emp-summary-label { color: #4F6BFE; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.emp-summary-title { color: #172033; font-size: 16px; font-weight: 700; margin-top: 4px; }
+.emp-summary-text { color: #64748B; font-size: 13px; margin-top: 6px; max-width: 560px; }
+.emp-summary-score { color: #172033; font-size: 30px; font-weight: 800; text-align: right; }
+.emp-summary-score span { color: #8994a6; display: block; font-size: 11px; font-weight: 500; margin-top: 2px; }
+.emp-eval-history-header { align-items: center; display: flex; justify-content: space-between; }
+.emp-eval-history-title { color: #172033; font-size: 18px; font-weight: 700; }
+.emp-eval-history-subtitle { color: #8994a6; font-size: 12px; margin-top: 4px; }
+.emp-year-badge { background: #F1F5F9; border-radius: 8px; color: #475569; font-size: 12px; font-weight: 600; padding: 6px 12px; }
+.emp-eval-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.emp-eval-card { background: #fff; border: 1px solid #e8ebf0; border-radius: 14px; display: flex; gap: 16px; justify-content: space-between; padding: 18px; }
+.emp-eval-period { color: #4F6BFE; font-size: 11px; font-weight: 700; }
+.emp-eval-label { color: #172033; font-size: 14px; font-weight: 700; margin-top: 4px; }
+.emp-eval-status { color: #16A34A; font-size: 11px; margin-top: 6px; }
+.emp-eval-bar-row { align-items: center; display: flex; gap: 8px; margin-top: 12px; }
+.emp-eval-bar-label { color: #64748B; font-size: 11px; width: 78px; }
+.emp-eval-bar-track { background: #EEF0F4; border-radius: 4px; flex: 1; height: 6px; }
+.emp-eval-bar-fill { background: #4F6BFE; border-radius: 4px; height: 100%; }
+.emp-eval-bar-value { color: #172033; font-size: 11px; font-weight: 700; width: 32px; }
+.emp-ring-wrap { position: relative; }
+.emp-ring-value { align-items: center; color: #172033; display: flex; font-size: 15px; font-weight: 800; height: 100%; justify-content: center; left: 0; position: absolute; top: 0; width: 100%; }
+.emp-ring-label { color: #94A3B8; font-size: 9px; position: absolute; text-align: center; top: 60%; width: 100%; }
+@media (max-width: 800px) { .emp-info-card, .emp-summary-card { flex-direction: column; gap: 16px; } .emp-summary-score { text-align: left; } }

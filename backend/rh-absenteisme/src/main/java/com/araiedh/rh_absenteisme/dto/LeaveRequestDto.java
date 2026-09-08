@@ -21,7 +21,7 @@ public record LeaveRequestDto(
         @NotBlank(message = "Reason is required")
         String reason ,
 
-        @NotBlank(message = "Id is Required ")
+        @NotNull(message = "Id is Required ")
         @Positive
         Long userId
 ) {

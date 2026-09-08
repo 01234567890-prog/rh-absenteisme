@@ -1,0 +1,17 @@
+.employee-container { display: flex; height: 100vh; overflow: hidden; background: #F8FAFC; }
+.employee-sidebar { width: 240px; background: #fff; border-right: 1px solid #E2E8F0; display: flex; flex-direction: column; padding: 24px 16px; flex-shrink: 0; }
+.employee-sidebar-logo { padding-left: 8px; margin-bottom: 4px; }
+.employee-workspace-label { color: #94A3B8; font-size: 10px; font-weight: 700; letter-spacing: .1em; margin: 20px 0 12px 8px; text-transform: uppercase; }
+.employee-nav { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.employee-link { align-items: center; border-radius: 10px; color: #64748B; cursor: pointer; display: flex; font-size: 14px; font-weight: 500; gap: 12px; padding: 10px 14px; position: relative; transition: all .2s ease; }
+.employee-link:hover { background: #F1F5F9; color: #1E293B; }
+.employee-link.active { background: #EEF2FF; color: #4F6BFE; font-weight: 600; }
+.employee-badge { background: #EF4444; border-radius: 20px; color: #fff; font-size: 10px; font-weight: 700; margin-left: auto; padding: 1px 7px; }
+.employee-user-card { align-items: center; border-top: 1px solid #E2E8F0; display: flex; gap: 10px; padding-top: 16px; }
+.employee-user-avatar { align-items: center; background: #FDBA74; border-radius: 10px; color: #7C2D12; display: flex; font-size: 13px; font-weight: 700; height: 38px; justify-content: center; width: 38px; }
+.employee-user-info { flex: 1; min-width: 0; }
+.employee-user-name { color: #172033; font-size: 13px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.employee-user-role { color: #94A3B8; font-size: 11px; }
+.employee-logout-btn { background: transparent; border: none; color: #94A3B8; cursor: pointer; padding: 4px; }
+.employee-logout-btn:hover { color: #DC2626; }
+.employee-main { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow-y: auto; padding: 32px; }

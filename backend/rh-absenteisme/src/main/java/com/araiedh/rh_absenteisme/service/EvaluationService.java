@@ -25,7 +25,7 @@ public class EvaluationService {
     private final UserRepository userRepository;
     private final EvaluationMapper evaluationMapper;
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','AI_SERVICE')")
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE','AI_SERVICE')")
     public List<EvaluationResponseDto> getAllEvaluations() {
         return evaluationRepository.findAll().stream()
                 .map(evaluationMapper::toDto)

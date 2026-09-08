@@ -35,7 +35,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE')")
     public List<UserResponseDto> getAllUser() {
         List<User> allUsers = userRepository.findAll() ;
         return allUsers.stream()

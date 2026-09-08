@@ -38,3 +38,17 @@
 .att-bar { background: #C7D2FE; border-radius: 4px 4px 0 0; width: 100%; }
 .att-bar.active { background: #4F6BFE; }
 .att-bar-label { color: #94A3B8; font-size: 10px; }
+.att-manual-card { background: #fff; border: 1px solid #e8ebf0; border-radius: 11px; margin-top: 14px; padding: 20px; }
+.att-manual-title { color: #172033; font-size: 16px; font-weight: 750; }
+.att-manual-subtitle { color: #8994a6; font-size: 12px; margin-top: 4px; }
+.att-manual-row { align-items: flex-end; display: flex; gap: 14px; margin-top: 16px; }
+.att-manual-field { display: flex; flex: 1; flex-direction: column; gap: 6px; }
+.att-manual-field label { color: #64748B; font-size: 12px; font-weight: 500; }
+.att-manual-field select { background: #fff; border: 1px solid #E2E8F0; border-radius: 8px; color: #0F172A; font-family: inherit; font-size: 14px; padding: 10px 14px; }
+.att-manual-btn { align-items: center; border: none; border-radius: 8px; color: #fff; cursor: pointer; display: inline-flex; font-size: 13px; font-weight: 700; gap: 6px; padding: 10px 16px; white-space: nowrap; }
+.att-manual-btn.in { background: #16A34A; }
+.att-manual-btn.out { background: #DC2626; }
+.att-manual-btn:disabled { cursor: not-allowed; opacity: .6; }
+.att-manual-msg { border-radius: 8px; font-size: 12px; margin-top: 12px; padding: 10px 14px; }
+.att-manual-msg.success { background: #DCFCE7; color: #166534; }
+.att-manual-msg.error { background: #FEE2E2; color: #B91C1C; }

@@ -47,6 +47,15 @@ export const AttendancePage: React.FC = () => {
   const onLeave = dayPresences.filter((p) => p.status === 'ON_LEAVE').length;
   const attendanceRate = team.length ? Math.round(((present + late) / team.length) * 100) : 0;
 
+
+
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState<number | ''>('');
+  const [manualAction, setManualAction] = useState<'in' | 'out' | null>(null);
+  const [manualMessage, setManualMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+
+
+  
   const filteredRows = dayPresences.filter((p) => {
     const u = users.find((user) => user.id === p.userId);
     const name = u ? `${u.firstName} ${u.lastName}`.toLowerCase() : '';
@@ -67,6 +76,36 @@ export const AttendancePage: React.FC = () => {
       .filter((m) => m > 0);
     return durations.length ? Math.round(durations.reduce((t, m) => t + m, 0) / durations.length) : 0;
   })();
+
+  const handleManualCheckIn = async () => {
+  if (!selectedEmployeeId) return;
+  setManualAction('in');
+  setManualMessage(null);
+  try {
+    await api.checkIn(selectedEmployeeId);
+    setManualMessage({ type: 'success', text: 'Arrivée enregistrée avec succès.' });
+    await loadData();
+  } catch (err: any) {
+    setManualMessage({ type: 'error', text: err.message || 'Impossible d\'enregistrer l\'arrivée.' });
+  } finally {
+    setManualAction(null);
+  }
+};
+
+const handleManualCheckOut = async () => {
+  if (!selectedEmployeeId) return;
+  setManualAction('out');
+  setManualMessage(null);
+  try {
+    await api.checkOut(selectedEmployeeId);
+    setManualMessage({ type: 'success', text: 'Départ enregistré avec succès.' });
+    await loadData();
+  } catch (err: any) {
+    setManualMessage({ type: 'error', text: err.message || 'Impossible d\'enregistrer le départ.' });
+  } finally {
+    setManualAction(null);
+  }
+};
 
   return (
     <div className="att-container">
@@ -120,6 +159,26 @@ export const AttendancePage: React.FC = () => {
             </tbody>
           </table>
         </div>
+        <div className="att-manual-card">
+  <p className="att-manual-title">Enregistrement manuel</p>
+  <p className="att-manual-subtitle">Enregistrez l'arrivée ou le départ d'un employé de votre équipe.</p>
+  <div className="att-manual-row">
+    <div className="att-manual-field">
+      <label>Employé</label>
+      <select value={selectedEmployeeId} onChange={(e) => setSelectedEmployeeId(e.target.value ? Number(e.target.value) : '')}>
+        <option value="">Sélectionner un employé</option>
+        {team.map((u) => <option key={u.id} value={u.id}>{u.firstName} {u.lastName}</option>)}
+      </select>
+    </div>
+    <button className="att-manual-btn in" disabled={!selectedEmployeeId || manualAction !== null} onClick={handleManualCheckIn}>
+      {manualAction === 'in' ? '...' : 'Enregistrer arrivée'}
+    </button>
+    <button className="att-manual-btn out" disabled={!selectedEmployeeId || manualAction !== null} onClick={handleManualCheckOut}>
+      {manualAction === 'out' ? '...' : 'Enregistrer départ'}
+    </button>
+  </div>
+  {manualMessage && <div className={`att-manual-msg ${manualMessage.type}`}>{manualMessage.text}</div>}
+</div>
 
         <div className="att-card">
           <p className="att-card-title">Working hours</p>

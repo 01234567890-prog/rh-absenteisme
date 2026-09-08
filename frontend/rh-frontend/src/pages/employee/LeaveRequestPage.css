@@ -1,0 +1,38 @@
+.leave-req-container { display: flex; flex-direction: column; gap: 20px; }
+.leave-req-header-row { align-items: flex-start; display: flex; justify-content: space-between; }
+.leave-req-title { color: #172033; font-size: 26px; font-weight: 750; }
+.leave-req-subtitle { color: #8994a6; font-size: 13px; margin-top: 6px; }
+.leave-balance-badge { align-items: center; background: #fff; border: 1px solid #E2E8F0; border-radius: 10px; display: flex; gap: 8px; padding: 8px 14px; }
+.leave-balance-badge span { color: #64748B; font-size: 12px; }
+.leave-balance-badge strong { color: #172033; font-size: 14px; }
+.leave-mid-row { display: grid; gap: 16px; grid-template-columns: 1.3fr 1fr; }
+.leave-form-card { background: #fff; border: 1px solid #e8ebf0; border-radius: 14px; padding: 22px 24px; }
+.leave-form-title { color: #172033; font-size: 18px; font-weight: 700; }
+.leave-form-subtitle { color: #8994a6; font-size: 12px; margin-top: 4px; }
+.leave-form-grid { display: grid; gap: 14px 18px; grid-template-columns: 1fr 1fr; margin-top: 18px; }
+.leave-form-group { display: flex; flex-direction: column; gap: 6px; }
+.leave-form-group label { color: #64748B; font-size: 12px; font-weight: 500; }
+.leave-form-group input, .leave-form-group select { background: #fff; border: 1px solid #E2E8F0; border-radius: 8px; box-sizing: border-box; color: #0F172A; font-family: inherit; font-size: 14px; outline: none; padding: 10px 14px; width: 100%; }
+.leave-duration-box { align-items: center; background: #EEF2FF; border-radius: 10px; display: flex; font-size: 13px; gap: 8px; justify-content: space-between; margin-top: 16px; padding: 12px 14px; }
+.leave-duration-box .left { align-items: center; color: #4F6BFE; display: flex; gap: 8px; font-weight: 600; }
+.leave-duration-box .right { color: #172033; font-weight: 700; }
+.leave-duration-box .right small { color: #8994a6; display: block; font-size: 10px; font-weight: 400; text-align: right; }
+.leave-submit-btn { align-items: center; background: #4F6BFE; border: none; border-radius: 8px; color: #fff; cursor: pointer; display: inline-flex; font-size: 14px; font-weight: 600; gap: 8px; margin-top: 16px; padding: 11px 20px; }
+.leave-submit-btn:disabled { cursor: not-allowed; opacity: .6; }
+.leave-notification-card { background: #191B2B; border-radius: 14px; color: #fff; padding: 22px; }
+.leave-notif-icon { align-items: center; background: rgba(255,255,255,.1); border-radius: 10px; display: flex; height: 36px; justify-content: center; margin-bottom: 16px; width: 36px; }
+.leave-notif-label { color: #93A4F8; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.leave-notif-title { font-size: 18px; font-weight: 700; line-height: 1.35; margin-top: 8px; }
+.leave-notif-text { color: #B9C3D5; font-size: 13px; line-height: 1.5; margin-top: 12px; }
+.leave-notif-footer { align-items: center; color: #7C87A0; display: flex; font-size: 11px; justify-content: space-between; margin-top: 20px; }
+.leave-history-card { background: #fff; border: 1px solid #e8ebf0; border-radius: 14px; padding: 20px; }
+.leave-history-title { color: #172033; font-size: 16px; font-weight: 700; }
+.leave-history-subtitle { color: #8994a6; font-size: 12px; margin-top: 4px; }
+.leave-req-table { border-collapse: collapse; margin-top: 14px; text-align: left; width: 100%; }
+.leave-req-table th { border-bottom: 1px solid #eef0f4; color: #8994a6; font-size: 10px; font-weight: 800; letter-spacing: .06em; padding: 10px 6px; text-transform: uppercase; }
+.leave-req-table td { border-bottom: 1px solid #f0f2f5; color: #39465b; font-size: 13px; padding: 12px 6px; }
+.leave-status-badge { border-radius: 20px; font-size: 10px; font-weight: 800; padding: 3px 10px; }
+.leave-status-badge.PENDING { background: #FEF3C7; color: #92400E; }
+.leave-status-badge.APPROVED { background: #DCFCE7; color: #166534; }
+.leave-status-badge.REJECTED { background: #FEE2E2; color: #B91C1C; }
+@media (max-width: 900px) { .leave-mid-row { grid-template-columns: 1fr; } .leave-form-grid { grid-template-columns: 1fr; } }

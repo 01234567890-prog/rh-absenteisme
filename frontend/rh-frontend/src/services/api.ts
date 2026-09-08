@@ -11,6 +11,7 @@ import type {
   PositionRequestDto,
   RoleResponseDto,
   LeaveResponseDto,
+  LeaveRequestDto,
   LeaveStatus,
   PredictionResponseDto,
   ContratResponseDto,
@@ -129,6 +130,11 @@ export const api = {
   return res.data;
 },
 
+createLeave: async (data: LeaveRequestDto) => {
+  const res = await apiClient.post<LeaveResponseDto>('/leaves', data);
+  return res.data;
+},
+
   // Predictions
   getPredictions: async () => {
     const res = await apiClient.get<PredictionResponseDto[]>('/predictions');
@@ -150,6 +156,15 @@ export const api = {
     const res = await apiClient.get<PresenceResponseDto[]>('/presences');
     return res.data;
   },
+
+  checkIn: async (userId: number) => {
+  const res = await apiClient.post<PresenceResponseDto>(`/presences/checkin/${userId}`);
+  return res.data;
+},
+checkOut: async (userId: number) => {
+  const res = await apiClient.post<PresenceResponseDto>(`/presences/checkout/${userId}`);
+  return res.data;
+},
 
   // Evaluations
   getEvaluations: async () => {

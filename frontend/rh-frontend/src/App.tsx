@@ -25,6 +25,12 @@ import { ManagerDashboard } from './pages/manager/ManagerDashboard';
 import { EvaluationsPage } from './pages/manager/EvaluationsPage';
 import { AttendancePage } from './pages/manager/AttendancePage';
 
+
+import { EmployeeLayout } from './components/employee/EmployeeLayout';
+import { ProfilePage } from './pages/employee/ProfilePage';
+import { LeaveRequestPage } from './pages/employee/LeaveRequestPage';
+import { NotificationsPage } from './pages/employee/NotificationsPage';
+
 export function App() {
   const [currentPath, setCurrentPath] = useState<string>(
     window.location.pathname
@@ -136,6 +142,20 @@ export function App() {
         {currentPath === '/manager/attendance' && <AttendancePage />}
         {(currentPath === '/manager/dashboard' || currentPath === '/manager') && <ManagerDashboard />}
       </ManagerLayout>
+    </ProtectedRoute>
+  );
+}
+
+
+// employee routes
+if (currentPath.startsWith('/employee')) {
+  return (
+    <ProtectedRoute requiredRole="EMPLOYEE" onNavigate={navigate}>
+      <EmployeeLayout currentPath={currentPath} onNavigate={navigate}>
+        {currentPath === '/employee/leave' && <LeaveRequestPage />}
+        {currentPath === '/employee/notifications' && <NotificationsPage />}
+        {(currentPath === '/employee/profile' || currentPath === '/employee') && <ProfilePage />}
+      </EmployeeLayout>
     </ProtectedRoute>
   );
 }

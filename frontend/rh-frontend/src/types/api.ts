@@ -6,7 +6,7 @@ export type ContratType = 'CDI' | 'CDD' | 'INTERIM' | 'STAGE' | 'ALTERNANCE';
 
 export type ContratStatus = 'ACTIVE' | 'EXPIRED' | 'TERMINATED' | 'SUSPENDED';
 
-export type LeaveType = 'ANNUAL' | 'SICK' | 'MATERNITY' | 'PATERNEITY' | 'UNPAID' | 'SPECIAL';
+export type LeaveType = 'ANUAL' | 'SICK' | 'MATERNITY' | 'PATERNEITY' | 'UNPAID' | 'SPECIAL';
 
 export type LeaveStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED';
 
@@ -105,6 +105,13 @@ export interface LeaveResponseDto {
   endDate: string;
   status: LeaveStatus;
   reason?: string;
+  userId: number;
+}
+export interface LeaveRequestDto {
+  type: LeaveType;
+  startDate: string;
+  endDate: string;
+  reason: string;
   userId: number;
 }
 export interface LeaveUpdateRequestDto {

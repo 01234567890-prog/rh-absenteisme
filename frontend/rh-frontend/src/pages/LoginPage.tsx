@@ -26,6 +26,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
   onNavigate('/rh/dashboard');
 } else if (authenticatedUser.role === 'MANAGER') {
   onNavigate('/manager/dashboard');
+} else if (authenticatedUser.role === 'EMPLOYEE') {
+  onNavigate('/employee/profile');
 } else {
   onNavigate('/');
 }

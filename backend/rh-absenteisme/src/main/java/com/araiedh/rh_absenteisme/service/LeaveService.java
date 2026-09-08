@@ -28,7 +28,7 @@ public class LeaveService {
 
 
 
-    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','AI_SERVICE')")
+    @PreAuthorize("hasAnyRole('ADMIN','RH_MANAGER','MANAGER','EMPLOYEE','AI_SERVICE')")
     public List<LeaveResponseDto> getAllLeave() {
         List<Leave> leaves = leaveRepository.findAll() ;
         return leaves.stream()
