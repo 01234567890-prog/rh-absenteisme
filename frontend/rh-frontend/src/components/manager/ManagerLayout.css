@@ -13,4 +13,4 @@
 .manager-user-role { color: #94A3B8; font-size: 11px; }
 .manager-logout-btn { background: transparent; border: none; color: #94A3B8; cursor: pointer; padding: 4px; }
 .manager-logout-btn:hover { color: #DC2626; }
-.manager-main { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow-y: auto; padding: 32px; }
+.manager-main { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow-y: auto; padding: 10px; }

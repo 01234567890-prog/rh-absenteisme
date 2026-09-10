@@ -123,7 +123,7 @@ export const PositionsPage: React.FC = () => {
             ) : (
               positions.map((pos) => (
                 <tr key={pos.id}>
-                  <td>#{pos.id}</td>
+                  <td>{pos.id}</td>
                   <td style={{ fontWeight: 600, color: '#0F172A' }}>{pos.title}</td>
                   <td>{pos.description || '-'}</td>
                   <td>

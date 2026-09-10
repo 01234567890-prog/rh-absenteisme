@@ -104,16 +104,7 @@ export const RhLayout: React.FC<RhLayoutProps> = ({ currentPath, onNavigate, chi
               </button>
             </Tooltip>
 
-            <Button
-              className="navbar-refresh-btn"
-              variant="outlined"
-              size="small"
-              startIcon={<RefreshCw size={15} />}
-              onClick={refreshContextValue.refresh}
-              disabled={!refreshState || refreshContextValue.loading}
-            >
-              {refreshContextValue.loading ? 'Actualisation...' : 'Actualiser'}
-            </Button>
+            
 
             <div className="user-avatar" title={userEmail}>
               {initial}

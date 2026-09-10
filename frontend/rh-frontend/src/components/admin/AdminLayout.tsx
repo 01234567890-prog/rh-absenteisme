@@ -116,16 +116,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
               </button>
             </Tooltip>
 
-            <Button
-              className="navbar-refresh-btn"
-              variant="outlined"
-              size="small"
-              startIcon={<RefreshCw size={15} />}
-              onClick={refreshContextValue.refresh}
-              disabled={!refreshState || refreshContextValue.loading}
-            >
-              {refreshContextValue.loading ? 'Refreshing...' : 'Refresh data'}
-            </Button>
+            
 
             <div className="user-avatar" title={userEmail}>
               {initial}

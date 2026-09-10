@@ -127,7 +127,7 @@ export const DepartementsPage: React.FC = () => {
             ) : (
               departements.map((dept) => (
                 <tr key={dept.id}>
-                  <td>#{dept.id}</td>
+                  <td>{dept.id}</td>
                   <td style={{ fontWeight: 600, color: '#0F172A' }}>{dept.name}</td>
                   <td>{dept.description || '-'}</td>
                   <td>
