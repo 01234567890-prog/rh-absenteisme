@@ -15,8 +15,8 @@ public record ContratRequestDto(
         @NotNull
         ContratType type,
 
-        @DecimalMin(value = "00.0")
-        @DecimalMax(value = "100.0")
+        @DecimalMin(value = "0.0")
+        @DecimalMax(value = "1000000.0")
         BigDecimal baseSalary,
 
         @NotNull
@@ -33,8 +33,7 @@ public record ContratRequestDto(
         ContratStatus status,
 
 
-        @NotNull
-        @NotBlank(message = "UserId is required")
+        @NotNull(message = "UserId is required")
         Long userId
 ) {
 }

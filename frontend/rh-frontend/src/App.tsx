@@ -30,6 +30,7 @@ import { EmployeeLayout } from './components/employee/EmployeeLayout';
 import { ProfilePage } from './pages/employee/ProfilePage';
 import { LeaveRequestPage } from './pages/employee/LeaveRequestPage';
 import { NotificationsPage } from './pages/employee/NotificationsPage';
+import { MyEvaluationsPage } from './pages/employee/MyEvaluationsPage';
 
 export function App() {
   const [currentPath, setCurrentPath] = useState<string>(
@@ -155,6 +156,7 @@ if (currentPath.startsWith('/employee')) {
         {currentPath === '/employee/leave' && <LeaveRequestPage />}
         {currentPath === '/employee/notifications' && <NotificationsPage />}
         {(currentPath === '/employee/profile' || currentPath === '/employee') && <ProfilePage />}
+        {currentPath === '/employee/evaluations' && <MyEvaluationsPage />}
       </EmployeeLayout>
     </ProtectedRoute>
   );

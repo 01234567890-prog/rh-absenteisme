@@ -408,7 +408,7 @@ export const UsersPage: React.FC = () => {
             ) : (
               users.map((user) => (
                 <tr key={user.id}>
-                  <td>#{user.id}</td>
+                  <td>{user.id}</td>
 
                   <td className="primary-cell">
                     {user.firstName}{' '}

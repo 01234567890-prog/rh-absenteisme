@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, Calendar, Bell, LogOut } from 'lucide-react';
+import { User, Calendar, Bell, FileText, LogOut } from 'lucide-react';
 import { Logo } from '../Logo';
 import { authService } from '../../services/authService';
 import './EmployeeLayout.css';
@@ -18,10 +18,11 @@ export const EmployeeLayout: React.FC<EmployeeLayoutProps> = ({ currentPath, onN
   };
 
   const navItems = [
-    { label: 'Profil', path: '/employee/profile', icon: <User size={18} /> },
-    { label: 'Demande de congé', path: '/employee/leave', icon: <Calendar size={18} /> },
-    { label: 'Notifications', path: '/employee/notifications', icon: <Bell size={18} />, badge: unreadCount },
-  ];
+  { label: 'Profil', path: '/employee/profile', icon: <User size={18} /> },
+  { label: 'Mes évaluations', path: '/employee/evaluations', icon: <FileText size={18} /> },
+  { label: 'Demande de congé', path: '/employee/leave', icon: <Calendar size={18} /> },
+  { label: 'Notifications', path: '/employee/notifications', icon: <Bell size={18} />, badge: unreadCount },
+];
 
   const email = localStorage.getItem('email') || 'Employee';
   const initial = email.charAt(0).toUpperCase();
