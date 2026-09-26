@@ -17,6 +17,7 @@ export const LeaveRequestPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const [type, setType] = useState<LeaveType>('ANUAL' as LeaveType);
   const [reason, setReason] = useState('');
@@ -50,6 +51,8 @@ export const LeaveRequestPage: React.FC = () => {
       setReason('');
       setStartDate('');
       setEndDate('');
+      setSuccessMessage('Votre demande de congé a été envoyée avec succès.');
+      setTimeout(() => setSuccessMessage(''), 5000);
       await loadData();
     } catch (err: any) {
       setFormError(err.message || 'Impossible d\'envoyer la demande.');
@@ -77,6 +80,7 @@ export const LeaveRequestPage: React.FC = () => {
           <p className="leave-form-title">Nouvelle demande</p>
           <p className="leave-form-subtitle">Votre responsable examinera cette demande.</p>
 
+          {successMessage && <div className="modal-success" style={{ marginTop: 12 }}>{successMessage}</div>}
           {formError && <div className="modal-error" style={{ marginTop: 12 }}>{formError}</div>}
 
           <form onSubmit={handleSubmit}>

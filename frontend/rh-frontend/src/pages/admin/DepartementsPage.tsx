@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Tooltip } from '@mui/material';
+import { Alert, Snackbar, Tooltip } from '@mui/material';
 import { Pencil, Plus, Trash2, X } from 'lucide-react';
 import { api } from '../../api/client';
 import type { DepartementResponseDto } from '../../types/api';
@@ -12,9 +12,13 @@ export const DepartementsPage: React.FC = () => {
 
   const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
   const [editingDept, setEditingDept] = useState<DepartementResponseDto | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<DepartementResponseDto | null>(null);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+
+  const [toast, setToast] = useState<{ severity: 'success' | 'error'; message: string } | null>(null);
 
   const loadDepartements = async () => {
     setLoading(true);
@@ -54,9 +58,10 @@ export const DepartementsPage: React.FC = () => {
     try {
       await api.createDepartement({ name, description });
       setIsCreateOpen(false);
+      setToast({ severity: 'success', message: 'Department created successfully.' });
       loadDepartements();
     } catch (err: any) {
-      alert('Error creating department: ' + err.message);
+      setToast({ severity: 'error', message: 'Error creating department: ' + (err.message || 'unknown error') });
     }
   };
 
@@ -66,19 +71,29 @@ export const DepartementsPage: React.FC = () => {
     try {
       await api.updateDepartement(editingDept.id, { name, description });
       setEditingDept(null);
+      setToast({ severity: 'success', message: 'Department updated successfully.' });
       loadDepartements();
     } catch (err: any) {
-      alert('Error updating department: ' + err.message);
+      setToast({ severity: 'error', message: 'Error updating department: ' + (err.message || 'unknown error') });
     }
   };
 
-  const handleDelete = async (id: number) => {
-    if (!window.confirm('Are you sure you want to delete this department?')) return;
+  const requestDelete = (dept: DepartementResponseDto) => {
+    setDeleteTarget(dept);
+  };
+
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
+    setDeletingId(deleteTarget.id);
     try {
-      await api.deleteDepartement(id);
+      await api.deleteDepartement(deleteTarget.id);
+      setToast({ severity: 'success', message: 'Department deleted successfully.' });
+      setDeleteTarget(null);
       loadDepartements();
     } catch (err: any) {
-      alert('Error deleting department: ' + err.message);
+      setToast({ severity: 'error', message: 'Error deleting department: ' + (err.message || 'unknown error') });
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -146,7 +161,7 @@ export const DepartementsPage: React.FC = () => {
                         <button
                           type="button"
                           className="action-icon-btn trash-btn"
-                          onClick={() => handleDelete(dept.id)}
+                          onClick={() => requestDelete(dept)}
                           aria-label={`Delete department ${dept.name}`}
                         >
                           <Trash2 size={16} />
@@ -254,6 +269,56 @@ export const DepartementsPage: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteTarget && (
+        <div className="modal-overlay" onClick={() => (deletingId === null ? setDeleteTarget(null) : undefined)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <div className="modal-title">Delete department?</div>
+              <button
+                type="button"
+                className="close-btn"
+                onClick={() => setDeleteTarget(null)}
+                disabled={deletingId !== null}
+                aria-label="Close modal"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <Alert severity="warning" style={{ borderRadius: 10 }}>
+              This will permanently remove "{deleteTarget.name}". This action cannot be undone.
+            </Alert>
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="cancel-btn"
+                onClick={() => setDeleteTarget(null)}
+                disabled={deletingId !== null}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="primary-btn"
+                onClick={handleDelete}
+                disabled={deletingId !== null}
+                style={{ backgroundColor: '#DC2626' }}
+              >
+                {deletingId !== null ? 'Deleting...' : 'Delete department'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <Snackbar open={Boolean(toast)} autoHideDuration={3500} onClose={() => setToast(null)}>
+        {toast ? (
+          <Alert severity={toast.severity} onClose={() => setToast(null)}>
+            {toast.message}
+          </Alert>
+        ) : undefined}
+      </Snackbar>
     </div>
   );
 };

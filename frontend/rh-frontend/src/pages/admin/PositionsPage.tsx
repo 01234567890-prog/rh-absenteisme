@@ -5,6 +5,18 @@ import { api } from '../../api/client';
 import type { PositionResponseDto } from '../../types/api';
 import './PositionsPage.css';
 
+interface ErrorModalState {
+  isOpen: boolean;
+  message: string;
+  action: 'create' | 'edit' | 'delete' | null;
+}
+
+interface DeleteConfirmState {
+  isOpen: boolean;
+  positionId: number | null;
+  positionTitle: string;
+}
+
 export const PositionsPage: React.FC = () => {
   const [positions, setPositions] = useState<PositionResponseDto[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -15,6 +27,18 @@ export const PositionsPage: React.FC = () => {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+
+  const [errorModal, setErrorModal] = useState<ErrorModalState>({
+    isOpen: false,
+    message: '',
+    action: null,
+  });
+
+  const [deleteConfirm, setDeleteConfirm] = useState<DeleteConfirmState>({
+    isOpen: false,
+    positionId: null,
+    positionTitle: '',
+  });
 
   const loadPositions = async () => {
     setLoading(true);
@@ -46,6 +70,30 @@ export const PositionsPage: React.FC = () => {
     setDescription(pos.description || '');
   };
 
+  const closeErrorModal = () => {
+    setErrorModal({
+      isOpen: false,
+      message: '',
+      action: null,
+    });
+  };
+
+  const openDeleteConfirm = (id: number, title: string) => {
+    setDeleteConfirm({
+      isOpen: true,
+      positionId: id,
+      positionTitle: title,
+    });
+  };
+
+  const closeDeleteConfirm = () => {
+    setDeleteConfirm({
+      isOpen: false,
+      positionId: null,
+      positionTitle: '',
+    });
+  };
+
   const handleCreateSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -53,7 +101,11 @@ export const PositionsPage: React.FC = () => {
       setIsCreateOpen(false);
       loadPositions();
     } catch (err: any) {
-      alert('Error creating position: ' + err.message);
+      setErrorModal({
+        isOpen: true,
+        message: 'Error creating position: ' + err.message,
+        action: 'create',
+      });
     }
   };
 
@@ -65,17 +117,27 @@ export const PositionsPage: React.FC = () => {
       setEditingPos(null);
       loadPositions();
     } catch (err: any) {
-      alert('Error updating position: ' + err.message);
+      setErrorModal({
+        isOpen: true,
+        message: 'Error updating position: ' + err.message,
+        action: 'edit',
+      });
     }
   };
 
-  const handleDelete = async (id: number) => {
-    if (!window.confirm('Are you sure you want to delete this position?')) return;
+  const handleDeleteConfirmed = async () => {
+    if (!deleteConfirm.positionId) return;
     try {
-      await api.deletePosition(id);
+      await api.deletePosition(deleteConfirm.positionId);
+      closeDeleteConfirm();
       loadPositions();
     } catch (err: any) {
-      alert('Error deleting position: ' + err.message);
+      setErrorModal({
+        isOpen: true,
+        message: 'Error deleting position: ' + err.message,
+        action: 'delete',
+      });
+      closeDeleteConfirm();
     }
   };
 
@@ -142,7 +204,7 @@ export const PositionsPage: React.FC = () => {
                         <button
                           type="button"
                           className="action-icon-btn trash-btn"
-                          onClick={() => handleDelete(pos.id)}
+                          onClick={() => openDeleteConfirm(pos.id, pos.title)}
                           aria-label={`Delete position ${pos.title}`}
                         >
                           <Trash2 size={16} />
@@ -247,6 +309,68 @@ export const PositionsPage: React.FC = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteConfirm.isOpen && (
+        <div className="modal-overlay" onClick={closeDeleteConfirm}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <div className="modal-title" style={{ color: '#DC2626' }}>⚠️ Delete Position</div>
+              <button
+                type="button"
+                className="close-btn"
+                onClick={closeDeleteConfirm}
+                aria-label="Close modal"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div style={{ padding: '16px', color: '#555', lineHeight: '1.6' }}>
+              Are you sure you want to delete <strong>"{deleteConfirm.positionTitle}"</strong>? This action cannot be undone.
+            </div>
+            <div className="modal-actions">
+              <button type="button" className="cancel-btn" onClick={closeDeleteConfirm}>
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="primary-btn"
+                onClick={handleDeleteConfirmed}
+                style={{ backgroundColor: '#DC2626' }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Error Modal */}
+      {errorModal.isOpen && (
+        <div className="modal-overlay" onClick={closeErrorModal}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <div className="modal-title" style={{ color: '#DC2626' }}>❌ Error</div>
+              <button
+                type="button"
+                className="close-btn"
+                onClick={closeErrorModal}
+                aria-label="Close error modal"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div style={{ padding: '16px', color: '#555', lineHeight: '1.6' }}>
+              {errorModal.message}
+            </div>
+            <div className="modal-actions">
+              <button type="button" className="primary-btn" onClick={closeErrorModal}>
+                Got it
+              </button>
+            </div>
           </div>
         </div>
       )}

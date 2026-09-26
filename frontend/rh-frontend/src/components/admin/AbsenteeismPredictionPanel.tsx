@@ -57,13 +57,7 @@ export const AbsenteeismPredictionPanel: React.FC<AbsenteeismPredictionPanelProp
     <Card className="prediction-panel" component="section" aria-labelledby="prediction-title">
       <CardContent>
       <Box className="prediction-heading">
-        <div>
-          <Typography className="dashboard-eyebrow"><Brain size={13} /> AI-assisted workforce insight</Typography>
-          <Typography className="section-title" component="h2" id="prediction-title">Absenteeism Prediction</Typography>
-          <Typography className="prediction-description">
-            Risk levels generated from the prediction records currently available.
-          </Typography>
-        </div>
+        
         <Box className="prediction-actions">
           {!loading && !error && <Chip className="prediction-total" label={`${predictions.length} records`} size="small" />}
           {onViewAll && <Button className="view-all-button" size="small" endIcon={<ArrowUpRight size={15} />} onClick={onViewAll}>View all</Button>}

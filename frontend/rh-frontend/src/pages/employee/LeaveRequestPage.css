@@ -36,3 +36,25 @@
 .leave-status-badge.APPROVED { background: #DCFCE7; color: #166534; }
 .leave-status-badge.REJECTED { background: #FEE2E2; color: #B91C1C; }
 @media (max-width: 900px) { .leave-mid-row { grid-template-columns: 1fr; } .leave-form-grid { grid-template-columns: 1fr; } }
+
+/* Success Message */
+.modal-success {
+  background-color: #D1FAE5;
+  border: 1px solid #6EE7B7;
+  border-radius: 6px;
+  padding: 12px 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  color: #065F46;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.modal-success::before {
+  content: '✓';
+  color: #10B981;
+  font-size: 18px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
